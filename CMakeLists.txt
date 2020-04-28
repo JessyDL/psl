@@ -10,7 +10,12 @@ option(opt_make_executable "create testable executable" TRUE)
 
 add_compile_options(-Wall -Wextra -pedantic)
 
-list(APPEND INC uid "string")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
+
+list(APPEND INC_IMPL memory/region)
+
+list(APPEND INC uid ${INC_IMPL} string range config concepts)
 list(TRANSFORM INC PREPEND inc/psl/)
 list(TRANSFORM INC APPEND .h)
 
@@ -18,7 +23,7 @@ list(APPEND FWD)
 list(TRANSFORM FWD PREPEND fwd/psl/fwd/)
 list(TRANSFORM FWD APPEND .h)
 
-list(APPEND SRC uid)
+list(APPEND SRC ${INC_IMPL} uid)
 list(TRANSFORM SRC PREPEND src/psl/)
 list(TRANSFORM SRC APPEND .cpp)
 
