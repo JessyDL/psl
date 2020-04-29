@@ -53,6 +53,6 @@ namespace psl
 			begin = newBegin;
 		}
 
-		T begin, end;
+		T begin{0}, end{0};
 	};
 } // namespace psl

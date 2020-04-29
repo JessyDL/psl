@@ -8,14 +8,14 @@ set(CMAKE_CXX_STANDARD 20)
 
 option(opt_make_executable "create testable executable" TRUE)
 
-add_compile_options(-Wall -Wextra -pedantic)
+add_compile_options(-Wall -Wextra -pedantic -fsanitize=address -fno-omit-frame-pointer -ggdb -fsanitize=undefined -fsanitize=leak)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-list(APPEND INC_IMPL memory/region)
+list(APPEND INC_IMPL uid)
 
-list(APPEND INC uid ${INC_IMPL} string range config concepts)
+list(APPEND INC uid ${INC_IMPL} details/fixed_string details/metaprogramming allocator algorithms array concepts config enum exceptions literals range static_array string)
 list(TRANSFORM INC PREPEND inc/psl/)
 list(TRANSFORM INC APPEND .h)
 
@@ -23,7 +23,7 @@ list(APPEND FWD)
 list(TRANSFORM FWD PREPEND fwd/psl/fwd/)
 list(TRANSFORM FWD APPEND .h)
 
-list(APPEND SRC ${INC_IMPL} uid)
+list(APPEND SRC ${INC_IMPL})
 list(TRANSFORM SRC PREPEND src/psl/)
 list(TRANSFORM SRC APPEND .cpp)
 
@@ -34,3 +34,7 @@ if(opt_make_executable)
 else()
     add_library(psl ${SRC} ${INC} ${FWD})
 endif()
+
+target_link_libraries(psl
+  -fsanitize=address -ggdb -fsanitize=undefined -fsanitize=leak
+)
