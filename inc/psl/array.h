@@ -68,7 +68,7 @@ namespace psl
 			{
 				for(auto i = 0_sz, size = size(); i < size; ++i)
 				{
-					delete m_Begin[i];
+					delete(m_Begin + i);
 				}
 			}
 			m_Allocator->deallocate(m_Begin);
@@ -95,9 +95,22 @@ namespace psl
 			return *(m_End - 1);
 		}
 
-		inline size_t size() const noexcept { return m_End - m_Begin; }
-		inline size_t capacity() const noexcept { return m_Capacity - m_Begin; }
+		inline constexpr bool empty() const noexcept { return m_End == m_Begin; }
+		inline constexpr size_t size() const noexcept { return m_End - m_Begin; }
+		inline constexpr size_t capacity() const noexcept { return m_Capacity - m_Begin; }
+		inline constexpr void resize(size_t newSize)
+		{
+			if(newSize == size()) return;
 
+			const auto oldSize = size();
+			for(auto i = newSize; i < oldSize; ++i) delete(m_Begin + i);
+			apply_size_change(m_Allocator->allocate_n<T>(newSize));
+			m_End = m_Begin + std::min(oldSize, newSize);
+			for(auto i = oldSize; i < newSize; ++i)
+			{
+				new(m_End++) T{};
+			}
+		}
 		auto begin() const noexcept { return iterator{m_Begin}; }
 		auto end() const noexcept { return iterator{m_End}; }
 
@@ -105,19 +118,22 @@ namespace psl
 		void grow(size_t needed_size)
 		{
 			if(needed_size <= capacity()) return;
+			apply_size_change(m_Allocator->allocate_n<T>(needed_size * 2));
+		}
 
-			auto res = m_Allocator->allocate_n<T>(needed_size * 2);
-
+		inline void apply_size_change(auto res)
+		{
 			PSL_EXCEPT_IF(!res, "could not allocate anymore", std::runtime_error);
-
 			if(res)
 			{
 				auto oldsize = size();
 				m_Begin		 = res.data;
 				m_End		 = m_Begin + oldsize;
-				m_Capacity   = res.data + needed_size * 2;
+
+				m_Capacity = res.data + ralign_to(res.range.end, sizeof(T));
 			}
 		}
+
 		T* m_Begin{nullptr};
 		T* m_End{nullptr};
 		T* m_Capacity{nullptr};
