@@ -12,7 +12,7 @@
  * \brief Contains everything related to memory management, such as allocators, memory resources, etc..
  *
  */
-namespace psl::memory
+namespace psl
 {
 	using rsize_t = std::uintptr_t;
 
@@ -72,7 +72,7 @@ namespace psl::memory
 		[[nodiscard]] alloc_results<void> allocate(rsize_t size, std::optional<rsize_t> alignment = std::nullopt) {
 			PSL_CONTRACT_EXCEPT_IF(alignment.value_or(1) == 0, "alignment value of 0 is not allowed, 1 is the minimum");
 			auto res = do_allocate(size, alignment);
-			PSL_CONTRACT_EXCEPT_IF(res.range.end % m_Alignment != 0,
+			PSL_CONTRACT_EXCEPT_IF(res && res.range.end % m_Alignment != 0,
 								   "implementation of abstract region does not satisfy the requirements");
 			return res;
 		}
@@ -89,7 +89,7 @@ namespace psl::memory
 			return do_deallocate(item);
 		}
 
-		virtual bool clear() { return true; }
+		virtual bool clear() = 0;
 
 	  protected:
 		virtual alloc_results<void> do_allocate(rsize_t size, std::optional<rsize_t> alignment = std::nullopt) = 0;
@@ -260,22 +260,22 @@ namespace psl::memory
 		rsize_t m_Offset{0};
 		rsize_t m_Size{0};
 	};
-} // namespace psl::memory
+} // namespace psl
 
 namespace psl::config::specialization
 {
 	template <typename T>
 	struct default_region_t
 	{
-		using type = psl::memory::region<psl::memory::malloc_resource, psl::memory::monotonic>;
+		using type = psl::region<psl::malloc_resource, psl::monotonic>;
 	};
 } // namespace psl::config::specialization
 
-namespace psl::memory
+namespace psl
 {
 	using default_region_t =
 		typename psl::config::specialization::default_region_t<psl::config::default_setting_t>::type;
 
 	static inline default_region_t default_region{alignof(char)};
 	static inline allocator default_allocator{&default_region};
-} // namespace psl::memory
+} // namespace psl

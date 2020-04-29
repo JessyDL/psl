@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 option(opt_make_tests      "build tests"       TRUE)
 option(opt_asan      "enable asan"       FALSE)
+option(opt_coverage "enable code coverage" TRUE)
 
 add_compile_options(-Wall -Wextra -pedantic)
 
@@ -30,13 +31,20 @@ list(TRANSFORM SRC APPEND .cpp)
 
 list(APPEND PSL_INCLUDE_DIRS inc fwd)
 
+if(opt_coverage)
+  SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+  SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage")
+  SET(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
+endif()
+
 add_library(${LOCAL_PROJECT} ${SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRS})
 
 
 if(opt_asan)
   add_compile_options(-fsanitize=address -fno-omit-frame-pointer -ggdb -fsanitize=undefined -fsanitize=leak)
-  target_link_libraries(${LOCAL_PROJECT}  -fsanitize=address -ggdb -fsanitize=undefined -fsanitize=leak)
+  #target_link_libraries(${LOCAL_PROJECT}  -fsanitize=address -ggdb -fsanitize=undefined -fsanitize=leak)
 endif()
 
 if(opt_make_tests)

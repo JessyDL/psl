@@ -60,7 +60,7 @@ namespace psl
 			T* m_Data{nullptr};
 		};
 		constexpr array() noexcept = default;
-		constexpr array(psl::memory::allocator& allocator) noexcept : m_Allocator(&allocator){};
+		constexpr array(psl::allocator& allocator) noexcept : m_Allocator(&allocator){};
 		~array()
 		{
 			using namespace psl::literals;
@@ -137,6 +137,6 @@ namespace psl
 		T* m_Begin{nullptr};
 		T* m_End{nullptr};
 		T* m_Capacity{nullptr};
-		psl::memory::allocator* m_Allocator{&psl::memory::default_allocator};
+		psl::allocator* m_Allocator{&psl::default_allocator};
 	};
 } // namespace psl

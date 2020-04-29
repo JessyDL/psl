@@ -35,3 +35,9 @@ TEST_F(array, resize)
 	_arr0.resize(10);
 	EXPECT_EQ(_arr0.size(), 10);
 }
+
+TEST_F(array, index_operator)
+{
+	EXPECT_THROW(_arr0[0], std::out_of_range);
+	EXPECT_EQ(_arr2[1], 2);
+}

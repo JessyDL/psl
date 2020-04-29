@@ -58,7 +58,7 @@ namespace psl::config
 
 		/**
 		 * \brief controls exceptions for validating implementations in the library (such as custom
-		 * psl::memory::abstract_region implementations)
+		 * psl::abstract_region implementations)
 		 *
 		 * \tparam T
 		 */

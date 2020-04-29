@@ -27,8 +27,8 @@ namespace psl::config
 int main(int argc, char** argv)
 {
 	// constexpr psl::range<size_t> r{0, 64};
-	// psl::memory::default_region_t region{4};
-	// psl::memory::allocator alloc{&region};
+	// psl::default_region_t region{4};
+	// psl::allocator alloc{&region};
 
 	// psl::array<int> test{alloc};
 

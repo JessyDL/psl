@@ -27,7 +27,7 @@ list(APPEND PSL_TESTS_INC ${PSL_TESTS_INC_SRC})
 
 list(APPEND PSL_TESTS_FWD)
 
-list(APPEND PSL_TESTS_SRC ${PSL_TESTS_INC_SRC} tests algorithms array)
+list(APPEND PSL_TESTS_SRC ${PSL_TESTS_INC_SRC} tests algorithms array allocators)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND inc/tests/)
 list(TRANSFORM PSL_TESTS_INC APPEND .h)
