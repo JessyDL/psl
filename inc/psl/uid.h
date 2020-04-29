@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <stdexcept>
+#include "psl/exception.h"
 
 #include "psl/static_array.h"
 #include "psl/string.h"
