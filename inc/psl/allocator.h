@@ -45,6 +45,12 @@ namespace psl
 		inline constexpr auto enable_enum_ops<alloc_type> = enum_ops_t::BIT | enum_ops_t::LOGICAL;
 	}
 
+	namespace tags
+	{
+		struct physical_allocation
+		{};
+	} // namespace tags
+
 
 	/**
 	 * \brief Result type of an allocation invocation
@@ -128,20 +134,23 @@ namespace psl
 		 * \returns true when the deallocation succeeds
 		 * \returns false when the deallocation failed
 		 */
-		bool deallocate(void* item) { return do_deallocate(item); }
+		bool deallocate(void* item, size_t alignment) { return do_deallocate(item, alignment); }
 
 		// constexpr static T traits{};
 
 		virtual alloc_results<void> do_allocate(size_t size, size_t count, size_t alignment)				   = 0;
 		virtual alloc_results<void> do_reallocate(void* location, size_t size, size_t count, size_t alignment) = 0;
-		virtual bool do_deallocate(void* item)																   = 0;
+		virtual bool do_deallocate(void* item, size_t alignment)											   = 0;
 
 	  private:
 		size_t m_Alignment;
 	};
 
+	template <typename T, typename... Ts>
+	struct traits_t
+	{};
 
-	class allocator
+	class allocator final
 	{
 	  public:
 		allocator() = default;
@@ -176,15 +185,15 @@ namespace psl
 		}
 
 		template <typename T>
-		bool deallocate(T& target)
+		bool deallocate(T& target, size_t alignment = alignof(std::remove_pointer_t<std::remove_cvref_t<T>>))
 		{
-			return m_Region->deallocate(std::addressof(target));
-		}
-
-		template <typename T>
-		bool deallocate(const T* target)
-		{
-			return m_Region->deallocate((void*)target);
+			if constexpr(std::is_pointer_v<T>)
+			{
+				if(!target) return false;
+				return m_Region->deallocate((void*)target, alignment);
+			}
+			else
+				return deallocate(std::addressof(target));
 		}
 
 	  private:
@@ -328,6 +337,49 @@ namespace psl
 	// 	rsize_t m_Size{};
 	// };
 
+	class new_resource : public abstract_region
+	{
+	  public:
+		new_resource(size_t alignment)
+			: abstract_region(alignment){
+
+			  };
+
+		alloc_results<void> do_reallocate([[maybe_unused]] void* location, size_t bytes, size_t count,
+										  size_t alignment) override
+		{
+			return do_allocate(bytes, count, alignment);
+		}
+
+		alloc_results<void> do_allocate(size_t bytes, size_t count, size_t alignment) override
+		{
+			auto align		   = std::lcm(alignment, this->alignment());
+			auto stride		   = psl::align_to<size_t>(bytes, align);
+			auto aligned_bytes = psl::align_to<size_t>(bytes, this->alignment());
+
+			auto requested = aligned_bytes + (stride * (count - 1));
+
+			auto res = operator new(requested, std::align_val_t{align});
+
+			PSL_EXCEPT_IF(!res, "no allocation happened", std::runtime_error);
+
+			alloc_results<void> result{};
+			result.data   = res;
+			result.head   = res;
+			result.tail   = (void*)((size_t)result.data + requested);
+			result.stride = stride;
+			return result;
+		}
+
+		bool do_deallocate(void* item, size_t alignment) override
+		{
+			auto align = std::lcm(alignment, this->alignment());
+			operator delete(item, std::align_val_t{align});
+			return true;
+		}
+		size_t size() const noexcept override { return 0; }
+	};
+
 	class monotonic_new_resource : public abstract_region
 	{
 		struct buffer
@@ -382,7 +434,7 @@ namespace psl
 			return result;
 		}
 
-		bool do_deallocate([[maybe_unused]] void* item) override { return true; }
+		bool do_deallocate([[maybe_unused]] void* item, [[maybe_unused]] size_t alignment) override { return true; }
 		size_t size() const noexcept override { return m_Buffers[m_Buffers.size() - 1].size(); }
 
 	  private:
@@ -494,7 +546,7 @@ namespace psl::config::specialization
 	template <typename T>
 	struct default_resource_t
 	{
-		using type = psl::monotonic_new_resource;
+		using type = psl::new_resource;
 	};
 } // namespace psl::config::specialization
 

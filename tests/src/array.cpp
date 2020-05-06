@@ -82,9 +82,20 @@ TEST_F(trivial_array, index_operator)
 	EXPECT_EQ(data[1], 2);
 }
 
+TEST_F(complex_array, emplace_back)
+{
+	counter c{0};
+	data.reserve(1024);
+	for(auto i = 0; i < 1024; ++i)
+	{
+		data.emplace_back(c);
+	}
+}
+
 TEST_F(complex_array, erase)
 {
 	counter c{0};
+	data.reserve(1024);
 	for(auto i = 0; i < 1024; ++i)
 	{
 		data.emplace_back(c);

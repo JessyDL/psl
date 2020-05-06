@@ -192,3 +192,41 @@ TEST_F(trivial_dequeue, emplace_back_and_front)
 		ASSERT_EQ(i, data.size());
 	}
 }
+
+TEST_F(trivial_dequeue, constructors)
+{
+	std::array values{16, 8, 12, 99};
+	std::array values2{4521, 4548, 1200, 99128, 64, 332, 478};
+	for(auto v : values) data.emplace_back(v);
+
+	auto copy{data};
+	ASSERT_EQ(copy.size(), data.size());
+	for(size_t i = 0; i < values.size(); ++i)
+	{
+		ASSERT_EQ(values[i], copy[i]) << "copy constructor failed";
+	}
+
+	data.clear();
+	for(auto v : values2) data.emplace_back(v);
+	copy = data;
+	ASSERT_EQ(copy.size(), values2.size());
+	for(size_t i = 0; i < values2.size(); ++i)
+	{
+		ASSERT_EQ(values2[i], copy[i]) << "copy assignment failed";
+	}
+
+	auto move{std::move(copy)};
+	ASSERT_EQ(move.size(), values2.size());
+	for(size_t i = 0; i < values2.size(); ++i)
+	{
+		ASSERT_EQ(values2[i], move[i]) << "move constructor failed";
+	}
+
+	copy = data;
+	move = std::move(copy);
+	ASSERT_EQ(move.size(), values2.size());
+	for(size_t i = 0; i < values2.size(); ++i)
+	{
+		ASSERT_EQ(values2[i], move[i]) << "move assignment failed";
+	}
+}

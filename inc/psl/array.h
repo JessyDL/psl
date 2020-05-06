@@ -55,17 +55,79 @@ namespace psl
 
 		constexpr array() noexcept = default;
 		constexpr array(psl::allocator& allocator) noexcept : m_Allocator(&allocator){};
-		~array()
+		~array() noexcept(std::is_nothrow_destructible_v<T>)
 		{
 			using namespace psl::literals;
 			if constexpr(!std::is_trivially_destructible_v<T>)
 			{
-				for(auto i = 0_sz, size = this->size(); i < size; ++i)
+				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
 				{
-					(*(m_Begin + i)).~T();
+					ptr->~T();
+				}
+			}
+			if(m_Allocator) m_Allocator->deallocate(m_Begin);
+		}
+
+		constexpr array(const array& other) : m_Allocator(other.m_Allocator)
+		{
+			reserve(other.capacity());
+			for(const auto& element : other) emplace_back(element);
+		}
+
+		constexpr array(array&& other) noexcept
+			: m_Begin(other.m_Begin), m_End(other.m_End), m_Capacity(other.m_Capacity), m_Allocator(other.m_Allocator)
+		{
+			other.m_Begin	= nullptr;
+			other.m_End		 = nullptr;
+			other.m_Capacity = nullptr;
+		}
+		constexpr array& operator=(const array& other)
+		{
+			if(this == &other) return *this;
+
+			if constexpr(!std::is_trivially_destructible_v<T>)
+			{
+				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
+				{
+					ptr->~T();
+				}
+			}
+
+			m_Allocator->deallocate(m_Begin);
+
+			m_Allocator = other.m_Allocator;
+			m_Begin		= nullptr;
+			m_End		= nullptr;
+			m_Capacity  = nullptr;
+
+			reserve(other.capacity());
+			for(const auto& element : other) emplace_back(element);
+
+			return *this;
+		}
+		constexpr array& operator=(array&& other) noexcept(std::is_nothrow_destructible_v<T>)
+		{
+			if(this == &other) return *this;
+
+			if constexpr(!std::is_trivially_destructible_v<T>)
+			{
+				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
+				{
+					ptr->~T();
 				}
 			}
 			m_Allocator->deallocate(m_Begin);
+
+			m_Begin		= other.m_Begin;
+			m_End		= other.m_End;
+			m_Capacity  = other.m_Capacity;
+			m_Allocator = other.m_Allocator;
+
+			other.m_Begin	= nullptr;
+			other.m_End		 = nullptr;
+			other.m_Capacity = nullptr;
+
+			return *this;
 		}
 
 		constexpr reference operator[](size_type index) noexcept(!psl::config::exceptions)
@@ -148,6 +210,8 @@ namespace psl
 			// for shrinking
 			for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~T();
 
+			m_End = m_Begin + std::min(newSize, oldSize);
+
 			apply_size_change(m_Allocator->allocate_n<T>(newSize));
 			m_End = m_Begin + newSize;
 		}
@@ -162,7 +226,7 @@ namespace psl
 		constexpr void resize(tags::alloc_only_t, size_type newSize)
 		{
 			if(newSize == size()) return;
-
+			m_End = m_Begin + std::min(newSize, size());
 			apply_size_change(m_Allocator->allocate_n<T>(newSize));
 			m_End = m_Begin + newSize;
 		}
@@ -173,7 +237,12 @@ namespace psl
 
 			const auto oldSize = size();
 			// for shrinking
-			for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~T();
+			if constexpr(!std::is_trivially_destructible_v<T>)
+			{
+				for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~T();
+			}
+
+			m_End = m_Begin + std::min(newSize, oldSize);
 
 			apply_size_change(m_Allocator->allocate_n<T>(newSize));
 			auto old_end = m_Begin + std::min(oldSize, newSize);
@@ -203,18 +272,47 @@ namespace psl
 		constexpr auto begin() const noexcept { return const_iterator{m_Begin}; }
 		constexpr auto end() const noexcept { return const_iterator{m_End}; }
 
-		constexpr void erase(const size_type first, const size_type count = 1)
+		constexpr void erase(const size_type first,
+							 const size_type count = 1) noexcept(!config::exceptions &&
+																 std::is_nothrow_destructible_v<value_type>)
 		{
+			PSL_EXCEPT_IF(first > size(), "the first element was beyond the end", std::range_error);
+			PSL_EXCEPT_IF(first + count > size(), "the last element was beyond the end", std::range_error);
+
+			if(count == 0) return;
 			auto it = begin() + first;
 			std::rotate(it, it + count, end());
 			m_End -= count;
 			if constexpr(!std::is_trivially_destructible_v<T>)
 			{
-				for(auto ptr = m_End; ptr != m_End + count; ++ptr) (*ptr).~T();
+				for(auto ptr = m_End; ptr != m_End + count; ++ptr) ptr->~T();
+			}
+		}
+		constexpr void erase(const_iterator first) noexcept(!config::exceptions &&
+															std::is_nothrow_destructible_v<value_type>)
+		{
+			return erase(first, first + 1);
+		}
+		constexpr void erase(const_iterator first,
+							 const_iterator last) noexcept(!config::exceptions &&
+														   std::is_nothrow_destructible_v<value_type>)
+		{
+			PSL_EXCEPT_IF(last < first, "the given range is negative (last is earlier than first)", std::range_error);
+			PSL_EXCEPT_IF(first > end, "the first element was beyond the end", std::range_error);
+			PSL_EXCEPT_IF(last > end, "the last element was beyond the end", std::range_error);
+
+			auto distance = std::distance(first, last);
+			if(distance == 0) return;
+
+			std::rotate(first, last, end());
+			m_End -= distance;
+			if constexpr(!std::is_trivially_destructible_v<T>)
+			{
+				for(auto it = first; it != last; ++it) it->~T();
 			}
 		}
 
-		constexpr void clear() noexcept
+		constexpr void clear() noexcept(!config::exceptions && std::is_nothrow_destructible_v<value_type>)
 		{
 			if constexpr(!std::is_trivially_destructible_v<T>)
 			{
@@ -222,10 +320,7 @@ namespace psl
 			}
 			m_End = m_Begin;
 		}
-		constexpr void clear(tags::no_destroy_t) noexcept requires std::is_trivially_destructible_v<T>
-		{
-			m_End = m_Begin;
-		}
+		constexpr void clear(tags::no_destroy_t) noexcept { m_End = m_Begin; }
 
 		constexpr void swap(array& other) noexcept
 		{
@@ -247,9 +342,13 @@ namespace psl
 			PSL_EXCEPT_IF(!res, "could not allocate anymore", std::runtime_error);
 			if(res)
 			{
-				move_elements(res.data);
-				m_End   = res.data + size();
-				m_Begin = res.data;
+				if(m_Begin != res.data)
+				{
+					move_elements(res.data);
+					m_End = res.data + size();
+					m_Allocator->deallocate(m_Begin);
+					m_Begin = res.data;
+				}
 
 				m_Capacity = (T*)ralign_to((size_type)res.tail, sizeof(T));
 			}

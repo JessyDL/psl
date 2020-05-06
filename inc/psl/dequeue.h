@@ -40,6 +40,50 @@ namespace psl
 
 		~dequeue() { clear(); }
 
+		dequeue(const dequeue& other)
+			: m_Data(other.m_Data), m_Head(m_Data.data()), m_Tail(m_Head + other.size()), m_Empty(other.m_Empty)
+		{
+			if(m_Tail >= m_Data.data() + m_Data.size())
+				m_Tail = (m_Tail - (m_Data.data() + m_Data.size())) + m_Data.data();
+		}
+		dequeue(dequeue&& other)
+			: m_Data(std::move(other.m_Data)), m_Head(m_Data.data()), m_Tail(m_Head + other.size()),
+			  m_Empty(other.m_Empty)
+		{
+			if(m_Tail >= m_Data.data() + m_Data.size())
+				m_Tail = (m_Tail - (m_Data.data() + m_Data.size())) + m_Data.data();
+		}
+		dequeue& operator=(const dequeue& other)
+		{
+			if(this == &other) return *this;
+
+			clear();
+
+			m_Data  = other.m_Data;
+			m_Head  = m_Data.data();
+			m_Tail  = m_Head + other.size();
+			m_Empty = other.m_Empty;
+
+			if(m_Tail >= m_Data.data() + m_Data.size())
+				m_Tail = (m_Tail - (m_Data.data() + m_Data.size())) + m_Data.data();
+			return *this;
+		}
+		dequeue& operator=(dequeue&& other)
+		{
+			if(this == &other) return *this;
+
+			clear();
+
+			m_Data  = std::move(other.m_Data);
+			m_Head  = m_Data.data();
+			m_Tail  = m_Head + other.size();
+			m_Empty = other.m_Empty;
+
+			if(m_Tail >= m_Data.data() + m_Data.size())
+				m_Tail = (m_Tail - (m_Data.data() + m_Data.size())) + m_Data.data();
+			return *this;
+		}
+
 		auto& operator[](size_type index) noexcept(!config::exceptions)
 		{
 			PSL_EXCEPT_IF(index >= size(), "index exceeded size", std::range_error);
@@ -105,9 +149,12 @@ namespace psl
 			m_Head = m_Data.data();
 			m_Tail = m_Head + newSize;
 
-			for(auto ptr = m_Tail; ptr != m_Head + newSize; ++ptr)
+			if(oldSize < newSize)
 			{
-				new(ptr) T{};
+				for(auto ptr = m_Head + oldSize; ptr != m_Head + newSize; ++ptr)
+				{
+					new(ptr) T{};
+				}
 			}
 		}
 
@@ -228,10 +275,9 @@ namespace psl
 		void clear() noexcept(std::is_nothrow_destructible_v<T>) { erase(begin(), end()); }
 
 	  private:
-		pointer m_Head{nullptr};
-		pointer m_Tail{nullptr};
-		bool m_Empty{true};
-
 		psl::array<T> m_Data{};
+		pointer m_Head{m_Data.data()};
+		pointer m_Tail{m_Head};
+		bool m_Empty{true};
 	};
 } // namespace psl
