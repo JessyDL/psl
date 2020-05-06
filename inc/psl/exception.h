@@ -40,10 +40,40 @@ namespace psl
 		std::string m_What;
 	};
 
-	template <typename T>
-	struct meta_t
+	class not_implemented : std::exception
 	{
-		using type = T;
+	  public:
+		not_implemented(size_t issue, const std::experimental::source_location& location =
+										  std::experimental::source_location::current())
+			: m_What(to_message(issue, location))
+		{}
+		not_implemented(const not_implemented& other) noexcept = default;
+		not_implemented(not_implemented&& other) noexcept	  = default;
+		not_implemented& operator=(const not_implemented& other) noexcept = default;
+		not_implemented& operator=(not_implemented&& other) noexcept = default;
+		~not_implemented()											 = default;
+
+		static std::string
+		to_message(size_t issue,
+				   const std::experimental::source_location& location = std::experimental::source_location::current())
+		{
+			std::string what{};
+			what.append("NotImplemented\nat: ");
+			what.append(location.file_name());
+			what.append(":");
+			what.append(std::to_string(location.line()));
+			if(issue != 0)
+			{
+				what.append("\nhttps://github.com/JessyDL/psl/issues/");
+				what.append(std::to_string(issue));
+			}
+			return what;
+		}
+
+		const char* what() const noexcept override { return m_What.c_str(); };
+
+	  private:
+		std::string m_What;
 	};
 } // namespace psl
 
@@ -68,3 +98,24 @@ namespace psl
 		if(std::is_constant_evaluated() && !!(expr)) throw psl::implementation_error(message);                         \
 	}                                                                                                                  \
 	if constexpr(psl::config::implementation_asserts) assert(!(expr) && message)
+
+#define __STRINGIFY(TEXT) #TEXT
+#define __WARNING(TEXT) __STRINGIFY(GCC warning TEXT)
+#define WARNING(VALUE) __WARNING(__STRINGIFY(N = VALUE))
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+#define PSL_NOT_IMPLEMENTED_(issue) "NotImplemented: https://github.com/JessyDL/psl/issues/" STR(issue)
+
+#define PSL_NOT_IMPLEMENTED(issue)                                                                                     \
+	if constexpr(psl::config::exceptions)                                                                              \
+	{                                                                                                                  \
+		throw psl::not_implemented(issue);                                                                             \
+	}                                                                                                                  \
+	else                                                                                                               \
+	{                                                                                                                  \
+		if(std::is_constant_evaluated()) throw psl::not_implemented(issue);                                            \
+	}                                                                                                                  \
+	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts)                                           \
+		assert(!"NotImplemented: https://github.com/JessyDL/psl/issues/" #issue);                                      \
+	std::exit(issue)

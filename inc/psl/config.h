@@ -88,4 +88,11 @@ namespace psl::config
 	constexpr static bool implementation_exceptions = implementation_errors_strategy == exceptions_handling::EXCEPTIONS;
 	constexpr static bool implementation_asserts	= implementation_errors_strategy == exceptions_handling::ASSERTS;
 
+	namespace details
+	{
+		template <typename T>
+		static constexpr bool logging_collections = true;
+	}
+
+	static constexpr bool logging_collections = details::logging_collections<default_setting_t>;
 } // namespace psl::config
