@@ -26,7 +26,7 @@ template <typename T>
 struct DequeueTest : public ::testing::Test
 {
 	psl::default_resource_t resource{alignof(char)};
-	psl::allocator allocator{&resource};
+	psl::default_allocator_t allocator{&resource};
 	psl::dequeue<T> data{allocator};
 };
 

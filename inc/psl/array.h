@@ -9,9 +9,6 @@
 
 namespace psl
 {
-	// template <typename T>
-	// using array = std::vector<T>;
-
 	namespace tags
 	{
 		struct alloc_only_t
@@ -40,9 +37,18 @@ namespace psl
 		constexpr auto no_deinit = no_deinit_t{};
 	} // namespace tags
 
-	template <typename T>
-	class array
+	namespace config
 	{
+		template <typename T>
+		using array_default_allocator = psl::default_allocator_t;
+	}
+
+	template <typename T, typename Allocator = config::array_default_allocator<config::default_setting_t>>
+	requires psl::traits::IsPhysicallyAllocated<Allocator> class array
+	{
+		static constexpr bool is_trivially_destructible = std::is_trivially_destructible_v<std::remove_cv_t<T>>;
+		static constexpr bool is_nothrow_destructible   = std::is_nothrow_destructible_v<std::remove_cv_t<T>>;
+
 	  public:
 		using value_type	 = std::remove_cv_t<T>;
 		using reference		 = value_type&;
@@ -53,16 +59,18 @@ namespace psl
 		using iterator		 = psl::contiguous_range_iterator<value_type>;
 		using const_iterator = psl::contiguous_range_iterator<const value_type>;
 
+		using allocator_type = Allocator;
+
 		constexpr array() noexcept = default;
-		constexpr array(psl::allocator& allocator) noexcept : m_Allocator(&allocator){};
-		~array() noexcept(std::is_nothrow_destructible_v<T>)
+		constexpr array(allocator_type& allocator) noexcept : m_Allocator(&allocator){};
+		~array() noexcept(is_nothrow_destructible)
 		{
 			using namespace psl::literals;
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
 				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
 				{
-					ptr->~T();
+					ptr->~value_type();
 				}
 			}
 			if(m_Allocator) m_Allocator->deallocate(m_Begin);
@@ -85,11 +93,11 @@ namespace psl
 		{
 			if(this == &other) return *this;
 
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
 				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
 				{
-					ptr->~T();
+					ptr->~value_type();
 				}
 			}
 
@@ -105,15 +113,15 @@ namespace psl
 
 			return *this;
 		}
-		constexpr array& operator=(array&& other) noexcept(std::is_nothrow_destructible_v<T>)
+		constexpr array& operator=(array&& other) noexcept(is_nothrow_destructible)
 		{
 			if(this == &other) return *this;
 
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
 				for(auto ptr = m_Begin; ptr != m_End; ++ptr)
 				{
-					ptr->~T();
+					ptr->~value_type();
 				}
 			}
 			m_Allocator->deallocate(m_Begin);
@@ -186,7 +194,7 @@ namespace psl
 		auto& emplace_back(Args&&... args)
 		{
 			grow(size() + 1);
-			new(m_End) T(std::forward<Args>(args)...);
+			new(m_End) value_type(std::forward<Args>(args)...);
 			++m_End;
 			return *(m_End - 1);
 		}
@@ -208,11 +216,11 @@ namespace psl
 
 			const auto oldSize = size();
 			// for shrinking
-			for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~T();
+			for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~value_type();
 
 			m_End = m_Begin + std::min(newSize, oldSize);
 
-			apply_size_change(m_Allocator->allocate_n<T>(newSize));
+			apply_size_change(m_Allocator->template allocate_n<value_type>(newSize));
 			m_End = m_Begin + newSize;
 		}
 
@@ -227,7 +235,7 @@ namespace psl
 		{
 			if(newSize == size()) return;
 			m_End = m_Begin + std::min(newSize, size());
-			apply_size_change(m_Allocator->allocate_n<T>(newSize));
+			apply_size_change(m_Allocator->template allocate_n<value_type>(newSize));
 			m_End = m_Begin + newSize;
 		}
 
@@ -237,19 +245,19 @@ namespace psl
 
 			const auto oldSize = size();
 			// for shrinking
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
-				for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~T();
+				for(auto i = newSize; i < oldSize; ++i) (m_Begin + i)->~value_type();
 			}
 
 			m_End = m_Begin + std::min(newSize, oldSize);
 
-			apply_size_change(m_Allocator->allocate_n<T>(newSize));
+			apply_size_change(m_Allocator->template allocate_n<value_type>(newSize));
 			auto old_end = m_Begin + std::min(oldSize, newSize);
 			m_End		 = m_Begin + newSize;
 			for(auto ptr = old_end; ptr != m_End; ++ptr)
 			{
-				new(ptr) T{};
+				new(ptr) value_type{};
 			}
 		}
 
@@ -257,7 +265,7 @@ namespace psl
 		{
 			if(newCapacity <= capacity()) return;
 
-			apply_size_change(m_Allocator->allocate_n<T>(newCapacity));
+			apply_size_change(m_Allocator->template allocate_n<value_type>(newCapacity));
 		}
 
 		constexpr size_type next_growth() const noexcept
@@ -273,8 +281,7 @@ namespace psl
 		constexpr auto end() const noexcept { return const_iterator{m_End}; }
 
 		constexpr void erase(const size_type first,
-							 const size_type count = 1) noexcept(!config::exceptions &&
-																 std::is_nothrow_destructible_v<value_type>)
+							 const size_type count = 1) noexcept(!config::exceptions && is_nothrow_destructible)
 		{
 			PSL_EXCEPT_IF(first > size(), "the first element was beyond the end", std::range_error);
 			PSL_EXCEPT_IF(first + count > size(), "the last element was beyond the end", std::range_error);
@@ -283,19 +290,17 @@ namespace psl
 			auto it = begin() + first;
 			std::rotate(it, it + count, end());
 			m_End -= count;
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
-				for(auto ptr = m_End; ptr != m_End + count; ++ptr) ptr->~T();
+				for(auto ptr = m_End; ptr != m_End + count; ++ptr) ptr->~value_type();
 			}
 		}
-		constexpr void erase(const_iterator first) noexcept(!config::exceptions &&
-															std::is_nothrow_destructible_v<value_type>)
+		constexpr void erase(const_iterator first) noexcept(!config::exceptions && is_nothrow_destructible)
 		{
 			return erase(first, first + 1);
 		}
 		constexpr void erase(const_iterator first,
-							 const_iterator last) noexcept(!config::exceptions &&
-														   std::is_nothrow_destructible_v<value_type>)
+							 const_iterator last) noexcept(!config::exceptions && is_nothrow_destructible)
 		{
 			PSL_EXCEPT_IF(last < first, "the given range is negative (last is earlier than first)", std::range_error);
 			PSL_EXCEPT_IF(first > end, "the first element was beyond the end", std::range_error);
@@ -306,17 +311,17 @@ namespace psl
 
 			std::rotate(first, last, end());
 			m_End -= distance;
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
-				for(auto it = first; it != last; ++it) it->~T();
+				for(auto it = first; it != last; ++it) it->~value_type();
 			}
 		}
 
-		constexpr void clear() noexcept(!config::exceptions && std::is_nothrow_destructible_v<value_type>)
+		constexpr void clear() noexcept(!config::exceptions && is_nothrow_destructible)
 		{
-			if constexpr(!std::is_trivially_destructible_v<T>)
+			if constexpr(!is_trivially_destructible)
 			{
-				for(auto ptr = m_Begin; ptr != m_End; ++ptr) (*ptr).~T();
+				for(auto ptr = m_Begin; ptr != m_End; ++ptr) (*ptr).~value_type();
 			}
 			m_End = m_Begin;
 		}
@@ -334,7 +339,7 @@ namespace psl
 		constexpr void grow(size_type needed_size)
 		{
 			if(needed_size <= capacity()) return;
-			apply_size_change(m_Allocator->allocate_n<T>(needed_size * 2));
+			apply_size_change(m_Allocator->template allocate_n<value_type>(needed_size * 2));
 		}
 
 		constexpr void apply_size_change(auto res)
@@ -350,23 +355,23 @@ namespace psl
 					m_Begin = res.data;
 				}
 
-				m_Capacity = (T*)ralign_to((size_type)res.tail, sizeof(T));
+				m_Capacity = (pointer)ralign_to((size_type)res.tail, sizeof(value_type));
 			}
 		}
 
-		constexpr void move_elements(T* newLocation)
+		constexpr void move_elements(pointer newLocation)
 		{
 			if(m_Begin == newLocation) return;
 
 			for(auto ptr = m_Begin; ptr != m_End; ++ptr)
 			{
-				new(newLocation++) T(std::move(*ptr));
+				new(newLocation++) value_type(std::move(*ptr));
 			}
 		}
 
-		T* m_Begin{nullptr};
-		T* m_End{nullptr};
-		T* m_Capacity{nullptr};
-		psl::allocator* m_Allocator{&psl::default_allocator};
+		pointer m_Begin{nullptr};
+		pointer m_End{nullptr};
+		pointer m_Capacity{nullptr};
+		allocator_type* m_Allocator{&psl::default_allocator};
 	};
 } // namespace psl

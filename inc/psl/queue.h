@@ -18,8 +18,8 @@ namespace psl
 		using const_iterator = contiguous_ring_range_iterator<const value_type>;
 
 		constexpr queue() noexcept(std::is_nothrow_constructible_v<psl::array<T>>) = default;
-		constexpr queue(psl::allocator& allocator) noexcept(
-			std::is_nothrow_constructible_v<psl::array<T>, psl::allocator&>)
+		constexpr queue(psl::default_allocator_t& allocator) noexcept(
+			std::is_nothrow_constructible_v<psl::array<T>, psl::default_allocator_t&>)
 			: m_Data(allocator){};
 
 		~queue() { clear(); }

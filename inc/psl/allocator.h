@@ -19,14 +19,6 @@ namespace psl
 {
 	using rsize_t = std::uintptr_t;
 
-	// namespace traits
-	// {
-	// 	struct movable_t
-	// 	{};
-	// 	struct nontrivial_types_support_t
-	// 	{};
-	// } // namespace traits
-
 	enum class alloc_type : uint8_t
 	{
 		// allows for an allocation to occur
@@ -44,12 +36,6 @@ namespace psl
 		template <>
 		inline constexpr auto enable_enum_ops<alloc_type> = enum_ops_t::BIT | enum_ops_t::LOGICAL;
 	}
-
-	namespace tags
-	{
-		struct physical_allocation
-		{};
-	} // namespace tags
 
 
 	/**
@@ -79,12 +65,67 @@ namespace psl
 		constexpr operator bool() const noexcept { return stride != 0; }
 	};
 
+	namespace traits
+	{
+		/**
+		 * \brief Indicates if the resource will physically allocate somewhere.
+		 * \details Sometimes you want to simulate resource management, this either to manage a resource you have no
+		 * direct access to (such as the GPU), or for other reasons. This property can indicate suitable resources that
+		 * support such behaviour.
+		 */
+		template <bool Value>
+		struct physically_allocated_t : std::conditional_t<Value, std::true_type, std::false_type>
+		{};
+
+		/**
+		 * \brief Indicates if the resource allocates in a way that can be shared with others
+		 * \details When a resource is non_shareable it means that it is best suited for a single
+		 * object to be used as an allocator, as when it reallocates it can potentiall invalidate others.
+		 * This could be used in a resizeable arena-like allocator, where the object is the gatekeeper to the resource
+		 * to preserve correct usage/linkage.
+		 * Most resource will be shareable_t, which is how the standard (std) allocators also behave.
+		 */
+		template <bool Value>
+		struct shareable_t : std::conditional_t<Value, std::true_type, std::false_type>
+		{};
+
+		struct queryable_size_t
+		{
+			virtual size_t size() const noexcept = 0;
+		};
+
+		struct reallocate_able_t
+		{
+			virtual alloc_results<void> reallocate(void* location, size_t size, size_t count, size_t alignment) = 0;
+		};
+
+		template <typename T, typename Trait>
+		concept HasTrait = T::template has_trait<Trait>();
+
+		template <typename T>
+		concept IsShareable = HasTrait<T, shareable_t<true>>;
+
+		template <typename T>
+		concept IsVirtuallyAllocated = HasTrait<T, physically_allocated_t<false>>;
+
+		template <typename T>
+		concept IsPhysicallyAllocated = !IsVirtuallyAllocated<T>;
+
+		template <typename T>
+		concept IsSizeQueryable = HasTrait<T, queryable_size_t>;
+
+		template <typename T>
+		concept IsReallocateAble = HasTrait<T, reallocate_able_t>;
+
+	} // namespace traits
+
 
 	/**
 	 * \brief Abstract memory region interface
 	 * \details used to describe the intended API for implementing a custom memory resource
 	 */
-	class abstract_region
+	template <typename... Traits>
+	class abstract_region : public Traits...
 	{
 	  public:
 		abstract_region(size_t alignment) noexcept : m_Alignment(alignment) {}
@@ -96,7 +137,7 @@ namespace psl
 		abstract_region& operator=(const abstract_region& rhs) noexcept = default;
 		abstract_region& operator=(abstract_region&& rhs) noexcept = default;
 
-		virtual size_t size() const noexcept = 0;
+		// virtual size_t size() const noexcept = 0;
 
 		size_t alignment() const noexcept { return m_Alignment; }
 
@@ -118,14 +159,14 @@ namespace psl
 			return res;
 		}
 
-			[[nodiscard]] alloc_results<void> reallocate(void* location, size_t size, size_t count, size_t alignment)
-		{
-			PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
-			auto res = do_reallocate(location, size, count, alignment);
-			PSL_CONTRACT_EXCEPT_IF(res && (size_t)res.tail % m_Alignment != 0,
-								   "implementation of abstract region does not satisfy the requirements");
-			return res;
-		}
+		// 	[[nodiscard]] alloc_results<void> reallocate(void* location, size_t size, size_t count, size_t alignment)
+		// {
+		// 	PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
+		// 	auto res = do_reallocate(location, size, count, alignment);
+		// 	PSL_CONTRACT_EXCEPT_IF(res && (size_t)res.tail % m_Alignment != 0,
+		// 						   "implementation of abstract region does not satisfy the requirements");
+		// 	return res;
+		// }
 
 		/**
 		 * \brief Deallocates the given item, this is the '.data' member from alloc_results<T>
@@ -134,27 +175,38 @@ namespace psl
 		 * \returns true when the deallocation succeeds
 		 * \returns false when the deallocation failed
 		 */
-		bool deallocate(void* item, size_t alignment) { return do_deallocate(item, alignment); }
+		bool deallocate(void* item, size_t alignment)
+		{
+			return do_deallocate(item, alignment);
+		}
 
 		// constexpr static T traits{};
 
-		virtual alloc_results<void> do_allocate(size_t size, size_t count, size_t alignment)				   = 0;
-		virtual alloc_results<void> do_reallocate(void* location, size_t size, size_t count, size_t alignment) = 0;
-		virtual bool do_deallocate(void* item, size_t alignment)											   = 0;
+		virtual alloc_results<void> do_allocate(size_t size, size_t count, size_t alignment) = 0;
+		// virtual alloc_results<void> do_reallocate(void* location, size_t size, size_t count, size_t alignment) = 0;
+		virtual bool do_deallocate(void* item, size_t alignment) = 0;
+
+		template <typename T>
+		static consteval bool has_trait()
+		{
+			if constexpr(sizeof...(Traits) == 0)
+				return false;
+			else
+				return (std::is_same_v<T, Traits> || ...);
+		}
 
 	  private:
 		size_t m_Alignment;
 	};
 
-	template <typename T, typename... Ts>
-	struct traits_t
-	{};
-
+	template <typename... Traits>
 	class allocator final
 	{
 	  public:
+		using abstract_region_t = abstract_region<Traits...>;
+
 		allocator() = default;
-		allocator(abstract_region* region) noexcept : m_Region(region){};
+		allocator(abstract_region_t* region) noexcept : m_Region(region){};
 		~allocator()							   = default;
 		allocator(const allocator& other) noexcept = default;
 		allocator(allocator&& other) noexcept	  = default;
@@ -173,13 +225,16 @@ namespace psl
 		}
 
 		template <typename T>
-		alloc_results<T> reallocate(T* location, size_t alignment = alignof(T))
+		alloc_results<T> reallocate(T* location,
+									size_t alignment = alignof(T)) requires traits::IsReallocateAble<abstract_region_t>
 		{
 			return static_cast<alloc_results<T>>(m_Region->reallocate(location, sizeof(T), 1, alignment));
 		}
 
 		template <typename T>
-		alloc_results<T> reallocate_n(T* location, size_t count, size_t repeat = 1, size_t alignment = alignof(T))
+		alloc_results<T>
+		reallocate_n(T* location, size_t count, size_t repeat = 1,
+					 size_t alignment = alignof(T)) requires traits::IsReallocateAble<abstract_region_t>
 		{
 			return static_cast<alloc_results<T>>(m_Region->reallocate(location, sizeof(T) * count, repeat, alignment));
 		}
@@ -196,9 +251,18 @@ namespace psl
 				return deallocate(std::addressof(target));
 		}
 
+		template <typename T>
+		static consteval bool has_trait()
+		{
+			return abstract_region_t::template has_trait<T>();
+		}
+
 	  private:
-		abstract_region* m_Region{nullptr};
+		abstract_region_t* m_Region{nullptr};
 	};
+
+	template <typename... Traits>
+	allocator(abstract_region<Traits...>*)->allocator<Traits...>;
 
 	template <typename T>
 	concept IsLazyAllocation = std::is_invocable_v<T>;
@@ -215,141 +279,13 @@ namespace psl
 		t.resize(std::declval<rsize_t>(), std::declval<rsize_t>());
 	};
 
-
-	/**
-	 * \brief Allocates a single region using malloc (can be resized)
-	 *
-	 */
-	// class mono_malloc_resource
-	// {
-	//   public:
-	// 	~mono_malloc_resource() { free(m_Data); }
-
-	// 	rsize_t resize(rsize_t size)
-	// 	{
-	// 		m_Data = realloc(m_Data, size);
-	// 		m_Size = size;
-	// 		return size;
-	// 	}
-
-	// 	const void* data() const noexcept { return m_Data; };
-	// 	void* data() noexcept { return m_Data; };
-	// 	rsize_t size() const noexcept { return m_Size; }
-
-	// 	bool allocate(rsize_t size, [[maybe_unused]] rsize_t alignment)
-	// 	{
-	// 		m_Data = realloc(m_Data, size);
-	// 		m_Size = size;
-	// 		return size;
-	// 	}
-
-	// 	bool deallocate([[maybe_unused]] void* allocation) { return true; }
-
-	// 	void* translate(rsize_t location)
-	// 	{
-	// 		PSL_EXCEPT_IF(m_Data == nullptr, "no memory was allocated", std::runtime_error);
-	// 		PSL_EXCEPT_IF(location >= m_Size, "asked for an offset into the region beyond its allocated size",
-	// 					  std::runtime_error);
-	// 		return (void*)((std::uintptr_t)m_Data + location);
-	// 	}
-
-	// 	void* m_Data{nullptr};
-	// 	rsize_t m_Size{0};
-	// };
-
-	// class new_resource
-	// {
-	// 	struct allocation
-	// 	{
-	// 		void* data;
-	// 		rsize_t size;
-	// 	};
-
-	//   public:
-	// 	~new_resource() {}
-
-	// 	rsize_t size() const noexcept { return m_Size; }
-
-	// 	bool allocate(rsize_t size, rsize_t alignment)
-	// 	{
-	// 		m_Allocations.emplace_back(::operator new(size, static_cast<std::align_val_t>(alignment), std::nothrow),
-	// 								   size);
-	// 		m_Size += size;
-	// 		return true;
-	// 	}
-
-	// 	bool deallocate(void* allocation)
-	// 	{
-	// 		if(auto it = std::find_if(std::begin(m_Allocations), std::end(m_Allocations),
-	// 								  [allocation](const auto& alloc) { return alloc.data == allocation; });
-	// 		   it != std::end(m_Allocations))
-	// 		{
-	// 			::operator delete(it->data);
-	// 			m_Allocations.erase(it);
-	// 			return true;
-	// 		}
-	// 		return false;
-	// 	}
-
-	// 	void* translate(rsize_t location)
-	// 	{
-	// 		PSL_EXCEPT_IF(location >= m_Size, "asked for an offset into the region beyond its allocated size",
-	// 					  std::runtime_error);
-	// 		rsize_t aggregate_size{0};
-	// 		if(auto it = std::find_if(std::begin(m_Allocations), std::end(m_Allocations),
-	// 								  [location, &aggregate_size](const auto& alloc) {
-	// 									  if(location >= aggregate_size && location < aggregate_size + alloc.size)
-	// 										  return true;
-	// 									  aggregate_size += alloc.size;
-	// 									  return false;
-	// 								  });
-	// 		   it != std::end(m_Allocations))
-	// 		{
-	// 			return (void*)((std::uintptr_t)it->data + (location - aggregate_size));
-	// 		}
-	// 		PSL_EXCEPT_IF(true, "asked for an offset into the region that it doesn't have", std::runtime_error);
-	// 		return nullptr;
-	//} // namespace psl
-
-	// std::vector<allocation> m_Allocations;
-	// rsize_t m_Size{0};
-	// }
-	// ;
-
-	/**
-	 * \brief Does no actual allocation, only simulates it
-	 *
-	 */
-	// class no_resource
-	// {
-	//   public:
-	// 	no_resource(rsize_t size) : m_Size(size){};
-	// 	rsize_t resize(rsize_t size) noexcept
-	// 	{
-	// 		m_Size = size;
-	// 		return m_Size;
-	// 	}
-	// 	const void* data() const noexcept { return nullptr; };
-	// 	void* data() noexcept { return nullptr; };
-	// 	rsize_t size() const noexcept { return m_Size; }
-
-	//   private:
-	// 	rsize_t m_Size{};
-	// };
-
-	class new_resource : public abstract_region
+	class new_resource : public abstract_region<traits::shareable_t<true>>
 	{
 	  public:
 		new_resource(size_t alignment)
 			: abstract_region(alignment){
 
 			  };
-
-		alloc_results<void> do_reallocate([[maybe_unused]] void* location, size_t bytes, size_t count,
-										  size_t alignment) override
-		{
-			return do_allocate(bytes, count, alignment);
-		}
 
 		alloc_results<void> do_allocate(size_t bytes, size_t count, size_t alignment) override
 		{
@@ -377,10 +313,11 @@ namespace psl
 			operator delete(item, std::align_val_t{align});
 			return true;
 		}
-		size_t size() const noexcept override { return 0; }
+		// size_t size() const noexcept override { return 0; }
 	};
 
-	class monotonic_new_resource : public abstract_region
+	class monotonic_new_resource
+		: public abstract_region<traits::shareable_t<false>, traits::queryable_size_t, traits::reallocate_able_t>
 	{
 		struct buffer
 		{
@@ -404,8 +341,8 @@ namespace psl
 		{
 			for(auto& buffer : m_Buffers) operator delete(buffer.begin);
 		}
-		alloc_results<void> do_reallocate([[maybe_unused]] void* location, size_t bytes, size_t count,
-										  size_t alignment) override
+		alloc_results<void> reallocate([[maybe_unused]] void* location, size_t bytes, size_t count,
+									   size_t alignment) override
 		{
 			return do_allocate(bytes, count, alignment);
 		}
@@ -440,113 +377,26 @@ namespace psl
 	  private:
 		std::vector<buffer> m_Buffers;
 	};
-
-	// template <typename Resource, typename Strategy>
-	// class region final : public abstract_region
-	// {
-	//   public:
-	// 	constexpr static bool growable = IsGrowable<Resource>;
-	// 	region(rsize_t alignment) : abstract_region(alignment), resource(), strategy()
-	// 	{
-	// 		this->strategy.resize(this->resource.size());
-	// 	}
-	// 	template <typename Resource2 = Resource, typename Strategy2 = Strategy>
-	// 	region(rsize_t alignment, Resource2&& resource, Strategy2&& strategy)
-	// 		: abstract_region(alignment), resource(std::forward<Resource2>(resource)),
-	// 		  strategy(std::forward<Strategy2>(strategy))
-	// 	{
-	// 		this->strategy.resize(this->resource.size());
-	// 	}
-
-	// 	alloc_results<void> do_reallocate(void* location, rsize_t size, rsize_t count,
-	// 									  std::optional<rsize_t> alignment = std::nullopt) override
-	// 	{
-	// 		auto align		  = std::lcm(alignment.value_or(m_Alignment), m_Alignment);
-	// 		auto stride		  = psl::align_to<rsize_t>(size, align);
-	// 		auto aligned_size = psl::align_to<rsize_t>(size, m_Alignment);
-
-	// 		auto res = strategy.reallocate(aligned_size + (stride * (count - 1)), align);
-
-	// 		return alloc_results<void>{};
-	// 	}
-
-	// 	alloc_results<void> do_allocate(rsize_t size, rsize_t count,
-	// 									std::optional<rsize_t> alignment = std::nullopt) override
-	// 	{
-
-	// 		auto align		  = std::lcm(alignment.value_or(m_Alignment), m_Alignment);
-	// 		auto stride		  = psl::align_to<rsize_t>(size, align);
-	// 		auto aligned_size = psl::align_to<rsize_t>(size, m_Alignment);
-
-	// 		auto res = strategy.allocate(aligned_size + (stride * (count - 1)), align);
-	// 		if constexpr(growable)
-	// 		{
-	// 			if(!res)
-	// 			{
-	// 				strategy.resize(resource.resize(resource.size() + (stride * count)));
-	// 				res = strategy.allocate(aligned_size + (stride * (count - 1)), align);
-	// 			}
-	// 		}
-	// 		if(res)
-	// 		{
-	// 			res.data   = resource.translate((rsize_t)res.data);
-	// 			res.stride = stride;
-	// 		}
-	// 		return res;
-	// 	}
-
-	// 	bool do_deallocate(void* item) override { return strategy.deallocate(item); }
-	// 	rsize_t size() const noexcept override { return resource.size(); }
-	// 	void* data() override { return resource.data(); }
-	// 	const void* data() const noexcept override { return resource.data(); }
-
-	// 	bool clear() override
-	// 	{
-	// 		if constexpr(requires(Strategy s) { s.clear(); })
-	// 			return strategy.clear();
-	// 		else
-	// 			return false;
-	// 	}
-
-	//   private:
-	// 	Resource resource;
-	// 	Strategy strategy;
-	// };
-
-	/**
-	 * \brief monotonic allocation strategy
-	 * \details Allocates in a monotonic fashion, ever increasing, never decreasing even when deallocating.
-	 *
-	 */
-	// struct monotonic
-	// {
-	//   public:
-	// 	void resize(rsize_t size) { m_Size = size; };
-	// 	alloc_results<void> allocate(rsize_t size, rsize_t alignment)
-	// 	{
-	// 		auto data = psl::align_to<rsize_t>(m_Offset, alignment);
-	// 		if(data + size > m_Size) return {};
-	// 		alloc_results<void> res{};
-	// 		res.range	 = {m_Offset, data + size};
-	// 		m_Offset	  = res.range.end;
-	// 		res.data	  = reinterpret_cast<void*>(data);
-	// 		res.alignment = alignment;
-	// 		return res;
-	// 	};
-	// 	bool deallocate([[maybe_unused]] void* item) { return true; };
-
-	//   private:
-	// 	rsize_t m_Offset{0};
-	// 	rsize_t m_Size{0};
-	// };
 } // namespace psl
 
 namespace psl::config::specialization
 {
 	template <typename T>
+	struct default_abstract_resource_t
+	{
+		using type = psl::abstract_region<traits::shareable_t<true>>;
+	};
+
+	template <typename T>
 	struct default_resource_t
 	{
 		using type = psl::new_resource;
+	};
+
+	template <typename T>
+	struct default_allocator_t
+	{
+		using type = psl::allocator<traits::shareable_t<true>>;
 	};
 } // namespace psl::config::specialization
 
@@ -555,6 +405,12 @@ namespace psl
 	using default_resource_t =
 		typename psl::config::specialization::default_resource_t<psl::config::default_setting_t>::type;
 
+	using default_allocator_t =
+		typename psl::config::specialization::default_allocator_t<psl::config::default_setting_t>::type;
+
+	using default_abstract_resource_t =
+		typename psl::config::specialization::default_abstract_resource_t<psl::config::default_setting_t>::type;
+
 	static inline default_resource_t default_resource{alignof(char)};
-	static inline allocator default_allocator{&default_resource};
+	static inline default_allocator_t default_allocator{&default_resource};
 } // namespace psl

@@ -24,14 +24,16 @@ struct foo
 };
 
 
-static_assert(std::contiguous_iterator<psl::array<int>::iterator>);
+// static_assert(std::contiguous_iterator<psl::array<int>::iterator>);
+static_assert(std::contiguous_iterator<std::vector<int>::iterator>);
+static_assert(std::contiguous_iterator<int*>);
 
 template <typename T>
 class ArrayTest : public ::testing::Test
 {
   public:
 	psl::default_resource_t resource{alignof(char)};
-	psl::allocator allocator{&resource};
+	psl::default_allocator_t allocator{&resource};
 	psl::array<T> data{allocator};
 };
 

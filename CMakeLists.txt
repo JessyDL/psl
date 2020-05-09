@@ -7,8 +7,9 @@ project($LOCAL_PROJECT VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 
 option(opt_make_tests      "build tests"       TRUE)
-option(opt_asan      "enable asan"       FALSE)
+option(opt_asan      "enable asan"       TRUE)
 option(opt_coverage "enable code coverage" TRUE)
+option(opt_iwyu "enable include what you use" FALSE)
 
 add_compile_options(-Wall -Wextra -pedantic)
 
@@ -37,8 +38,8 @@ endif()
 
 list(APPEND INC_IMPL uid)
 
-list(APPEND INC uid 
-	${INC_IMPL} 
+list(APPEND INC uid
+	${INC_IMPL}
 	details/fixed_string
 	details/metaprogramming
 	allocator
@@ -75,15 +76,26 @@ if(opt_coverage)
 	set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 endif()
 
+if(opt_asan)
+	add_compile_options(-fsanitize=address -fno-omit-frame-pointer -ggdb -fsanitize=undefined -fsanitize=leak)
+	add_link_options(-fsanitize=address -fno-omit-frame-pointer -ggdb -fsanitize=undefined -fsanitize=leak)
+endif()
+
 add_library(${LOCAL_PROJECT} ${SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRS} ${fmt_INCLUDE_DIRS})
 target_link_libraries(${LOCAL_PROJECT} fmt)
 
-if(opt_asan)
-	add_compile_options(-fsanitize=address -fno-omit-frame-pointer -ggdb -fsanitize=undefined -fsanitize=leak)
-endif()
 
 if(opt_make_tests)
 	include(CTest)
 	add_subdirectory(tests)
+endif()
+
+if(opt_iwyu)
+	find_program(iwyu_path NAMES include-what-you-use iwyu)
+	if(NOT iwyu_path)
+	message(FATAL_ERROR "Could not find the program include-what-you-use")
+	endif()
+
+	set_target_properties(${LOCAL_PROJECT} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
 endif()

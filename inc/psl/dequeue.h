@@ -12,7 +12,21 @@
 #include <vector>
 namespace psl
 {
-	template <typename T>
+	namespace config
+	{
+		template <typename T>
+		using dequeue_default_allocator = array_default_allocator<config::default_setting_t>;
+	}
+
+	/**
+	 * \brief Double ended queue.
+	 * \details A collection type that has the ability to add/remove elements from the front and back. Internally uses
+	 * psl::array<T>, and so has the same constraints, performance characteristics, and iterator stability.
+	 *
+	 * \tparam T
+	 * \tparam config::dequeue_default_allocator<config::default_setting_t>
+	 */
+	template <typename T, typename Allocator = config::dequeue_default_allocator<config::default_setting_t>>
 	class dequeue
 	{
 	  public:
@@ -25,13 +39,16 @@ namespace psl
 		using iterator		 = contiguous_ring_range_iterator<value_type>;
 		using const_iterator = contiguous_ring_range_iterator<const value_type>;
 
-		dequeue() noexcept(std::is_nothrow_constructible_v<psl::array<T>>)
+		using array_type	 = psl::array<T, Allocator>;
+		using allocator_type = Allocator;
+
+		dequeue() noexcept(std::is_nothrow_constructible_v<array_type>)
 		{
 			m_Head = m_Data.data();
 			m_Tail = m_Data.data();
 		}
 
-		dequeue(psl::allocator& allocator) noexcept(std::is_nothrow_constructible_v<psl::array<T>, psl::allocator&>)
+		dequeue(allocator_type& allocator) noexcept(std::is_nothrow_constructible_v<array_type, allocator_type&>)
 			: m_Data(allocator)
 		{
 			m_Head = m_Data.data();
@@ -275,7 +292,7 @@ namespace psl
 		void clear() noexcept(std::is_nothrow_destructible_v<T>) { erase(begin(), end()); }
 
 	  private:
-		psl::array<T> m_Data{};
+		array_type m_Data{};
 		pointer m_Head{m_Data.data()};
 		pointer m_Tail{m_Head};
 		bool m_Empty{true};

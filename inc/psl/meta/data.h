@@ -16,8 +16,6 @@ namespace psl::config
 
 namespace psl::meta
 {
-
-
 	class data
 	{
 	  public:

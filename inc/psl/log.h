@@ -78,8 +78,8 @@ namespace psl
 		void log(Arg0&& arg0, Arg1&& arg1, Arg2&& arg2, Arg3&& arg3,
 				 const source_location& location = source_location::current())
 		{
-			log_impl<Level, Arg0, Arg1, Arg2>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
-											  std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
+			log_impl<Level, Arg0, Arg1, Arg2, Arg3>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
+													std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
 		}
 
 		template <psl::details::fixed_string Level, IsStringifyAble Arg0, IsStringifyAble Arg1, IsStringifyAble Arg2,
@@ -148,8 +148,8 @@ namespace psl
 		void info(Arg0&& arg0, Arg1&& arg1, Arg2&& arg2, Arg3&& arg3,
 				  const source_location& location = source_location::current())
 		{
-			log_impl<u8"info", Arg0, Arg1, Arg2>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
-												 std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
+			log_impl<u8"info", Arg0, Arg1, Arg2, Arg3>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
+													   std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
 		}
 
 		template <IsStringifyAble Arg0, IsStringifyAble Arg1, IsStringifyAble Arg2, IsStringifyAble Arg3,
@@ -219,8 +219,8 @@ namespace psl
 		void error(Arg0&& arg0, Arg1&& arg1, Arg2&& arg2, Arg3&& arg3,
 				   const source_location& location = source_location::current())
 		{
-			log_impl<u8"error", Arg0, Arg1, Arg2>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
-												  std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
+			log_impl<u8"error", Arg0, Arg1, Arg2, Arg3>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
+														std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
 		}
 
 		template <IsStringifyAble Arg0, IsStringifyAble Arg1, IsStringifyAble Arg2, IsStringifyAble Arg3,
@@ -291,8 +291,9 @@ namespace psl
 		void critical(Arg0&& arg0, Arg1&& arg1, Arg2&& arg2, Arg3&& arg3,
 					  const source_location& location = source_location::current())
 		{
-			log_impl<u8"critical", Arg0, Arg1, Arg2>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
-													 std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
+			log_impl<u8"critical", Arg0, Arg1, Arg2, Arg3>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
+														   std::forward<Arg2>(arg2), std::forward<Arg3>(arg3),
+														   location);
 		}
 
 		template <IsStringifyAble Arg0, IsStringifyAble Arg1, IsStringifyAble Arg2, IsStringifyAble Arg3,
@@ -362,8 +363,8 @@ namespace psl
 		void debug(Arg0&& arg0, Arg1&& arg1, Arg2&& arg2, Arg3&& arg3,
 				   const source_location& location = source_location::current())
 		{
-			log_impl<u8"debug", Arg0, Arg1, Arg2>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
-												  std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
+			log_impl<u8"debug", Arg0, Arg1, Arg2, Arg3>(std::forward<Arg0>(arg0), std::forward<Arg1>(arg1),
+														std::forward<Arg2>(arg2), std::forward<Arg3>(arg3), location);
 		}
 
 		template <IsStringifyAble Arg0, IsStringifyAble Arg1, IsStringifyAble Arg2, IsStringifyAble Arg3,
@@ -431,6 +432,8 @@ namespace psl
 						  std::end(m_Sinks));
 		}
 
+		void formatter(std::function<psl::string(const details::log_message&)> format) { m_Formatter = format; }
+
 	  private:
 		template <psl::details::fixed_string Level, IsStringifyAble Message, IsStringifyAble... Args>
 		void log_impl(Message&& message, Args&&... args, const source_location& location)
@@ -445,16 +448,16 @@ namespace psl
 		std::function<psl::string(const details::log_message&)> m_Formatter =
 			[](const details::log_message& message) -> psl::string {
 			psl::string_view thread = (message.thread.size() > 0) ? message.thread : u8"???";
-			if(message.level == u8"info")
-			{
-				return fmt::format(u8"{:<12%H:%M:%S} | {:^12} | {:^8} | {}", message.timestamp.time_since_epoch(),
-								   thread, message.level, message.message);
-			}
-			else
+			if(message.level == u8"critical" || message.level == u8"debug" || message.level == u8"error")
 			{
 				return fmt::format(u8"{:<12%H:%M:%S} | {:^12} | {:^8} | {}\n{:38}     at: {}:{}",
 								   message.timestamp.time_since_epoch(), thread, message.level, message.message, u8" ",
 								   psl::string{(const char8_t*)message.location.file_name()}, message.location.line());
+			}
+			else
+			{
+				return fmt::format(u8"{:<12%H:%M:%S} | {:^12} | {:^8} | {}", message.timestamp.time_since_epoch(),
+								   thread, message.level, message.message);
 			}
 		};
 		std::vector<details::log_message> m_Messages{};

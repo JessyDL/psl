@@ -3,21 +3,15 @@
 #include "psl/exception.h"
 #include "psl/array.h"
 
-struct TerribleMemoryResource : public psl::abstract_region
+struct TerribleMemoryResource : public psl::default_abstract_resource_t
 {
   public:
-	TerribleMemoryResource() : psl::abstract_region(8){};
-	psl::rsize_t size() const noexcept override { return 0; };
+	TerribleMemoryResource() : psl::default_abstract_resource_t(8){};
+	// psl::rsize_t size() const noexcept override { return 0; };
 
 
 	psl::alloc_results<void> do_allocate([[maybe_unused]] size_t size, [[maybe_unused]] size_t count,
 										 [[maybe_unused]] size_t alignment) override
-	{
-		return psl::alloc_results<void>{nullptr, (void*)1, (void*)2, 3};
-	}
-
-	psl::alloc_results<void> do_reallocate([[maybe_unused]] void* location, [[maybe_unused]] size_t size,
-										   [[maybe_unused]] size_t count, [[maybe_unused]] size_t alignment) override
 	{
 		return psl::alloc_results<void>{nullptr, (void*)1, (void*)2, 3};
 	}
@@ -34,7 +28,7 @@ TEST(allocator, implementation_error)
 TEST(resource, default_resource_t)
 {
 	psl::default_resource_t resource{sizeof(char)};
-	psl::allocator alloc{&resource};
+	psl::default_allocator_t alloc{&resource};
 
 	psl::array<int> test{alloc};
 	test.emplace_back(0);

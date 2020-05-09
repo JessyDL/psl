@@ -29,14 +29,16 @@ list(APPEND PSL_TESTS_INC ${PSL_TESTS_INC_SRC})
 
 list(APPEND PSL_TESTS_FWD)
 
-list(APPEND PSL_TESTS_SRC 
+list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
 	algorithms
 	array
 	allocators
 	dequeue
-	queue)
+	queue
+	iterators
+	property)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND inc/tests/)
 list(TRANSFORM PSL_TESTS_INC APPEND .h)
@@ -48,7 +50,7 @@ list(TRANSFORM PSL_TESTS_SRC APPEND .cpp)
 add_executable(${LOCAL_PROJECT} ${PSL_TESTS_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC inc fwd)
 
-include(GoogleTest) 
+include(GoogleTest)
 
 target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} gtest gmock gtest_main)
 

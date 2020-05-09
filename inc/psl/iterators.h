@@ -145,6 +145,7 @@ namespace psl
 	};
 	static_assert(std::is_trivially_copyable_v<contiguous_range_iterator<int>>);
 
+
 	template <typename T>
 	class contiguous_ring_range_iterator
 	{
@@ -325,3 +326,17 @@ constexpr auto operator-(psl::IsIntegral auto lhs, const psl::contiguous_ring_ra
 	auto copy = rhs;
 	return copy -= lhs;
 }
+
+namespace std
+{
+	template <typename T>
+	struct iterator_traits<psl::contiguous_range_iterator<T>>
+	{
+		typedef typename psl::contiguous_range_iterator<T>::value_type value_type;
+		typedef typename psl::contiguous_range_iterator<T>::difference_type difference_type;
+		typedef typename psl::contiguous_range_iterator<T>::iterator_category iterator_category;
+		typedef typename psl::contiguous_range_iterator<T>::iterator_concept iterator_concept;
+		typedef typename psl::contiguous_range_iterator<T>::pointer pointer;
+		typedef typename psl::contiguous_range_iterator<T>::reference reference;
+	};
+} // namespace std

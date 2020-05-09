@@ -1,11 +1,12 @@
 #pragma once
 #include <cstdint>
-#include "psl/exception.h"
+#include <cstddef>
 
 #include "psl/static_array.h"
 #include "psl/string.h"
-#include "psl/details/metaprogramming.h"
+#include "psl/exception.h"
 #include "psl/details/fixed_string.h"
+#include "psl/details/metaprogramming.h"
 
 namespace std
 {
@@ -320,15 +321,15 @@ namespace psl
 	{
 		consteval uid operator"" _uid(const char* text, std::size_t size)
 		{
-			if(!uuidv4::is_convertible(psl::pstring_view{text, size}))
-				throw std::logic_error("the given string is not a valid UID");
+			PSL_EXCEPT_IF(!uuidv4::is_convertible(psl::pstring_view{text, size}), "the given string is not a valid UID",
+						  std::logic_error);
 			return uid(psl::pstring_view{text, size});
 		}
 
 		consteval uid operator"" _uid(const char8_t* text, std::size_t size)
 		{
-			if(!uuidv4::is_convertible(psl::string_view{text, size}))
-				throw std::logic_error("the given string is not a valid UID");
+			PSL_EXCEPT_IF(!uuidv4::is_convertible(psl::string_view{text, size}), "the given string is not a valid UID",
+						  std::logic_error);
 			return uid(psl::string_view{text, size});
 		}
 	} // namespace literals
