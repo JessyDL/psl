@@ -35,6 +35,7 @@ class ArrayTest : public ::testing::Test
 	psl::default_resource_t resource{alignof(char)};
 	psl::default_allocator_t allocator{&resource};
 	psl::array<T> data{allocator};
+	counter c{0};
 };
 
 template <typename T = int>
@@ -86,7 +87,6 @@ TEST_F(trivial_array, index_operator)
 
 TEST_F(complex_array, emplace_back)
 {
-	counter c{0};
 	data.reserve(1024);
 	for(auto i = 0; i < 1024; ++i)
 	{
@@ -96,7 +96,6 @@ TEST_F(complex_array, emplace_back)
 
 TEST_F(complex_array, erase)
 {
-	counter c{0};
 	data.reserve(1024);
 	for(auto i = 0; i < 1024; ++i)
 	{

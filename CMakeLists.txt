@@ -2,19 +2,19 @@ cmake_minimum_required(VERSION 3.11)
 SET(PSL "Paradigm Supplemental Library")
 set(PSL_PROJECT "psl")
 set(LOCAL_PROJECT ${PSL_PROJECT})
-project($LOCAL_PROJECT VERSION 0.0.1 LANGUAGES CXX)
+project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
 option(opt_make_tests      "build tests"       TRUE)
-option(opt_asan      "enable asan"       TRUE)
+option(opt_asan      "enable asan"       FALSE)
 option(opt_coverage "enable code coverage" TRUE)
 option(opt_iwyu "enable include what you use" FALSE)
 
 add_compile_options(-Wall -Wextra -pedantic)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
 add_definitions(-DCMAKE_EXPORT_COMPILE_COMMANDS=ON)
 
@@ -36,12 +36,18 @@ if(NOT fmt_POPULATED)
 	unset(CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
 endif()
 
-list(APPEND INC_IMPL uid)
+list(APPEND INC_IMPL uid ecs/state)
 
 list(APPEND INC uid
 	${INC_IMPL}
 	details/fixed_string
 	details/metaprogramming
+	serialization/property
+	serialization/serialization
+	serialization/versioning
+	ecs/entity
+	ecs/details/staged_sparse_component_array
+	ecs/details/component_info
 	allocator
 	algorithms
 	array
@@ -99,3 +105,5 @@ if(opt_iwyu)
 
 	set_target_properties(${LOCAL_PROJECT} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
 endif()
+
+add_subdirectory(assembly)

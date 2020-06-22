@@ -5,6 +5,7 @@
 #include "psl/static_array.h"
 #include "psl/string.h"
 #include "psl/exception.h"
+#include "psl/algorithms.h"
 #include "psl/details/fixed_string.h"
 #include "psl/details/metaprogramming.h"
 
@@ -16,6 +17,9 @@ namespace std
 
 namespace psl
 {
+	struct generate_t
+	{};
+
 	class uuidv4 final
 	{
 	  public:
@@ -30,6 +34,8 @@ namespace psl
 		constexpr uuidv4& operator=(const uuidv4& other) noexcept = default;
 		constexpr uuidv4& operator=(uuidv4&& other) noexcept = default;
 
+		uuidv4(generate_t) noexcept;
+		constexpr uuidv4(value_type uid) noexcept : m_Data(uid){};
 		template <IsStringView T>
 		constexpr uuidv4(T uid) noexcept : m_Data({0})
 		{

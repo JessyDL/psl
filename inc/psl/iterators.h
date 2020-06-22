@@ -11,6 +11,9 @@ namespace psl
 	{
 		constexpr static bool is_const_iterator = std::is_const_v<T>;
 
+		friend class contiguous_range_iterator<std::remove_cv_t<T>>;
+		friend class contiguous_range_iterator<const std::remove_cv_t<T>>;
+
 	  public:
 		using difference_type   = std::ptrdiff_t;
 		using value_type		= std::remove_cv_t<T>;
@@ -19,7 +22,7 @@ namespace psl
 		using pointer			= value_type*;
 		using const_pointer		= const value_type*;
 		using size_type			= size_t;
-		using iterator_category = std::contiguous_iterator_tag;
+		using iterator_category = std::random_access_iterator_tag;
 		using iterator_concept  = std::contiguous_iterator_tag;
 
 		// todo: note in current gcc10 (beta) contiguous_iterator_tag does not apply random_access_iterator_tag

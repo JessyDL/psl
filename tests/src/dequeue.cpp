@@ -229,4 +229,6 @@ TEST_F(trivial_dequeue, constructors)
 	{
 		ASSERT_EQ(values2[i], move[i]) << "move assignment failed";
 	}
+
+	psl::test<int>();
 }

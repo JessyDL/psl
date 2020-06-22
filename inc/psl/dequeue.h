@@ -14,9 +14,14 @@ namespace psl
 {
 	namespace config
 	{
-		template <typename T>
-		using dequeue_default_allocator = array_default_allocator<config::default_setting_t>;
-	}
+		template <typename T = default_setting_t>
+		using dequeue_allocator = array_allocator<T>;
+
+		template <typename Value, typename T = default_setting_t>
+		constexpr size_t dequeue_sbo = (64 - (array_sbo_size<Value, T> * sizeof(Value) + sizeof(std::uintptr_t) * 2 +
+											  sizeof(bool))) /
+									   sizeof(Value);
+	} // namespace config
 
 	/**
 	 * \brief Double ended queue.
@@ -24,9 +29,9 @@ namespace psl
 	 * psl::array<T>, and so has the same constraints, performance characteristics, and iterator stability.
 	 *
 	 * \tparam T
-	 * \tparam config::dequeue_default_allocator<config::default_setting_t>
+	 * \tparam config::dequeue_allocator<config::default_setting_t>
 	 */
-	template <typename T, typename Allocator = config::dequeue_default_allocator<config::default_setting_t>>
+	template <typename T, size_t SBO = config::dequeue_sbo<T>, typename Allocator = config::dequeue_allocator<>>
 	class dequeue
 	{
 	  public:
@@ -39,7 +44,7 @@ namespace psl
 		using iterator		 = contiguous_ring_range_iterator<value_type>;
 		using const_iterator = contiguous_ring_range_iterator<const value_type>;
 
-		using array_type	 = psl::array<T, Allocator>;
+		using array_type	 = psl::array<T, SBO, Allocator>;
 		using allocator_type = Allocator;
 
 		dequeue() noexcept(std::is_nothrow_constructible_v<array_type>)
@@ -47,6 +52,15 @@ namespace psl
 			m_Head = m_Data.data();
 			m_Tail = m_Data.data();
 		}
+
+
+		dequeue(IsIntegral auto size) noexcept(std::is_nothrow_constructible_v<array_type, decltype(size)>)
+			: m_Data(size)
+		{}
+		dequeue(IsIntegral auto size,
+				const T& value) noexcept(std::is_nothrow_constructible_v<array_type, decltype(size), const T&>)
+			: m_Data(size, value)
+		{}
 
 		dequeue(allocator_type& allocator) noexcept(std::is_nothrow_constructible_v<array_type, allocator_type&>)
 			: m_Data(allocator)
@@ -224,7 +238,7 @@ namespace psl
 				auto esize = size();
 				reorient_data();
 
-				m_Data.resize(tags::alloc_only, m_Data.next_growth());
+				m_Data.resize(tags::alloc_only, details::array_growth_for(m_Data.capacity()));
 				m_Head = m_Data.data();
 				m_Tail = m_Head + esize;
 			}

@@ -13,10 +13,9 @@ namespace psl
 	&&(sizeof(T) == sizeof(typename T::value_type));
 
 	template <typename T>
-	concept IsUnnamedProperty = IsProperty<T>&& T::name == u8"";
-
+	concept IsUnnamedProperty = IsProperty<T>&& T::name.size() == 0;
 	template <typename T>
-	concept IsNamedProperty = IsProperty<T> && !IsUnnamedProperty<T>;
+	concept IsNamedProperty = IsProperty<T>&& T::name.size() != 0;
 
 	template <typename T, typename Y>
 	concept IsSimilarProperty =
@@ -29,10 +28,18 @@ namespace psl
 	concept IsNothrowConvertibleProperty =
 		IsProperty<T>&& IsProperty<Y>&& std::is_nothrow_convertible_v<typename Y::value_type, typename T::value_type>;
 
+	template <typename T>
+	concept IsRangeProperty = IsProperty<T>&& IsRange<typename T::value_type>;
+
+	template <typename T>
+	concept IsOptionalProperty = IsProperty<T>&& IsOptional<typename T::value_type>;
+
+	template <typename T>
+	concept IsReferenceProperty = IsProperty<T> && false;
+
 	template <typename T, details::fixed_string Name = u8"">
 	class property final
 	{
-
 	  public:
 		using value_type	  = T;
 		using reference		  = value_type&;
@@ -121,22 +128,18 @@ namespace psl
 		}
 
 		// begin/end for array-likes
-		constexpr auto begin() noexcept requires requires(value_type t) { t.begin(); }
+		constexpr auto begin() noexcept requires IsRange<value_type> { return data.begin(); }
+		constexpr auto begin() const noexcept requires IsRange<value_type> { return data.begin(); }
+		constexpr auto end() noexcept requires IsRange<value_type> { return data.end(); }
+		constexpr auto end() const noexcept requires IsRange<value_type> { return data.end(); }
+
+		constexpr operator bool() const noexcept requires requires(value_type t) { t.operator bool(); }
 		{
-			return data.begin();
+			return data.operator bool();
 		}
-		constexpr const auto begin() const noexcept requires requires(const value_type t) { t.begin(); }
-		{
-			return data.begin();
-		}
-		constexpr auto end() noexcept requires requires(value_type t) { t.end(); }
-		{
-			return data.end();
-		}
-		constexpr const auto end() const noexcept requires requires(const value_type t) { t.end(); }
-		{
-			return data.end();
-		}
+
+		constexpr value_type& value() noexcept { return data; }
+		constexpr const value_type& value() const noexcept { return data; }
 
 	  private:
 		value_type data;

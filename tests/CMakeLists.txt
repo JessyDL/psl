@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 SET(PSL_TESTS "tests")
 set(LOCAL_PROJECT ${PSL_TESTS})
-project($LOCAL_PROJECT VERSION 0.0.1 LANGUAGES CXX)
+project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -36,9 +36,10 @@ list(APPEND PSL_TESTS_SRC
 	array
 	allocators
 	dequeue
+	ecs
 	queue
 	iterators
-	property)
+	serialization/property)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND inc/tests/)
 list(TRANSFORM PSL_TESTS_INC APPEND .h)
@@ -53,5 +54,6 @@ target_include_directories(${LOCAL_PROJECT} PUBLIC inc fwd)
 include(GoogleTest)
 
 target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} gtest gmock gtest_main)
+
 
 #gtest_discover_tests(${LOCAL_PROJECT} TEST_LIST tests_target)

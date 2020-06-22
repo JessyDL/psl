@@ -54,10 +54,10 @@ namespace psl
 		 * \tparam T Any enum class
 		 */
 		template <IsEnumClass T>
-		inline constexpr enum_ops_t enable_enum_ops = enum_ops_t::NONE;
+		constexpr enum_ops_t enable_enum_ops = enum_ops_t::NONE;
 
 		template <>
-		inline constexpr auto enable_enum_ops<enum_ops_t> = enum_ops_t::BIT;
+		constexpr auto enable_enum_ops<enum_ops_t> = enum_ops_t::BIT;
 	} // namespace config
 
 	/**

@@ -34,6 +34,24 @@ namespace psl
 		return false;
 	}
 
+	inline bool to_string(const string& target, psl::string& output)
+	{
+		output = target;
+		return true;
+	}
+
+	inline bool to_string(bool target, psl::string& output)
+	{
+		output = (target) ? u8"true" : u8"false";
+		return true;
+	}
+
+
+	inline bool to_string(const string_view& target, psl::string& output)
+	{
+		output = target;
+		return true;
+	}
 	inline bool to_string(const IsIntegral auto& target, psl::string& output)
 	{
 		auto res = std::to_string(target);
@@ -41,11 +59,27 @@ namespace psl
 		return true;
 	}
 
+	template <typename T>
+	concept HasToString = requires(T t)
+	{
+		{
+			t.to_string()
+		}
+		->std::same_as<psl::string>;
+	};
+
 	inline psl::string to_string(const auto& target)
 	{
 		psl::string res{};
-		to_string(target, res);
-		return res;
+		if constexpr(HasToString<std::remove_cvref_t<decltype(target)>>)
+		{
+			return target.to_string();
+		}
+		else
+		{
+			to_string(target, res);
+			return res;
+		}
 	}
 
 	template <typename T>
@@ -61,4 +95,5 @@ namespace psl
 		psl::to_string(t, std::declval<psl::string&>());
 	}
 	|| std::is_same_v<psl::string, T> || std::is_same_v<const char8_t*, T>;
+
 } // namespace psl

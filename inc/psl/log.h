@@ -476,5 +476,5 @@ namespace psl
 		}
 	} // namespace config
 
-	static logger log{config::default_logger<config::default_setting_t>()};
+	static logger main_log{config::default_logger<config::default_setting_t>()};
 } // namespace psl

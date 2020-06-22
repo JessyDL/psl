@@ -77,6 +77,21 @@ namespace psl
 	};
 } // namespace psl
 
+#define PSL_ASSERT(condition, ...)                                                                                     \
+	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!!(false)__VA_OPT__(&&) __VA_ARGS__)
+
+#define PSL_EXCEPT(exception_type, ...)                                                                                \
+	if constexpr(psl::config::exceptions)                                                                              \
+	{                                                                                                                  \
+		throw exception_type(__VA_ARGS__);                                                                             \
+	}                                                                                                                  \
+	else                                                                                                               \
+	{                                                                                                                  \
+		if(std::is_constant_evaluated()) throw exception_type(__VA_ARGS__);                                            \
+	}                                                                                                                  \
+	PSL_ASSERT(false, __VA_ARGS__)
+
+
 #define PSL_EXCEPT_IF(expr, message, exception_type)                                                                   \
 	if constexpr(psl::config::exceptions)                                                                              \
 	{                                                                                                                  \
