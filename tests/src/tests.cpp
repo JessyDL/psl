@@ -155,72 +155,12 @@ struct foo
 	~foo() { printf("my destructor has side effects!\n"); }
 };
 
+#include "psl/vec.h"
+
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
-	// auto size = psl::default_resource.size();
-	// psl::profile_scope block{};
-	// psl::thread::NAME = u8"main";
-	// psl::log.add<psl::ostream>(std::cout);
-	// foo f{};
-	// {
-	// 	psl::profile_scope block{};
-	// 	f.set_sum(mul(sum(sum(5, 10), 8), 4));
-	// }
-
+	using namespace psl;
 
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
-
-	// psl::meta::library lib{};
-
-	// auto& meta = lib.add();
-
-	// static_assert(unit::polymorphic_id_value != enemy::polymorphic_id_value);
-
-	// unit* u0{new unit{}};
-	// unit* u1{new enemy{}};
-
-	// auto poly0 = u0->polymorphic_id();
-	// auto poly1 = u1->polymorphic_id();
-
-	// assert(poly0 != poly1);
-
-	// psl::stream_writer<> writer{std::cout};
-
-	// psl::serialize(u1, writer);
-
-	psl::ct::named_cache_map<psl::ct::named_function<u8"start", void()>,
-							 psl::ct::named_function<u8"update", void(size_t)>,
-							 psl::ct::named_function<u8"destroy", void()>>
-		ct2_map{};
-
-	ct2_map.assign<u8"start">(&start);
-	// ct2_map.assign<u8"update">(&update);
-	// ct2_map.assign<u8"destroy">(&destroy);
-
-	ct2_map.invoke<u8"start">();
-	// for(size_t i = 0u; i < 10u; ++i)
-	// {
-	// 	ct2_map.invoke<u8"update">(i);
-	// }
-	// ct2_map.invoke<u8"destroy">();
-
-	psl::ustring str{"in sbo"};
-
-	printf(str.data());
-	printf("\n");
-
-	if(str.is_stored_inlined())
-		printf("I fit in SBO, my size is ");
-	else
-		printf("I'm too big, my size is ");
-	printf(std::to_string(str.size()).c_str());
-	printf("\n");
-
-
-	psl::test<int>();
-	psl::ecs::details::staged_sparse_component_array<float> comp_array{};
-
-
-	return 0;
 }

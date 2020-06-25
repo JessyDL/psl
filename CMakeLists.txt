@@ -60,6 +60,7 @@ list(APPEND INC uid
 	queue
 	range
 	static_array
+	vec
 	string)
 
 list(TRANSFORM INC PREPEND inc/psl/)

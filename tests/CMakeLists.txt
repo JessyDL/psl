@@ -39,6 +39,7 @@ list(APPEND PSL_TESTS_SRC
 	ecs
 	queue
 	iterators
+	vec
 	serialization/property)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND inc/tests/)

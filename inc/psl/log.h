@@ -472,7 +472,7 @@ namespace psl
 		template <typename T>
 		logger default_logger()
 		{
-			return logger{.flush_message_treshold = 1024};
+			return logger{1024u};
 		}
 	} // namespace config
 

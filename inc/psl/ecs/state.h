@@ -5,6 +5,7 @@
 #include "psl/ecs/entity.h"
 
 #include <unordered_map>
+#include <memory> // unique_ptr
 
 namespace psl::ecs
 {
@@ -50,6 +51,6 @@ namespace psl::ecs
 			{}
 		}
 
-		mutable std::unordered_map<component_key_t, std::unique_ptr<component_storage_base>> m_ComponentStorage;
+		// mutable std::unordered_map<component_key_t, std::unique_ptr<component_storage_base>> m_ComponentStorage;
 	};
 } // namespace psl::ecs
