@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-
+#include <cstdint>
 // defines used locally for defining various accessor functions such as .x() or .zwxy(), etc..
 // these are cleaned up at the end of the file to avoid global pollution.
 #define ACCESSOR_1_FN(name, index)                                                                                     \
@@ -404,27 +404,90 @@ namespace psl
 		// to help users in avoiding duplications.
 		template <typename T, size_t Size>
 		struct tvec_predefined
-		{};
+		{
+			static constexpr bool is_accessor = std::is_reference_v<T>;
+			using value_type =
+				std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
+			using reference		  = std::remove_cvref_t<T>&;
+			using const_reference = const std::remove_cvref_t<T>&;
+			std::array<value_type, Size> m_Data;
+		};
 
 		template <typename T>
 		struct tvec_predefined<T, 1>
 		{
+			static constexpr size_t Size	  = 1;
+			static constexpr bool is_accessor = std::is_reference_v<T>;
+			using reference					  = std::remove_cvref_t<T>&;
+			using const_reference			  = const std::remove_cvref_t<T>&;
 			static constexpr tvec<T, 1> zero{T{0}};
 			static constexpr tvec<T, 1> one{T{1}};
+			template <size_t Index>
+			constexpr reference get() noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+
+			template <size_t Index>
+			constexpr const_reference get() const noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+			ACCESSOR_1();
+
+			using value_type =
+				std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
+			std::array<value_type, 1> m_Data;
 		};
 		template <typename T>
 		struct tvec_predefined<T, 2>
 		{
+			static constexpr size_t Size	  = 2;
+			static constexpr bool is_accessor = std::is_reference_v<T>;
+			using reference					  = std::remove_cvref_t<T>&;
+			using const_reference			  = const std::remove_cvref_t<T>&;
 			static constexpr tvec<T, 2> zero{T{0}};
 			static constexpr tvec<T, 2> one{T{1}};
 			static constexpr tvec<T, 2> up{T{0}, T{1}};
 			static constexpr tvec<T, 2> down{T{0}, -T{1}};
 			static constexpr tvec<T, 2> right{T{1}, T{0}};
 			static constexpr tvec<T, 2> left{-T{1}, T{0}};
+			template <size_t Index>
+			constexpr reference get() noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+
+			template <size_t Index>
+			constexpr const_reference get() const noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+			ACCESSOR_1();
+			ACCESSOR_2();
+			using value_type =
+				std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
+			std::array<value_type, 2> m_Data;
 		};
 		template <typename T>
 		struct tvec_predefined<T, 3>
 		{
+			static constexpr size_t Size	  = 3;
+			static constexpr bool is_accessor = std::is_reference_v<T>;
+			using reference					  = std::remove_cvref_t<T>&;
+			using const_reference			  = const std::remove_cvref_t<T>&;
 			static constexpr tvec<T, 3> zero{T{0}};
 			static constexpr tvec<T, 3> one{T{1}};
 			static constexpr tvec<T, 3> forward{T{0}, T{0}, T{1}};
@@ -433,10 +496,38 @@ namespace psl
 			static constexpr tvec<T, 3> down{T{0}, -T{1}, T{0}};
 			static constexpr tvec<T, 3> right{T{1}, T{0}, T{0}};
 			static constexpr tvec<T, 3> left{-T{1}, T{0}, T{0}};
+			template <size_t Index>
+			constexpr reference get() noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+
+			template <size_t Index>
+			constexpr const_reference get() const noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+			ACCESSOR_1();
+			ACCESSOR_2();
+			ACCESSOR_3();
+
+			using value_type =
+				std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
+			std::array<value_type, 3> m_Data;
 		};
 		template <typename T>
 		struct tvec_predefined<T, 4>
 		{
+			static constexpr size_t Size	  = 4;
+			static constexpr bool is_accessor = std::is_reference_v<T>;
+			using reference					  = std::remove_cvref_t<T>&;
+			using const_reference			  = const std::remove_cvref_t<T>&;
 			static constexpr tvec<T, 4> zero{T{0}};
 			static constexpr tvec<T, 4> one{T{1}};
 			static constexpr tvec<T, 4> forward{T{0}, T{0}, T{1}, T{0}};
@@ -446,6 +537,31 @@ namespace psl
 			static constexpr tvec<T, 4> right{T{1}, T{0}, T{0}, T{0}};
 			static constexpr tvec<T, 4> left{-T{1}, T{0}, T{0}, T{0}};
 			static constexpr tvec<T, 4> point{T{0}, T{0}, T{0}, T{1}};
+			template <size_t Index>
+			constexpr reference get() noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+
+			template <size_t Index>
+			constexpr const_reference get() const noexcept requires(Index < Size)
+			{
+				if constexpr(is_accessor)
+					return *this->m_Data[Index];
+				else
+					return this->m_Data[Index];
+			}
+
+			ACCESSOR_1();
+			ACCESSOR_2();
+			ACCESSOR_3();
+			ACCESSOR_4();
+			using value_type =
+				std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
+			std::array<value_type, 4> m_Data;
 		};
 
 		template <typename T>
@@ -577,17 +693,18 @@ namespace psl
 	class tvec : public tvec_predefined<T, Size>
 	{
 	  public:
+		using base_type					   = tvec_predefined<T, Size>;
 		static constexpr size_t DIMENSIONS = Size;
 		static constexpr bool is_accessor  = std::is_reference_v<T>;
 		using type						   = std::remove_cvref_t<T>;
-		using value_type = std::conditional_t<std::is_reference_v<T>, std::remove_cvref_t<T>*, std::remove_cvref_t<T>>;
-		using reference  = std::remove_cvref_t<T>&;
-		using const_reference = const std::remove_cvref_t<T>&;
-		using accessor_type   = tvec<const_reference, Size>;
+		using value_type				   = base_type::value_type;
+		using reference					   = base_type::reference;
+		using const_reference			   = base_type::const_reference;
+		using accessor_type				   = tvec<const_reference, Size>;
 
 		constexpr tvec(const accessor_type& value) noexcept requires(!std::is_reference_v<T>)
 		{
-			for_each_inplace([](auto& lhs, auto rhs) { lhs = rhs; }, m_Data, value);
+			for_each_inplace([](auto& lhs, auto rhs) { lhs = rhs; }, this->m_Data, value);
 		}
 
 		// generic aggregatte constructor
@@ -595,7 +712,7 @@ namespace psl
 		constexpr tvec(Ts&&... values) noexcept requires(
 			!is_accessor && std::conjunction_v<std::is_same<std::remove_cvref_t<T>, std::remove_cvref_t<Ts>>...> &&
 			(sizeof...(Ts) == Size))
-			: m_Data({std::forward<Ts>(values)...})
+			: base_type({std::forward<Ts>(values)...})
 		{}
 
 		// fill constructor
@@ -604,57 +721,41 @@ namespace psl
 													std::is_same_v<std::remove_cvref_t<T>, std::remove_cvref_t<Y>> &&
 													Size > 1)
 		{
-			m_Data.fill(value);
+			this->m_Data.fill(value);
 		}
 
 		template <typename... Ts>
 		constexpr tvec(Ts&... values) noexcept requires(
 			is_accessor&& std::conjunction_v<std::is_same<std::remove_cvref_t<T>, std::remove_cvref_t<Ts>>...>)
-			: m_Data({const_cast<value_type>(&values)...})
+			: base_type({const_cast<value_type>(&values)...})
 		{}
 
-		constexpr reference operator[](size_t index) noexcept requires(!is_accessor) { return m_Data[index]; }
-		constexpr reference operator[](size_t index) noexcept requires(is_accessor) { return *m_Data[index]; }
+		constexpr reference operator[](size_t index) noexcept requires(!is_accessor) { return this->m_Data[index]; }
+		constexpr reference operator[](size_t index) noexcept requires(is_accessor) { return *this->m_Data[index]; }
 		constexpr const_reference operator[](size_t index) const noexcept requires(!is_accessor)
 		{
-			return m_Data[index];
+			return this->m_Data[index];
 		}
 		constexpr const_reference operator[](size_t index) const noexcept requires(is_accessor)
 		{
-			return *m_Data[index];
+			return *this->m_Data[index];
 		}
 
-		template <size_t Index>
-		constexpr reference get() noexcept requires(Index < Size)
-		{
-			if constexpr(is_accessor)
-				return *m_Data[Index];
-			else
-				return m_Data[Index];
-		}
 
-		template <size_t Index>
-		constexpr const_reference get() const noexcept requires(Index < Size)
-		{
-			if constexpr(is_accessor)
-				return *m_Data[Index];
-			else
-				return m_Data[Index];
-		}
 		constexpr tvec(const tvec& other) noexcept = default;
 		constexpr tvec(tvec&& other) noexcept	  = default;
 		constexpr tvec& operator=(const tvec& other) noexcept = default;
 		constexpr tvec& operator=(tvec&& other) noexcept = default;
-		constexpr bool operator==(const tvec& other) const noexcept { return m_Data == other.m_Data; };
-		constexpr bool operator!=(const tvec& other) const noexcept { return m_Data != other.m_Data; };
-		constexpr bool operator<=>(const tvec& other) const noexcept { return m_Data <=> other.m_Data; }
+		constexpr bool operator==(const tvec& other) const noexcept { return this->m_Data == other.m_Data; };
+		constexpr bool operator!=(const tvec& other) const noexcept { return this->m_Data != other.m_Data; };
+		constexpr bool operator<=>(const tvec& other) const noexcept { return this->m_Data <=> other.m_Data; }
 
 		// constexpr T* data() noexcept { m_Data.data(); }
 
 		template <typename Y>
 		constexpr tvec& operator+=(const tvec<Y, Size>& other) noexcept requires(!is_accessor)
 		{
-			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs += rhs; }, m_Data, other);
+			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs += rhs; }, this->m_Data, other);
 			return *this;
 		}
 
@@ -676,7 +777,7 @@ namespace psl
 		template <typename Y>
 		constexpr tvec& operator-=(const tvec<Y, Size>& other) noexcept requires(!is_accessor)
 		{
-			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs -= rhs; }, m_Data, other);
+			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs -= rhs; }, this->m_Data, other);
 			return *this;
 		}
 
@@ -698,7 +799,7 @@ namespace psl
 		template <typename Y>
 		constexpr tvec& operator*=(const tvec<Y, Size>& other) noexcept requires(!is_accessor)
 		{
-			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs *= rhs; }, m_Data, other);
+			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs *= rhs; }, this->m_Data, other);
 			return *this;
 		}
 
@@ -720,7 +821,7 @@ namespace psl
 		template <typename Y>
 		constexpr tvec& operator/=(const tvec<Y, Size>& other) noexcept requires(!is_accessor)
 		{
-			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs /= rhs; }, m_Data, other);
+			for_each_inplace([](auto& lhs, const auto& rhs) noexcept { lhs /= rhs; }, this->m_Data, other);
 			return *this;
 		}
 
@@ -757,7 +858,7 @@ namespace psl
 
 		constexpr tvec& rescale(T value) noexcept requires(!is_accessor)
 		{
-			for_each_inplace([&value](auto& element) noexcept { element *= value; }, m_Data);
+			for_each_inplace([&value](auto& element) noexcept { element *= value; }, this->m_Data);
 			return *this;
 		}
 
@@ -782,7 +883,7 @@ namespace psl
 		tvec<T, sizeof...(Is0) + sizeof...(Is1)> resize_impl(std::index_sequence<Is0...>,
 															 std::index_sequence<Is1...>) const noexcept
 		{
-			return tvec<T, sizeof...(Is0) + sizeof...(Is1)>(m_Data[Is0]..., T{Is1 * 0}...);
+			return tvec<T, sizeof...(Is0) + sizeof...(Is1)>(this->m_Data[Is0]..., T{Is1 * 0}...);
 		}
 
 	  public:
@@ -799,14 +900,6 @@ namespace psl
 		}
 
 		static constexpr size_t size() noexcept { return Size; }
-
-	  private:
-		std::array<value_type, Size> m_Data{};
-
-	  public:
-		ACCESSOR_1();
-		ACCESSOR_2();
-		ACCESSOR_3();
 	};
 
 	template <typename T, typename... Ts>
@@ -897,6 +990,14 @@ namespace psl
 
 namespace psl
 {
+	inline namespace details
+	{
+		struct plus
+		{
+			constexpr auto operator()(const auto& lhs, const auto& rhs) const noexcept { return lhs + rhs; }
+		};
+	} // namespace details
+
 	template <typename FnCombinator, typename FnTransformer, typename T, size_t N>
 	[[nodiscard]] constexpr T compound(const tvec<T, N>& value, FnCombinator&& combinator,
 									   FnTransformer&& transformer) noexcept
@@ -914,13 +1015,13 @@ namespace psl
 	template <typename T, size_t N>
 	[[nodiscard]] constexpr T compound(const tvec<T, N>& value) noexcept
 	{
-		return accumulate(std::plus<T>{}, value);
+		return accumulate(plus{}, value);
 	}
 
 	template <typename T, size_t N>
 	[[nodiscard]] constexpr T square_magnitude(const tvec<T, N>& value) noexcept
 	{
-		return accumulate_transform(std::plus<T>{}, [](auto value) noexcept { return value * value; }, value);
+		return accumulate_transform(plus{}, [](auto value) noexcept { return value * value; }, value);
 	}
 
 	template <typename T, size_t N>
@@ -934,7 +1035,7 @@ namespace psl
 	template <typename T, size_t N>
 	[[nodiscard]] constexpr T dot(const tvec<T, N>& v0, const tvec<T, N>& v1) noexcept
 	{
-		return accumulate_transform(std::plus<T>{}, [](auto e0, auto e1) noexcept { return (e0 * e1); }, v0, v1);
+		return accumulate_transform(plus{}, [](auto e0, auto e1) noexcept { return (e0 * e1); }, v0, v1);
 	}
 
 
