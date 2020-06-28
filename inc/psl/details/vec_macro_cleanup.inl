@@ -1,0 +1,8 @@
+#undef ACCESSOR_1
+#undef ACCESSOR_2
+#undef ACCESSOR_3
+#undef ACCESSOR_4
+#undef ACCESSOR_1_FN
+#undef ACCESSOR_2_FN
+#undef ACCESSOR_3_FN
+#undef ACCESSOR_4_FN

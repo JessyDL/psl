@@ -3,6 +3,19 @@
 
 using namespace psl;
 
+// template <typename T, size_t N>
+// class VecTest : public ::testing::Test
+// {
+//   public:
+// 	T data;
+// };
+
+// using MyTypes = ::testing::Types<ivec1, ivec2, ivec3, ivec4>;
+
+static_assert(std::is_standard_layout_v<ivec3>, "type should remain standard layout compatible");
+static_assert(std::is_standard_layout_v<vec3>, "type should remain standard layout compatible");
+static_assert(std::is_standard_layout_v<dvec3>, "type should remain standard layout compatible");
+
 TEST(ivec3, addition)
 {
 	ivec3 v0{0, 1, 2};
@@ -104,7 +117,7 @@ TEST(ivec3, compound_fn)
 TEST(ivec3, rescale)
 {
 	ivec3 v0{2, 2, 2};
-	ASSERT_EQ(v0.rescale(3), ivec3(6, 6, 6));
+	ASSERT_EQ(scale_inplace(v0, 3), ivec3(6, 6, 6));
 }
 
 TEST(ivec3, accessors)
@@ -113,9 +126,13 @@ TEST(ivec3, accessors)
 	ASSERT_EQ(v0.xy(), v0.xy());
 	ASSERT_EQ(v0.xy(), ivec2(0, 1));
 	ASSERT_EQ(v0.zyx(), ivec3(2, 1, 0));
-	ASSERT_EQ(v0.zzz() + v0.zzz(), v0.zzz().scale(2));
-	v0.zy()[0] = 4;
+	ASSERT_EQ(v0.zzz() + v0.zzz(), scale(v0.zzz(), 2));
 	ASSERT_EQ(v0.z(), 2);
+	v0.zy()[0] = 4;
+	ASSERT_EQ(v0.z(), 4);
+	v0.zy() = ivec2(0, 1);
+	v0.zy() = ivec2(v0.yz());
+	ASSERT_EQ(v0.zy(), ivec2(1, 0));
 }
 
 TEST(ivec3, resize)

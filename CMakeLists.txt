@@ -36,7 +36,7 @@ if(NOT fmt_POPULATED)
 	unset(CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
 endif()
 
-list(APPEND INC_IMPL uid ecs/state)
+list(APPEND INC_IMPL uid vec ecs/state)
 
 list(APPEND INC uid
 	${INC_IMPL}
@@ -60,7 +60,6 @@ list(APPEND INC uid
 	queue
 	range
 	static_array
-	vec
 	string)
 
 list(TRANSFORM INC PREPEND inc/psl/)
