@@ -125,7 +125,58 @@ namespace psl
 		dynamic_strided_span(T val, size_t count)->dynamic_strided_span<T, sizeof(T)>;
 
 		template <typename T, size_t Extent>
-		using static_span = static_strided_span<T, Extent, sizeof(T)>;
+		class static_span
+		{
+		  public:
+			using element_type	= T;
+			using value_type	  = std::remove_cv_t<T>;
+			using size_type		  = std::size_t;
+			using difference_type = std::ptrdiff_t;
+			using pointer		  = T*;
+			using const_pointer   = const T*;
+			using reference		  = T&;
+			using const_reference = const T&;
+			using iterator		  = contiguous_range_iterator<T>;
+			using const_iterator  = contiguous_range_iterator<const T>;
+
+			constexpr static_span(T* begin) noexcept : m_Begin(begin){};
+
+			constexpr reference operator[](size_type index) noexcept { return (begin())[index]; }
+			constexpr const_reference operator[](size_type index) const noexcept { return (begin())[index]; }
+
+			constexpr iterator begin() noexcept { return {front()}; }
+			constexpr iterator begin() const noexcept { return {front()}; }
+			constexpr iterator end() noexcept { return {back()}; }
+			constexpr iterator end() const noexcept { return {back()}; }
+			constexpr const_iterator cbegin() const noexcept { return begin(); }
+			constexpr const_iterator cend() const noexcept { return end(); }
+
+			constexpr pointer data() const noexcept { return m_Begin; }
+			constexpr pointer front() noexcept { return m_Begin; }
+			constexpr const_pointer front() const noexcept { return m_Begin; }
+			constexpr pointer back() noexcept { return m_Begin + Extent; }
+			constexpr const_pointer back() const noexcept { return m_Begin + Extent; }
+
+			constexpr size_type size() const noexcept { return Extent; }
+			constexpr size_type size_bytes() const noexcept { return Extent * sizeof(T); }
+			constexpr bool empty() const noexcept { return Extent == 0; }
+			constexpr size_type stride() const noexcept { return sizeof(T); }
+
+			template <size_t Count>
+			constexpr static_span<T, Count> subspan(size_type offset) const noexcept
+			{
+				return static_span<T, Count>{&*(begin()[offset])};
+			}
+
+			template <size_t Offset, size_t Count>
+			constexpr static_span<T, Count> subspan() const noexcept
+			{
+				return static_span<T, Count>{&*(begin()[Offset])};
+			}
+
+		  private:
+			T* m_Begin;
+		};
 
 		template <typename T>
 		using dynamic_span = std::span<T>;
