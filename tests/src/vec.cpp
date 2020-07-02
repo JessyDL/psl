@@ -3,14 +3,14 @@
 
 using namespace psl;
 
-// template <typename T, size_t N>
-// class VecTest : public ::testing::Test
-// {
-//   public:
-// 	T data;
-// };
+template <typename T, size_t N>
+class VecTest : public ::testing::Test
+{
+  public:
+	T data;
+};
 
-// using MyTypes = ::testing::Types<ivec1, ivec2, ivec3, ivec4>;
+using MyTypes = ::testing::Types<ivec1, ivec2, ivec3, ivec4, fvec1, fvec2, fvec3, fvec4>;
 
 static_assert(std::is_standard_layout_v<ivec3>, "type should remain standard layout compatible");
 static_assert(std::is_standard_layout_v<vec3>, "type should remain standard layout compatible");
