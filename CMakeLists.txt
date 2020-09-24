@@ -56,6 +56,7 @@ list(APPEND PSL_INC uid
 	allocator
 	enum
 	config
+	exceptions
 	)
 
 list(TRANSFORM PSL_INC PREPEND include/psl/)
