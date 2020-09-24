@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 SET(PSL_TESTS "tests")
 set(LOCAL_PROJECT ${PSL_TESTS})
 project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
+enable_testing()
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -64,6 +65,13 @@ list(TRANSFORM PSL_TESTS_SRC APPEND .cpp)
 add_executable(${LOCAL_PROJECT} ${PSL_TESTS_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC include)
 
+target_compile_options(${LOCAL_PROJECT} PUBLIC
+	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/MT>
+	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Debug>>:/MTd>
+	)
+
+
 include(GoogleTest)
 
 target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} gtest gmock gtest_main)
+gtest_discover_tests(${LOCAL_PROJECT})

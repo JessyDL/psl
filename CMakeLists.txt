@@ -73,7 +73,7 @@ list(APPEND PSL_INCLUDE_DIRECTORIES include)
 ### Setup	 																										###
 #######################################################################################################################
 
-add_library(${LOCAL_PROJECT} STATIC ${PSL_SRC})
+add_library(${LOCAL_PROJECT} ${PSL_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${fmt_INCLUDE_DIRS})
 target_link_libraries(${LOCAL_PROJECT} fmt)
 
