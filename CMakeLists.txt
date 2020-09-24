@@ -55,10 +55,11 @@ list(APPEND PSL_INC uid
 	${INC_IMPL}
 	allocator
 	enum
+	config
 	)
 
 list(TRANSFORM PSL_INC PREPEND include/psl/)
-list(TRANSFORM PSL_INC APPEND .h)
+list(TRANSFORM PSL_INC APPEND .hpp)
 
 list(APPEND PSL_SRC 
 	${INC_IMPL}
