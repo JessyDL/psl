@@ -3,13 +3,9 @@ name: Windows
 on:
   pull_request_review:
     types: [submitted]
-    branches:
-      - develop
 
   pull_request:
     types: [ review_requested, closed]
-    branches:
-      - develop
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
