@@ -14,6 +14,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
 option(opt_make_tests "build tests" TRUE)
+option(opt_make_documentation "build documentation" TRUE)
 
 
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -87,4 +88,8 @@ target_compile_options(${LOCAL_PROJECT} PUBLIC
 if(opt_make_tests)
 	include(CTest)
 	add_subdirectory(tests)
+endif()
+
+if(opt_make_documentation)
+	add_subdirectory(documentation)
 endif()

@@ -1,0 +1,31 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+
+jobs:
+  build:
+    name: Build and publish documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: prepare
+      run: sudo apt-get install -y doxygen
+
+    - name: configure
+      run: cmake . -Bbuild -Dopt_make_documentation=ON -Dopt_make_tests=OFF
+
+    - name: build
+      run: cmake --build build --target Documentation --config Release -j4
+      
+    - name: publish
+      uses: peaceiris/actions-gh-pages@v3
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/doxygen/html
