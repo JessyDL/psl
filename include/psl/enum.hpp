@@ -45,19 +45,17 @@ namespace psl
 		 */
 		LOGICAL = 1 << 3
 	};
-	namespace config
-	{
-		/**
-		 * \brief Customization point, override for your given enum to allow those specific operations to be applied
-		 *
-		 * \tparam T Any enum class
-		 */
-		template <IsEnumClass T>
-		constexpr enum_ops_t enable_enum_ops = enum_ops_t::NONE;
 
-		template <>
-		constexpr auto enable_enum_ops<enum_ops_t> = enum_ops_t::BIT;
-	} // namespace config
+	/**
+	 * \brief Customization point, override for your given enum to allow those specific operations to be applied
+	 *
+	 * \tparam T Any enum class
+	 */
+	template <IsEnumClass T>
+	constexpr enum_ops_t enable_enum_ops = enum_ops_t::NONE;
+
+	template <>
+	constexpr auto enable_enum_ops<enum_ops_t> = enum_ops_t::BIT;
 
 	/**
 	 * \brief True for any enum class that has bit arithmetic operations
@@ -66,22 +64,22 @@ namespace psl
 	 */
 	template <typename T>
 	concept HasEnumBitOps = IsEnumClass<T>&& static_cast<enum_ops_t>(
-								static_cast<std::underlying_type_t<enum_ops_t>>(config::enable_enum_ops<T>) &
+								static_cast<std::underlying_type_t<enum_ops_t>>(enable_enum_ops<T>) &
 								static_cast<std::underlying_type_t<enum_ops_t>>(enum_ops_t::BIT)) == enum_ops_t::BIT;
 	template <typename T>
 	concept HasEnumShiftOps =
-		IsEnumClass<T>&& static_cast<enum_ops_t>(
-			static_cast<std::underlying_type_t<enum_ops_t>>(config::enable_enum_ops<T>) &
-			static_cast<std::underlying_type_t<enum_ops_t>>(enum_ops_t::SHIFT)) == enum_ops_t::SHIFT;
+		IsEnumClass<T>&& static_cast<enum_ops_t>(static_cast<std::underlying_type_t<enum_ops_t>>(enable_enum_ops<T>) &
+												 static_cast<std::underlying_type_t<enum_ops_t>>(enum_ops_t::SHIFT)) ==
+		enum_ops_t::SHIFT;
 	template <typename T>
 	concept HasEnumArithmeticOps =
 		IsEnumClass<T>&& static_cast<enum_ops_t>(
-			static_cast<std::underlying_type_t<enum_ops_t>>(config::enable_enum_ops<T>) &
+			static_cast<std::underlying_type_t<enum_ops_t>>(enable_enum_ops<T>) &
 			static_cast<std::underlying_type_t<enum_ops_t>>(enum_ops_t::ARITHMETIC)) == enum_ops_t::ARITHMETIC;
 	template <typename T>
 	concept HasEnumLogicalOps =
 		IsEnumClass<T>&& static_cast<enum_ops_t>(
-			static_cast<std::underlying_type_t<enum_ops_t>>(config::enable_enum_ops<T>) &
+			static_cast<std::underlying_type_t<enum_ops_t>>(enable_enum_ops<T>) &
 			static_cast<std::underlying_type_t<enum_ops_t>>(enum_ops_t::LOGICAL)) == enum_ops_t::LOGICAL;
 
 } // namespace psl
