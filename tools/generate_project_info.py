@@ -12,7 +12,7 @@ def generate_header(filepath, force = False):
     if os.path.exists(filepath) and not force:
         fObj = open(filepath, 'r')
         content = fObj.read()
-        if content.find("#define VERSION_SHA1 " + sha1):
+        if content.find(f"// generated from commit sha1 {sha1}."):
             print("header file up to date")
             return
         print("header file out of date, updating...")
@@ -21,6 +21,7 @@ def generate_header(filepath, force = False):
     fObj.write("// *****************************************************************************\n")
     fObj.write("// generated header file don't edit.\n")
     fObj.write("// edit `tools/versioning.py` instead.\n")
+    fObj.write(f"// generated from commit sha1 {sha1}.\n")
     fObj.write("// *****************************************************************************\n")
     fObj.write("#include <psl/types.hpp>\n")
     fObj.write("#include <string_view>\n")
@@ -50,4 +51,4 @@ def generate_header(filepath, force = False):
     fObj.close()
 
 if __name__ == "__main__":
-    generate_header(os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/psl.hpp", True)
+    generate_header(os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/psl.hpp")

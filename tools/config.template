@@ -16,13 +16,6 @@ namespace psl::config
 	constexpr bool is_release = !is_debug;
 
 	/**
-	 * \brief used as the type to force specialization of an option
-	 *
-	 */
-	struct default_setting_t
-	{};
-
-	/**
 	 * \brief exception handling strategy options
 	 *
 	 */
@@ -34,41 +27,17 @@ namespace psl::config
 	};
 
 	/**
-	 * \brief controls exception usage in the library (with exception of constant evaluated contexts)
+	 * \brief How to handle errors detected at runtime
+	 * \details This setting allows the behaviour of runtime errors to be set. Note that even with full exceptions settings
+	 * enabled, some errors will only present themselves as asserts. It is also possible to have the exceptions as asserts,
+	 * while the traditional asserts are disabled. This means asserts will still happen, but only in exceptional scenarios.
 	 *
 	 */
-	template <typename T>
-	struct errors_strategy_t
-	{
-		constexpr static exceptions_handling value = exceptions_handling::EXCEPTIONS;
-	};
-
-	/**
-	 * \brief controls assert usage in the library
-	 *
-	 */
-	template <typename T>
-	struct use_asserts_t : std::false_type
-	{};
-
-	/**
-	 * \brief controls exceptions for validating implementations in the library (such as custom
-	 * psl::abstract_region implementations)
-	 *
-	 * \tparam T
-	 */
-	template <typename T>
-	struct implementation_errors_strategy_t
-	{
-		constexpr static exceptions_handling value = exceptions_handling::EXCEPTIONS;
-	};
-
-
-	constexpr static exceptions_handling errors_strategy_v = errors_strategy_t<default_setting_t>::value;
+	constexpr static exceptions_handling errors_strategy_v = exceptions_handling::$!ERRORS_STRATEGY;
 	constexpr static bool exceptions					   = errors_strategy_v == exceptions_handling::EXCEPTIONS;
 	constexpr static bool exceptions_as_asserts			   = errors_strategy_v == exceptions_handling::ASSERTS;
 
-	constexpr static bool asserts = use_asserts_t<default_setting_t>::value;
+	constexpr static bool asserts = $ASSERTS;
 
 	/**
 	 * \brief tracks implementation errors on the part of the programmer
@@ -77,8 +46,7 @@ namespace psl::config
 	 * when inheriting from polymorphic base types
 	 *
 	 */
-	constexpr static exceptions_handling implementation_errors_strategy_v =
-		implementation_errors_strategy_t<default_setting_t>::value;
+	constexpr static exceptions_handling implementation_errors_strategy_v = exceptions_handling::$!IMPLEMENTATION_ERRORS_STRATEGY;
 	constexpr static bool implementation_exceptions =
 		implementation_errors_strategy_v == exceptions_handling::EXCEPTIONS;
 	constexpr static bool implementation_asserts = implementation_errors_strategy_v == exceptions_handling::ASSERTS;

@@ -86,9 +86,17 @@ target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${
 target_link_libraries(${LOCAL_PROJECT} fmt)
 
 add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
-	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_configuration.py
+	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/settings.json ${CMAKE_CURRENT_SOURCE_DIR}/tools/config.template
+	BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}include/psl/config.hpp
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
-	COMMENT "Generating headers for PSL")
+	COMMENT "Generating config for PSL")
+
+add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
+	BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}include/psl/psl.hpp
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
+	COMMENT "Generating headers for PSL")	
 
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
