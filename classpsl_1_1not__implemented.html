@@ -56,7 +56,7 @@ Library</a>
           <span class="m-breadcrumb"><a href="namespacepsl.html">psl</a>::<wbr/></span>not_implemented <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="exceptions_8hpp.html">&lt;exceptions.hpp&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>Exception class signifying a feature that is not yet implemented.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -70,12 +70,13 @@ Library</a>
             </li>
           </ul>
         </div>
+<p>Debug exception type to signify a work-in-progress feature/codepath that should not be used yet. Optionally will contain an issue number that links to the project management tool.</p>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt id="a9e6d5b7b1921da4ad282e206022a7623">
-              <span class="m-doc-wrap-bumper">static auto <a href="#a9e6d5b7b1921da4ad282e206022a7623" class="m-doc-self">to_message</a>(</span><span class="m-doc-wrap">size_t issue,
-              const std::experimental::source_location&amp; location = std::experimental::source_location::current()) -&gt; std::string</span>
+            <dt id="aa92b23c0c1e50cd9698a71c05692e0d0">
+              <span class="m-doc-wrap-bumper">static auto <a href="#aa92b23c0c1e50cd9698a71c05692e0d0" class="m-doc-self">to_message</a>(</span><span class="m-doc-wrap">size_t issue,
+              const source_location&amp; location = source_location::current()) -&gt; std::string</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -83,9 +84,9 @@ Library</a>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ad3ad1e40263044a0f3ac24bff099cb08">
-              <span class="m-doc-wrap-bumper"><a href="#ad3ad1e40263044a0f3ac24bff099cb08" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">size_t issue,
-              const std::experimental::source_location&amp; location = std::experimental::source_location::current())</span>
+            <dt id="ac3523fb3d21e13389eaa698e3d7f2d2a">
+              <span class="m-doc-wrap-bumper"><a href="#ac3523fb3d21e13389eaa698e3d7f2d2a" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">size_t issue,
+              const source_location&amp; location = source_location::current())</span>
             </dt>
             <dd><span></span></dd>
             <dt id="a7b3c88ade1094af8c29821c9b4f94efd">

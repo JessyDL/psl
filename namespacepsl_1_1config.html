@@ -54,187 +54,39 @@ Library</a>
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespacepsl.html">psl</a>::<wbr/></span>config <span class="m-thin">namespace</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
         </h1>
-        <p>contains all configurations options for PSL</p>
+        <p><span></span></p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>see psl::config::specialize to see what to specialize and how</p>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              struct <a href="structpsl_1_1config_1_1default__setting__t.html" class="m-doc">default_setting_t</a>
-            </dt>
-            <dd>used as the type to force specialization of an option</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structpsl_1_1config_1_1errors__strategy__t.html" class="m-doc">errors_strategy_t</a>
-            </dt>
-            <dd>controls exception usage in the library (with exception of constant evaluated contexts)</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structpsl_1_1config_1_1implementation__errors__strategy__t.html" class="m-doc">implementation_errors_strategy_t</a>
-            </dt>
-            <dd>controls exceptions for validating implementations in the library (such as custom psl::abstract_region implementations)</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structpsl_1_1config_1_1use__asserts__t.html" class="m-doc">use_asserts_t</a>
-            </dt>
-            <dd>controls assert usage in the library</dd>
-          </dl>
-        </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">enum <a href="#a82e8d72e3f866815df7181add9693260" class="m-doc">exceptions_handling</a> { </span><span class="m-doc-wrap"><a href="#a82e8d72e3f866815df7181add9693260a23347438d112f4b66076ca912d27b740" class="m-doc">EXCEPTIONS</a> = 0,
-              <a href="#a82e8d72e3f866815df7181add9693260aee5989eb357f4c75f26284360d7e74b7" class="m-doc">ASSERTS</a> = 1,
-              <a href="#a82e8d72e3f866815df7181add9693260ab50339a10e1de285ac99d4c3990b8693" class="m-doc">NONE</a> = 2 }</span>
-            </dt>
-            <dd>exception handling strategy options</dd>
-          </dl>
-        </section>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
-            <dt>
-              bool <a href="#ab78428b26c7f6c219b8c19435808d27f" class="m-doc">is_debug</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              bool <a href="#a2035ea911b795517e3407fb08e6ea77b" class="m-doc">is_release</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static <a href="namespacepsl_1_1config.html#a82e8d72e3f866815df7181add9693260" class="m-doc">exceptions_<wbr />handling</a> <a href="#ab52f23cc0a73cc00a34949fdced09efd" class="m-doc">errors_strategy_v</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static bool <a href="#abdc93f8af14901ef5e36cd54f9493abf" class="m-doc">exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static bool <a href="#a188266456b7b3208e359a3667b932604" class="m-doc">exceptions_as_asserts</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static bool <a href="#a33ee4d606cb4e7aa0e84360e031a0f60" class="m-doc">asserts</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static <a href="namespacepsl_1_1config.html#a82e8d72e3f866815df7181add9693260" class="m-doc">exceptions_<wbr />handling</a> <a href="#ae073e0e8c27b60c60c6c0a555fe7e641" class="m-doc">implementation_errors_strategy_v</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>tracks implementation errors on the part of the programmer</dd>
-            <dt>
-              static bool <a href="#a0056833be3f592c2f5629666a470534f" class="m-doc">implementation_exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static bool <a href="#a60742d7c810637871666194989666b6a" class="m-doc">implementation_asserts</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
             <dt>
               <div class="m-doc-template">template&lt;IsEnumClass T&gt;</div>
               <a href="namespacepsl.html#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_<wbr />ops_<wbr />t</a> <a href="#a4c8e430b7b1886716137cdd1c8e93935" class="m-doc">enable_enum_ops</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Customization point, override for your given enum to allow those specific operations to be applied.</dd>
-            <dt>
+            <dt id="a622aaf8aa2af05de1fd84eff70510ab0">
               <div class="m-doc-template">template&lt;&gt;</div>
-              auto <a href="#a622aaf8aa2af05de1fd84eff70510ab0" class="m-doc">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-flat m-primary">constexpr</span>
+              auto <a href="#a622aaf8aa2af05de1fd84eff70510ab0" class="m-doc-self">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
         <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="a82e8d72e3f866815df7181add9693260"><div>
-            <h3>
-              enum psl::<wbr />config::<wbr /><a href="#a82e8d72e3f866815df7181add9693260" class="m-doc-self">exceptions_handling</a>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p>exception handling strategy options</p>
-          </div></section>
-        </section>
-        <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="ab78428b26c7f6c219b8c19435808d27f"><div>
-            <h3>
-              bool psl::<wbr />config::<wbr /><a href="#ab78428b26c7f6c219b8c19435808d27f" class="m-doc-self">is_debug</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a2035ea911b795517e3407fb08e6ea77b"><div>
-            <h3>
-              bool psl::<wbr />config::<wbr /><a href="#a2035ea911b795517e3407fb08e6ea77b" class="m-doc-self">is_release</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ab52f23cc0a73cc00a34949fdced09efd"><div>
-            <h3>
-              static <a href="namespacepsl_1_1config.html#a82e8d72e3f866815df7181add9693260" class="m-doc">exceptions_<wbr />handling</a> psl::<wbr />config::<wbr /><a href="#ab52f23cc0a73cc00a34949fdced09efd" class="m-doc-self">errors_strategy_v</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="abdc93f8af14901ef5e36cd54f9493abf"><div>
-            <h3>
-              static bool psl::<wbr />config::<wbr /><a href="#abdc93f8af14901ef5e36cd54f9493abf" class="m-doc-self">exceptions</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a188266456b7b3208e359a3667b932604"><div>
-            <h3>
-              static bool psl::<wbr />config::<wbr /><a href="#a188266456b7b3208e359a3667b932604" class="m-doc-self">exceptions_as_asserts</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a33ee4d606cb4e7aa0e84360e031a0f60"><div>
-            <h3>
-              static bool psl::<wbr />config::<wbr /><a href="#a33ee4d606cb4e7aa0e84360e031a0f60" class="m-doc-self">asserts</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ae073e0e8c27b60c60c6c0a555fe7e641"><div>
-            <h3>
-              static <a href="namespacepsl_1_1config.html#a82e8d72e3f866815df7181add9693260" class="m-doc">exceptions_<wbr />handling</a> psl::<wbr />config::<wbr /><a href="#ae073e0e8c27b60c60c6c0a555fe7e641" class="m-doc-self">implementation_errors_strategy_v</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p>tracks implementation errors on the part of the programmer</p>
-<p>unlike the previous exception handling, which is meant to protect against runtime errors, this variation is meant to check for errors in contract implementation. Most commonly this is used when inheriting from polymorphic base types</p>
-          </div></section>
-          <section class="m-doc-details" id="a0056833be3f592c2f5629666a470534f"><div>
-            <h3>
-              static bool psl::<wbr />config::<wbr /><a href="#a0056833be3f592c2f5629666a470534f" class="m-doc-self">implementation_exceptions</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a60742d7c810637871666194989666b6a"><div>
-            <h3>
-              static bool psl::<wbr />config::<wbr /><a href="#a60742d7c810637871666194989666b6a" class="m-doc-self">implementation_asserts</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="config_8hpp.html">&lt;config.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
           <section class="m-doc-details" id="a4c8e430b7b1886716137cdd1c8e93935"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;IsEnumClass T&gt;
               </div>
@@ -252,16 +104,6 @@ Library</a>
                 </tr>
               </tbody>
             </table>
-          </div></section>
-          <section class="m-doc-details" id="a622aaf8aa2af05de1fd84eff70510ab0"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;&gt;
-              </div>
-              auto psl::<wbr />config::<wbr /><a href="#a622aaf8aa2af05de1fd84eff70510ab0" class="m-doc-self">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-primary">constexpr</span>
-            </h3>
-            <p><span></span></p>
           </div></section>
         </section>
       </div>
