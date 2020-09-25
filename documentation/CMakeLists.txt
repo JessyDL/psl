@@ -37,3 +37,5 @@ add_custom_target(
     COMMAND echo "Generated documentation to: ${DOXYGEN_OUTPUT_DIRECTORY}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
+
+add_dependencies(${LOCAL_PROJECT} ${PSL_PROJECT}_PREBUILT)

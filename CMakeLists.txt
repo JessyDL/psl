@@ -81,18 +81,21 @@ list(APPEND PSL_INCLUDE_DIRECTORIES include)
 ### Setup	 																										###
 #######################################################################################################################
 
+add_custom_target(${LOCAL_PROJECT}_PREBUILT)
+
 add_library(${LOCAL_PROJECT} ${PSL_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${fmt_INCLUDE_DIRS})
 target_link_libraries(${LOCAL_PROJECT} fmt)
+add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_PREBUILT)
 
-add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
+add_custom_command(TARGET ${LOCAL_PROJECT}_PREBUILT PRE_BUILD
 	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_configuration.py
 	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/settings.json ${CMAKE_CURRENT_SOURCE_DIR}/tools/config.template
 	BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}include/psl/config.hpp
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
 	COMMENT "Generating config for PSL")
 
-add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
+add_custom_command(TARGET ${LOCAL_PROJECT}_PREBUILT PRE_BUILD
 	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
 	BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}include/psl/psl.hpp
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/

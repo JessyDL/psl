@@ -28,7 +28,7 @@ def generate_configuration(settingspath, filepath, templatepath, force = False):
     fObj = open(filepath, 'w+')
     fObj.write("// *****************************************************************************\n")
     fObj.write("// generated header file don't edit.\n")
-    fObj.write("// edit `tools/generate_configuration.py` instead.\n")
+    fObj.write("// edit `settings.json` and `tools/generate_configuration.py` instead.\n")
     fObj.write(f"// settings updated at {settings_modified_time}.\n")
     fObj.write("// *****************************************************************************\n")
 

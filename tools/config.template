@@ -1,5 +1,4 @@
 #pragma once
-#include <type_traits>
 
 /**
  * \brief contains all configurations options for PSL
