@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Paradigm
+  <title>exceptions.hpp file | Paradigm
 Standard
 Library</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
@@ -34,7 +34,7 @@ Library</a>
                 <li><a href="about.html">About</a></li>
               </ol>
             </li>
-            <li><a href="namespaces.html" id="m-navbar-current">Namespaces</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="annotated.html">Classes</a></li>
@@ -52,31 +52,97 @@ Library</a>
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Namespaces</h2>
-        <ul class="m-doc">
-          <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">namespace</a> <a href="namespacepsl.html" class="m-doc">psl</a> <span class="m-doc"><span></span></span>
-            <ul class="m-doc">
-              <li>namespace <a href="namespacepsl_1_1config.html" class="m-doc">config</a> <span class="m-doc">contains all configurations options for PSL</span></li>
-            </ul>
-          </li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          exceptions.hpp <span class="m-thin">file</span>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#define-members">Defines</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a href="namespacepsl.html" class="m-doc">psl</a></dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a href="classpsl_1_1implementation__error.html" class="m-doc">psl::implementation_error</a>
+            </dt>
+            <dd>Exception class to notify the user of implementation errors.</dd>
+            <dt>
+              class <a href="classpsl_1_1not__implemented.html" class="m-doc">psl::not_implemented</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt id="a95010c3d55ecc27268fdbe1fad39d148">
+              <span class="m-doc-wrap-bumper">#define <a href="#a95010c3d55ecc27268fdbe1fad39d148" class="m-doc-self">PSL_ASSERT</a>(</span><span class="m-doc-wrap">condition,
+              ...)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0f84975c6fe24d92f8250cec7476efda">
+              <span class="m-doc-wrap-bumper">#define <a href="#a0f84975c6fe24d92f8250cec7476efda" class="m-doc-self">PSL_EXCEPT</a>(</span><span class="m-doc-wrap">exception_type,
+              ...)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af513e1995623324116c44b40b0590c3a">
+              <span class="m-doc-wrap-bumper">#define <a href="#af513e1995623324116c44b40b0590c3a" class="m-doc-self">PSL_EXCEPT_IF</a>(</span><span class="m-doc-wrap">expr,
+              exception_type,
+              ...)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a12e87874906c191f6c535ebf68abd294">
+              <span class="m-doc-wrap-bumper">#define <a href="#a12e87874906c191f6c535ebf68abd294" class="m-doc-self">PSL_CONTRACT_EXCEPT_IF</a>(</span><span class="m-doc-wrap">expr,
+              ...)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9135432cdbe676540f36f955f68f0341">
+              <span class="m-doc-wrap-bumper">#define <a href="#a9135432cdbe676540f36f955f68f0341" class="m-doc-self">__STRINGIFY</a>(</span><span class="m-doc-wrap">TEXT)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a69cd7a5c8e71d40747862cedf7be1319">
+              <span class="m-doc-wrap-bumper">#define <a href="#a69cd7a5c8e71d40747862cedf7be1319" class="m-doc-self">__WARNING</a>(</span><span class="m-doc-wrap">TEXT)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5c26a53885a38bf589cfb2853ac503a7">
+              <span class="m-doc-wrap-bumper">#define <a href="#a5c26a53885a38bf589cfb2853ac503a7" class="m-doc-self">WARNING</a>(</span><span class="m-doc-wrap">VALUE)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a890d84b9b5d0b0aede9eea1092a7a10a">
+              <span class="m-doc-wrap-bumper">#define <a href="#a890d84b9b5d0b0aede9eea1092a7a10a" class="m-doc-self">STR_HELPER</a>(</span><span class="m-doc-wrap">x)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a18d295a837ac71add5578860b55e5502">
+              <span class="m-doc-wrap-bumper">#define <a href="#a18d295a837ac71add5578860b55e5502" class="m-doc-self">STR</a>(</span><span class="m-doc-wrap">x)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a8993351370db614c6b5a73aabc2a7bcc">
+              <span class="m-doc-wrap-bumper">#define <a href="#a8993351370db614c6b5a73aabc2a7bcc" class="m-doc-self">PSL_NOT_IMPLEMENTED_</a>(</span><span class="m-doc-wrap">issue)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a172143f29ba354d70a6e61341a8d2ad1">
+              <span class="m-doc-wrap-bumper">#define <a href="#a172143f29ba354d70a6e61341a8d2ad1" class="m-doc-self">PSL_NOT_IMPLEMENTED</a>(</span><span class="m-doc-wrap">issue)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>
