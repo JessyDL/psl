@@ -74,8 +74,6 @@ Library</a>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacepsl_1_1config.html" class="m-doc">config</a></dt>
-            <dd><span></span></dd>
             <dt>namespace <a href="namespacepsl_1_1details.html" class="m-doc">details</a></dt>
             <dd><span></span></dd>
           </dl>
@@ -158,6 +156,16 @@ Library</a>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               concept <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;IsEnumClass T&gt;</div>
+              <a href="namespacepsl.html#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_<wbr />ops_<wbr />t</a> <a href="#a7e9f14b7d6a0a338137233b5b298b8b8" class="m-doc">enable_enum_ops</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Customization point, override for your given enum to allow those specific operations to be applied.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;&gt;</div>
+              auto <a href="#ac3241701e780ad3e499e9d320da103c8" class="m-doc">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -306,6 +314,37 @@ Library</a>
                 template&lt;typename T&gt;
               </div>
               concept psl::<wbr /><a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc-self">IsEnumClass</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a7e9f14b7d6a0a338137233b5b298b8b8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;IsEnumClass T&gt;
+              </div>
+              <a href="namespacepsl.html#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_<wbr />ops_<wbr />t</a> psl::<wbr /><a href="#a7e9f14b7d6a0a338137233b5b298b8b8" class="m-doc-self">enable_enum_ops</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Customization point, override for your given enum to allow those specific operations to be applied.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>Any enum class</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ac3241701e780ad3e499e9d320da103c8"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;&gt;
+              </div>
+              auto psl::<wbr /><a href="#ac3241701e780ad3e499e9d320da103c8" class="m-doc-self">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p><span></span></p>
           </div></section>
