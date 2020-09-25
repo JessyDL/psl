@@ -62,6 +62,7 @@ list(APPEND PSL_INC uid
 	config
 	exceptions
 	psl
+	types
 	)
 
 list(TRANSFORM PSL_INC PREPEND include/psl/)
