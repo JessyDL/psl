@@ -2,8 +2,8 @@
 #include <stdexcept>
 #include <string>
 #include <assert.h>
-#include <experimental/source_location>
-#include "psl/config.h"
+#include <psl/details/source_location>
+#include <psl/config.h>
 
 namespace psl
 {
@@ -17,8 +17,7 @@ namespace psl
 	class implementation_error : std::exception
 	{
 	  public:
-		implementation_error(const std::string& message, const std::experimental::source_location& location =
-															 std::experimental::source_location::current())
+		implementation_error(const std::string& message, const source_location& location = source_location::current())
 			: m_What()
 		{
 			m_What.append("at: ");
@@ -40,11 +39,15 @@ namespace psl
 		std::string m_What;
 	};
 
+	/**
+	 * @brief Exception class signifying a feature that is not yet implemented.
+	 * @details Debug exception type to signify a work-in-progress feature/codepath that should not be used yet.
+	 * Optionally will contain an issue number that links to the project management tool.
+	*/
 	class not_implemented : std::exception
 	{
 	  public:
-		not_implemented(size_t issue, const std::experimental::source_location& location =
-										  std::experimental::source_location::current())
+		not_implemented(size_t issue, const source_location& location = source_location::current())
 			: m_What(to_message(issue, location))
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
@@ -53,9 +56,7 @@ namespace psl
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
 		~not_implemented()											 = default;
 
-		static std::string
-		to_message(size_t issue,
-				   const std::experimental::source_location& location = std::experimental::source_location::current())
+		static std::string to_message(size_t issue, const source_location& location = source_location::current())
 		{
 			std::string what{};
 			what.append("NotImplemented\nat: ");
@@ -134,3 +135,8 @@ namespace psl
 	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts)                                           \
 		assert(!"NotImplemented: https://github.com/JessyDL/psl/issues/" #issue);                                      \
 	std::exit(issue)
+
+#undef STR
+#undef STR_HELPER
+#undef __WARNING
+#undef __STRINGIFY
