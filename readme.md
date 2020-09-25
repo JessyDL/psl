@@ -1,4 +1,4 @@
-# PSL: *Paradigm Standard Library*
+# Paradigm Standard Library (PSL)
 
 ## Introduction
 This library is written to supplement the standard library with functionality that is either missing, or functionality that is better suited for use in game development. As an example, the library contains facilities to handle serialization in as much zero-overhead that is possible. It has a custom allocator mechanism implementeted that allows it to represent various different types of memory resources (such as memory resources that might be writeable, but not readable, like certain parts of the GPU memory).

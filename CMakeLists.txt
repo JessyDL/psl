@@ -28,6 +28,9 @@ endif()
 ### Externals 																										###
 #######################################################################################################################
 
+SET(Python_ADDITIONAL_VERSIONS 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+find_package(PythonInterp REQUIRED)
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -58,6 +61,7 @@ list(APPEND PSL_INC uid
 	enum
 	config
 	exceptions
+	psl
 	)
 
 list(TRANSFORM PSL_INC PREPEND include/psl/)
@@ -93,3 +97,8 @@ endif()
 if(opt_make_documentation)
 	add_subdirectory(documentation)
 endif()
+
+add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
+	COMMENT "Generating headers for PSL")

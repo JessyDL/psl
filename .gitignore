@@ -63,3 +63,9 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Python working files
+__pycache__
+
+# Generated files
+include/psl/psl.hpp
