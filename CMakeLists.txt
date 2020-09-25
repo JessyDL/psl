@@ -84,6 +84,11 @@ add_library(${LOCAL_PROJECT} ${PSL_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${fmt_INCLUDE_DIRS})
 target_link_libraries(${LOCAL_PROJECT} fmt)
 
+add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
+	COMMENT "Generating headers for PSL")
+
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
@@ -97,8 +102,3 @@ endif()
 if(opt_make_documentation)
 	add_subdirectory(documentation)
 endif()
-
-add_custom_command(TARGET ${LOCAL_PROJECT} PRE_BUILD
-	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_project_info.py
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
-	COMMENT "Generating headers for PSL")
