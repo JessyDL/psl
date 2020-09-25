@@ -2,8 +2,8 @@
 #include <stdexcept>
 #include <string>
 #include <assert.h>
-#include <psl/details/source_location>
-#include <psl/config.h>
+#include <psl/details/source_location.hpp>
+#include <psl/config.hpp>
 
 namespace psl
 {
