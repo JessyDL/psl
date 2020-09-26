@@ -30,15 +30,12 @@ set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 configure_file(${CMAKE_CURRENT_LIST_DIR}/doxyfile ${CMAKE_CURRENT_BINARY_DIR}/doxyfile)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/configuration.py ${CMAKE_CURRENT_BINARY_DIR}/configuration.py)
 
-list(APPEND GEN_FILES ${PSL_GENERATED_INC})
-list(TRANSFORM GEN_FILES PREPEND ../)
-
 add_custom_target(
     ${LOCAL_PROJECT}
     ${CMAKE_COMMAND} -E make_directory "${DOXYGEN_OUTPUT_DIRECTORY}"
     COMMAND "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
     COMMAND echo "Generated documentation to: ${DOXYGEN_OUTPUT_DIRECTORY}"
-    DEPENDS ${GEN_FILES}
+    DEPENDS ${PSL_GENERATED_INC}
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 

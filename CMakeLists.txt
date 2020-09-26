@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-option(opt_make_tests "build tests" TRUE)
+option(opt_make_tests "build tests" FALSE)
 option(opt_make_documentation "build documentation" TRUE)
 
 
@@ -62,7 +62,7 @@ list(APPEND PSL_GENERATED_INC
 	psl
 	)
 
-list(TRANSFORM PSL_GENERATED_INC PREPEND include/psl/)
+list(TRANSFORM PSL_GENERATED_INC PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/include/psl/)
 list(TRANSFORM PSL_GENERATED_INC APPEND .hpp)
 
 list(APPEND PSL_INC
@@ -74,7 +74,7 @@ list(APPEND PSL_INC
 	types
 	)
 
-list(TRANSFORM PSL_INC PREPEND include/psl/)
+list(TRANSFORM PSL_INC PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/include/psl/)
 list(TRANSFORM PSL_INC APPEND .hpp)
 list(APPEND PSL_INC ${PSL_GENERATED_INC})
 
@@ -82,7 +82,7 @@ list(APPEND PSL_SRC
 	${INC_IMPL}
 	psl
 	)
-list(TRANSFORM PSL_SRC PREPEND source/)
+list(TRANSFORM PSL_SRC PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 list(TRANSFORM PSL_SRC APPEND .cpp)
 
 list(APPEND PSL_INCLUDE_DIRECTORIES include)

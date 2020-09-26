@@ -49,12 +49,12 @@ namespace psl::traits
 		always_synced = 0, /* no effort needs to be done to access the data. */
 		flush		  = 1, /* requires a flush (or flush-like) interaction before the data can be accessed. */
 		async		  = 2, /* accessing the data is an async operation. */
-		unreachable	  = 3  /* the data can never be reached. */
+		unreachable   = 3  /* the data can never be reached. */
 	};
 
 	/**
 	 * @brief Readability of data from the context of the host.
-	 * @info host refers to the context that is executing the code.
+	 * @note host refers to the context that is executing the code.
 	 */
 	template <syncronization Sync = syncronization::always_synced>
 	struct host_readability_t

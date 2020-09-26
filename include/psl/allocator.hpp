@@ -54,8 +54,9 @@ namespace psl
 		 * \brief Deallocates the given item, this is the '.data' member from alloc_results<T>
 		 *
 		 * \param[in] item
+		 * \param[in] size Original size of the allocation
+		 * \param[in] alignment Original alignment of the allocation
 		 * \returns true when the deallocation succeeds
-		 * \returns false when the deallocation failed
 		 */
 		bool deallocate(void* item, size_t size, size_t alignment) { return do_deallocate(item, size, alignment); }
 
