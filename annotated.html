@@ -55,7 +55,7 @@ Library</a>
         <h1>Classes</h2>
         <ul class="m-doc">
           <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">namespace</a> <a href="namespacepsl.html" class="m-doc">psl</a> <span class="m-doc"><span></span></span>
+            <a href="#" onclick="return toggle(this)">namespace</a> <a href="namespacepsl.html" class="m-doc">psl</a> <span class="m-doc">root library namespace</span>
             <ul class="m-doc">
               <li>namespace <a href="namespacepsl_1_1config.html" class="m-doc">config</a> <span class="m-doc">contains all configurations options for PSL</span></li>
               <li class="m-doc-collapsible collapsed">
@@ -64,8 +64,23 @@ Library</a>
                   <li>struct <a href="structpsl_1_1details_1_1source__location.html" class="m-doc">source_location</a> <span class="m-doc"><span></span></span></li>
                 </ul>
               </li>
-              <li>class <a href="classpsl_1_1allocator.html" class="m-doc">allocator</a> <span class="m-doc"><span></span></span></li>
+              <li class="m-doc-collapsible collapsed">
+                <a href="#" onclick="return toggle(this)">namespace</a> <a href="namespacepsl_1_1traits.html" class="m-doc">traits</a> <span class="m-doc"><span></span></span>
+                <ul class="m-doc">
+                  <li>struct <a href="structpsl_1_1traits_1_1host__reachable__t.html" class="m-doc">host_reachable_t</a> <span class="m-doc"><span></span></span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1host__readability__t.html" class="m-doc">host_readability_t</a> <span class="m-doc">Readability of data from the context of the host.</span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1host__writability__t.html" class="m-doc">host_writability_t</a> <span class="m-doc"><span></span></span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1physically__allocated__t.html" class="m-doc">physically_allocated_t</a> <span class="m-doc">Indicates if the resource will physically allocate somewhere.</span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1queryable__size__t.html" class="m-doc">queryable_size_t</a> <span class="m-doc"><span></span></span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1reallocate__able__t.html" class="m-doc">reallocate_able_t</a> <span class="m-doc">Support relocatability of previously allocated block.</span></li>
+                  <li>struct <a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">shareable_t</a> <span class="m-doc">Indicates if the resource allocates in a way that can be shared with others.</span></li>
+                </ul>
+              </li>
+              <li>class <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_memory_resource</a> <span class="m-doc">Abstract memory resource interface.</span></li>
+              <li>struct <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_results</a> <span class="m-doc">Result type of an allocation invocation.</span></li>
+              <li>class <a href="classpsl_1_1allocator.html" class="m-doc">allocator</a> <span class="m-label m-flat m-warning">final</span> <span class="m-doc"><span></span></span></li>
               <li>class <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a> <span class="m-doc">Exception class to notify the user of implementation errors.</span></li>
+              <li>class <a href="classpsl_1_1new__resource.html" class="m-doc">new_resource</a> <span class="m-doc"><span></span></span></li>
               <li>class <a href="classpsl_1_1not__implemented.html" class="m-doc">not_implemented</a> <span class="m-doc">Exception class signifying a feature that is not yet implemented.</span></li>
             </ul>
           </li>

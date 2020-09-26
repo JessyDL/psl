@@ -55,7 +55,7 @@ Library</a>
         <h1>
           psl <span class="m-thin">namespace</span>
         </h1>
-        <p><span></span></p>
+        <p>root library namespace</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -66,11 +66,13 @@ Library</a>
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
+<p>the entire Paradigm Standard Library lives in this namespace. Rarely some free functions might be declared, but they will likely be limited in scope to a certain constraint (like `enum.hpp&#x27;)</p>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
@@ -78,11 +80,23 @@ Library</a>
             <dd>contains all configurations options for PSL</dd>
             <dt>namespace <a href="namespacepsl_1_1details.html" class="m-doc">details</a></dt>
             <dd><span></span></dd>
+            <dt>namespace <a href="namespacepsl_1_1traits.html" class="m-doc">traits</a></dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
+              class <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_memory_resource</a>
+            </dt>
+            <dd>Abstract memory resource interface.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_results</a>
+            </dt>
+            <dd>Result type of an allocation invocation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
               class <a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>
@@ -92,6 +106,10 @@ Library</a>
               class <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a>
             </dt>
             <dd>Exception class to notify the user of implementation errors.</dd>
+            <dt>
+              class <a href="classpsl_1_1new__resource.html" class="m-doc">new_resource</a>
+            </dt>
+            <dd><span></span></dd>
             <dt>
               class <a href="classpsl_1_1not__implemented.html" class="m-doc">not_implemented</a>
             </dt>
@@ -152,9 +170,51 @@ Library</a>
             <dd><span></span></dd>
           </dl>
         </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;IsIntegral T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4983f8e1acf57fdfd4037d837539e4cb" class="m-doc">align_to</a>(</span><span class="m-doc-wrap">T value,
+              T alignment) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Aligns a value to the next possible value that satisfies the alignment.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;IsIntegral T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa5416c274074f6eabe8b5c88dc6d021b" class="m-doc">ralign_to</a>(</span><span class="m-doc-wrap">T value,
+              T alignment) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Aligns a value to the previous possible value that satisfies the alignment (including the seed value)</dd>
+          </dl>
+        </section>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a61df533186bebc02df18d25898ca7884" class="m-doc">IsIntegral</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc">IsSignedIntegral</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a47c466908f9ea380df78c589cc628906" class="m-doc">IsUnsignedIntegral</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc">IsArithmetic</a>
+            </dt>
+            <dd><span></span></dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               concept <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
@@ -344,7 +404,142 @@ Library</a>
           </div></section>
         </section>
         <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a4983f8e1acf57fdfd4037d837539e4cb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;IsIntegral T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4983f8e1acf57fdfd4037d837539e4cb" class="m-doc-self">align_to</a>(</span><span class="m-doc-wrap">T value,
+              T alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Aligns a value to the next possible value that satisfies the alignment.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>value&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>alignment&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>constexpr auto</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa5416c274074f6eabe8b5c88dc6d021b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;IsIntegral T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa5416c274074f6eabe8b5c88dc6d021b" class="m-doc-self">ralign_to</a>(</span><span class="m-doc-wrap">T value,
+              T alignment) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Aligns a value to the previous possible value that satisfies the alignment (including the seed value)</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>value&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>alignment&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>constexpr auto</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+        </section>
+        <section>
           <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept psl::<wbr /><a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc-self">IsIterator</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a61df533186bebc02df18d25898ca7884"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept psl::<wbr /><a href="#a61df533186bebc02df18d25898ca7884" class="m-doc-self">IsIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a37877312a7ebfcebbe439a52396b6e4d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept psl::<wbr /><a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc-self">IsSignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a47c466908f9ea380df78c589cc628906"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept psl::<wbr /><a href="#a47c466908f9ea380df78c589cc628906" class="m-doc-self">IsUnsignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="ad82cddf7b267b0209b53b7679bcae6ae"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept psl::<wbr /><a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc-self">IsArithmetic</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
           <section class="m-doc-details" id="aed1964bcaafbacc15d18337329f0f11d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>

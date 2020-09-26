@@ -64,12 +64,13 @@ Library</a>
               Reference
               <ul>
                 <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>see psl::config::specialize to see what to specialize and how</p>
+<p>see <code>settings.json</code> to see what to specialize.</p>
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
@@ -79,6 +80,23 @@ Library</a>
               <a href="#a82e8d72e3f866815df7181add9693260ab50339a10e1de285ac99d4c3990b8693" class="m-doc">NONE</a> = 2 }</span>
             </dt>
             <dd>exception handling strategy options</dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt>
+              using <a href="#a79e9df354c2b27ca4199e2af526f61a9" class="m-doc">default_abstract_memory_resource_t</a> = <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">psl::<wbr />abstract_memory_resource</a>&lt;<a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">psl::<wbr />traits::<wbr />shareable_t</a>&lt;true&gt;&gt;
+            </dt>
+            <dd>Default abstract memory resource to use.</dd>
+            <dt>
+              using <a href="#afc18bc7bfcb83864b0c791747f2f9a78" class="m-doc">default_memory_resource_t</a> = <a href="classpsl_1_1new__resource.html" class="m-doc">psl::<wbr />new_resource</a>
+            </dt>
+            <dd>Default memory resource that will be used by containers, or anything needed allocations.</dd>
+            <dt>
+              using <a href="#ad65a854124859689ccc7fee809e56fb2" class="m-doc">default_allocator_t</a> = <a href="classpsl_1_1allocator.html" class="m-doc">psl::<wbr />allocator</a>&lt;<a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">psl::<wbr />traits::<wbr />shareable_t</a>&lt;true&gt;&gt;
+            </dt>
+            <dd>Default allocator to use by any API that exposes allocator usage.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -121,6 +139,30 @@ Library</a>
             </dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="a79e9df354c2b27ca4199e2af526f61a9"><div>
+            <h3>
+              using psl::<wbr />config::<wbr /><a href="#a79e9df354c2b27ca4199e2af526f61a9" class="m-doc-self">default_abstract_memory_resource_t</a> = <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">psl::<wbr />abstract_memory_resource</a>&lt;<a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">psl::<wbr />traits::<wbr />shareable_t</a>&lt;true&gt;&gt;
+            </h3>
+            <p>Default abstract memory resource to use.</p>
+<p>Can be used to override the base abstract resources the built-in <code>memory_resource</code>&#x27;s use. Do be cautious of this setting.</p>
+          </div></section>
+          <section class="m-doc-details" id="afc18bc7bfcb83864b0c791747f2f9a78"><div>
+            <h3>
+              using psl::<wbr />config::<wbr /><a href="#afc18bc7bfcb83864b0c791747f2f9a78" class="m-doc-self">default_memory_resource_t</a> = <a href="classpsl_1_1new__resource.html" class="m-doc">psl::<wbr />new_resource</a>
+            </h3>
+            <p>Default memory resource that will be used by containers, or anything needed allocations.</p>
+<p>Can be used to override the <code>memory_resource</code> used by most collection type classes. Be mindful that the new resource does need to adhere to the traits.</p>
+          </div></section>
+          <section class="m-doc-details" id="ad65a854124859689ccc7fee809e56fb2"><div>
+            <h3>
+              using psl::<wbr />config::<wbr /><a href="#ad65a854124859689ccc7fee809e56fb2" class="m-doc-self">default_allocator_t</a> = <a href="classpsl_1_1allocator.html" class="m-doc">psl::<wbr />allocator</a>&lt;<a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">psl::<wbr />traits::<wbr />shareable_t</a>&lt;true&gt;&gt;
+            </h3>
+            <p>Default allocator to use by any API that exposes allocator usage.</p>
+<p>Note that even though yuo can swap allocators out, their traits still have to work for every collection out there.</p>
+          </div></section>
         </section>
         <section>
           <h2>Variable documentation</h2>
