@@ -26,12 +26,13 @@ namespace psl::config
 		ASSERTS	   = 1,
 		NONE	   = 2
 	};
-
+	
 	/**
 	 * \brief How to handle errors detected at runtime
-	 * \details This setting allows the behaviour of runtime errors to be set. Note that even with full exceptions settings
-	 * enabled, some errors will only present themselves as asserts. It is also possible to have the exceptions as asserts,
-	 * while the traditional asserts are disabled. This means asserts will still happen, but only in exceptional scenarios.
+	 * \details This setting allows the behaviour of runtime errors to be set. Note that even with full exceptions
+	 * settings enabled, some errors will only present themselves as asserts. It is also possible to have the exceptions
+	 * as asserts, while the traditional asserts are disabled. This means asserts will still happen, but only in
+	 * exceptional scenarios.
 	 *
 	 */
 	constexpr static exceptions_handling errors_strategy_v = exceptions_handling::$!ERRORS_STRATEGY;
@@ -51,8 +52,25 @@ namespace psl::config
 	constexpr static bool implementation_exceptions =
 		implementation_errors_strategy_v == exceptions_handling::EXCEPTIONS;
 	constexpr static bool implementation_asserts = implementation_errors_strategy_v == exceptions_handling::ASSERTS;
-
-	using default_abstract_resource_t = $DEFAULT_ABSTRACT_RESOURCE;
-	using default_resource_t = $DEFAULT_RESOURCE;
+	
+	/**
+	 * \brief Default abstract memory resource to use.
+	 * \details Can be used to override the base abstract resources the built-in `memory_resource`'s use. Do be cautious
+	 * of this setting.
+	 */
+	using default_abstract_memory_resource_t = $DEFAULT_ABSTRACT_MEMORY_RESOURCE;
+	
+	/**
+	 * \brief Default memory resource that will be used by containers, or anything needed allocations.
+	 * \details Can be used to override the `memory_resource` used by most collection type classes. Be mindful that the
+	 * new resource does need to adhere to the traits.
+	 */
+	using default_memory_resource_t = $DEFAULT_MEMORY_RESOURCE;
+	
+	/**
+	 * \brief Default allocator to use by any API that exposes allocator usage.
+	 * \details Note that even though yuo can swap allocators out, their traits still have to work for every collection
+	 * out there.
+	 */
 	using default_allocator_t = $DEFAULT_ALLOCATOR;
 } // namespace psl::config

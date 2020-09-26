@@ -3,7 +3,7 @@
   "errors_strategy": "exceptions",
   "implementation_errors_strategy": "exceptions",
   "asserts": "is_debug",
-  "default_abstract_resource": "psl::abstract_memory_resource<psl::traits::shareable_t<true>>",
-  "default_resource": "psl::new_resource",
+  "default_abstract_memory_resource": "psl::abstract_memory_resource<psl::traits::shareable_t<true>>",
+  "default_memory_resource": "psl::new_resource",
   "default_allocator": "psl::allocator<psl::traits::shareable_t<true>>"
 }
