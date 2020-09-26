@@ -14,7 +14,6 @@ namespace psl
 {
 	inline namespace details
 	{
-
 #if __has_include(<source_location>)
 		using source_location = std::source_location;
 #elif __has_include(<experimental/source_location>)

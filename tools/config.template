@@ -1,9 +1,11 @@
 #pragma once
 
+$INCLUDES
+
 /**
  * \brief contains all configurations options for PSL
  *
- * \details see psl::config::specialize to see what to specialize and how
+ * \details see `settings.json` to see what to specialize.
  */
 namespace psl::config
 {
@@ -49,4 +51,8 @@ namespace psl::config
 	constexpr static bool implementation_exceptions =
 		implementation_errors_strategy_v == exceptions_handling::EXCEPTIONS;
 	constexpr static bool implementation_asserts = implementation_errors_strategy_v == exceptions_handling::ASSERTS;
+
+	using default_abstract_resource_t = $DEFAULT_ABSTRACT_RESOURCE;
+	using default_resource_t = $DEFAULT_RESOURCE;
+	using default_allocator_t = $DEFAULT_ALLOCATOR;
 } // namespace psl::config

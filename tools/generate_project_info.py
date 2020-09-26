@@ -2,7 +2,7 @@ import versioning
 import os
 from datetime import datetime
 
-def generate_header(filepath, force = False):
+def generate(filepath, force = False):
     major, minor, patch = versioning.git_version()
     sha1 = versioning.git_sha1()
     unix_timestamp = versioning.git_timestamp()
@@ -12,7 +12,7 @@ def generate_header(filepath, force = False):
     if os.path.exists(filepath) and not force:
         fObj = open(filepath, 'r')
         content = fObj.read()
-        if content.find(f"// generated from commit sha1 {sha1}."):
+        if f"// generated from commit sha1 {sha1}." in content:
             print("header file up to date")
             return
         print("header file out of date, updating...")
@@ -26,6 +26,16 @@ def generate_header(filepath, force = False):
     fObj.write("#include <psl/types.hpp>\n")
     fObj.write("#include <string_view>\n")
     fObj.write("#include <array>\n")
+    fObj.write(
+    '''
+/**
+ * @brief root library namespace
+ * @details the entire Paradigm Standard Library lives in this namespace.
+ * Rarely some free functions might be declared, but they will likely be limited in scope to a certain constraint (like
+ * `enum.hpp')
+ *
+ */
+''')
     fObj.write('namespace psl\n')
     fObj.write('{\n')
     fObj.write(f'\tconstexpr std::string_view VERSION_TIME_UTC  {{ "{utc_timestamp}" }};\n')
@@ -51,4 +61,4 @@ def generate_header(filepath, force = False):
     fObj.close()
 
 if __name__ == "__main__":
-    generate_header(os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/psl.hpp")
+    generate(os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/psl.hpp", True)

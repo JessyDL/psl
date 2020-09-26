@@ -1,7 +1,7 @@
 import os
 import json
 
-def generate_configuration(settingspath, filepath, templatepath, force = False):
+def generate(settingspath, filepath, templatepath, force = False):
     if not os.path.exists(settingspath):
         print(f"missing settings file at {settingspath}")
         return
@@ -10,15 +10,16 @@ def generate_configuration(settingspath, filepath, templatepath, force = False):
         return
 
     settings_modified_time = os.path.getmtime(settingspath)
+    template_modified_time = os.path.getmtime(templatepath)
 
     if os.path.exists(filepath) and not force:
         fObj = open(filepath, 'r')
         content = fObj.read()
         fObj.close()
-        if content.find(f"// settings updated at {settings_modified_time}."):
-            print("header file up to date")
+        if f"// settings updated at {settings_modified_time}." in content and f"// template updated at {template_modified_time}." in content:
+            print("config file up to date")
             return
-        print("header file out of date, updating...")
+        print("config file out of date, updating...")
     
     settings = json.loads(open(settingspath, 'r').read())
 
@@ -30,10 +31,15 @@ def generate_configuration(settingspath, filepath, templatepath, force = False):
     fObj.write("// generated header file don't edit.\n")
     fObj.write("// edit `settings.json` and `tools/generate_configuration.py` instead.\n")
     fObj.write(f"// settings updated at {settings_modified_time}.\n")
+    fObj.write(f"// template updated at {template_modified_time}.\n")
     fObj.write("// *****************************************************************************\n")
 
     for name in settings:
         value = settings[name]
+        if isinstance(value, list) or isinstance(value, dict):
+            if name == "includes":
+                template = template.replace(f"${name.upper()}", "\n".join(f"#include <{e}>" for e in value))
+            continue
         template = template.replace(f"$!{name.upper()}", value.upper())
         template = template.replace(f"${name.upper()}", value)
 
@@ -42,4 +48,4 @@ def generate_configuration(settingspath, filepath, templatepath, force = False):
     fObj.close()
 
 if __name__ == "__main__":
-    generate_configuration(os.path.dirname(os.path.realpath(__file__)) + "/../settings.json", os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/config.hpp", "config.template", True)
+    generate(os.path.dirname(os.path.realpath(__file__)) + "/../settings.json", os.path.dirname(os.path.realpath(__file__)) +"/../include/psl/config.hpp", "config.template", True)

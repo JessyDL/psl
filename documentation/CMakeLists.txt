@@ -35,7 +35,8 @@ add_custom_target(
     ${CMAKE_COMMAND} -E make_directory "${DOXYGEN_OUTPUT_DIRECTORY}"
     COMMAND "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
     COMMAND echo "Generated documentation to: ${DOXYGEN_OUTPUT_DIRECTORY}"
+    DEPENDS ${PSL_GENERATED_INC}
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-add_dependencies(${LOCAL_PROJECT} ${PSL_PROJECT}_PREBUILT)
+add_dependencies(${LOCAL_PROJECT} ${PSL_PROJECT}_generator)
