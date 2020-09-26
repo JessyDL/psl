@@ -1,9 +1,11 @@
 #pragma once
+#include <type_traits>
 #include <psl/types.hpp>
-#include <psl/exceptions.hpp>
 #include <psl/fwd/allocator.hpp>
 #include <psl/allocator_traits.hpp>
 #include <psl/config.hpp>
+#include <psl/types.hpp>
+#include <psl/exceptions.hpp>
 
 namespace psl
 {
@@ -19,7 +21,7 @@ namespace psl
 		abstract_memory_resource(const size_t alignment) noexcept : m_Alignment(alignment) {}
 		virtual ~abstract_memory_resource()									   = default;
 		abstract_memory_resource(const abstract_memory_resource& rhs) noexcept = default;
-		abstract_memory_resource(abstract_memory_resource&& rhs) noexcept	   = default;
+		abstract_memory_resource(abstract_memory_resource&& rhs) noexcept	  = default;
 
 		abstract_memory_resource& operator=(const abstract_memory_resource& rhs) noexcept = default;
 		abstract_memory_resource& operator=(abstract_memory_resource&& rhs) noexcept = default;
@@ -48,9 +50,27 @@ namespace psl
 			return res;
 		}
 
+		/**
+		 * \brief Deallocates the given item, this is the '.data' member from alloc_results<T>
+		 *
+		 * \param[in] item
+		 * \returns true when the deallocation succeeds
+		 * \returns false when the deallocation failed
+		 */
+		bool deallocate(void* item, size_t size, size_t alignment) { return do_deallocate(item, size, alignment); }
+
+		template <typename T>
+		static consteval bool has_trait()
+		{
+			if constexpr(sizeof...(Traits) == 0)
+				return false;
+			else
+				return (std::is_same_v<T, Traits> || ...);
+		}
+
 	  protected:
 		virtual alloc_results<void> do_allocate(size_t size, size_t alignment, size_t count) = 0;
-		virtual bool do_deallocate(void* ptr, size_t alignment)								 = 0;
+		virtual bool do_deallocate(void* ptr, size_t size, size_t alignment)				 = 0;
 
 	  private:
 		size_t m_Alignment;
@@ -58,26 +78,45 @@ namespace psl
 
 
 	template <typename... Traits>
-	class allocator
+	class allocator final
 	{
 	  public:
+		using abstract_memory_resource_t = abstract_memory_resource<Traits...>;
+
+		allocator() = default;
+		allocator(abstract_memory_resource_t* memoryResource) noexcept : m_MemoryResource(memoryResource){};
+		~allocator()							   = default;
+		allocator(const allocator& other) noexcept = default;
+		allocator(allocator&& other) noexcept	  = default;
+		allocator& operator=(const allocator& other) noexcept = default;
+		allocator& operator=(allocator&& other) noexcept = default;
+
 		template <typename T>
 		alloc_results<T> allocate(size_t bytes = sizeof(T), size_t alignment = alignof(T))
-		{}
-
-	  private:
-	};
-
-	class new_resource : psl::abstract_memory_resource<psl::traits::shareable_t<true>>
-	{
-	  public:
-		alloc_results<void> do_allocate(size_t size, size_t alignment, size_t count)
-		{ 
-			return {};
+		{
+			return static_cast<alloc_results<T>>(m_MemoryResource->allocate(bytes, alignment, 1));
 		}
 
-		bool do_deallocate(void* ptr, size_t alignment) { return false; }
+		template <typename T>
+		bool deallocate(T* object, size_t bytes = sizeof(T), size_t alignment = alignof(T))
+		{
+			return m_MemoryResource->deallocate(object, bytes, alignment);
+		}
 
 	  private:
+		abstract_memory_resource_t* m_MemoryResource{nullptr};
+	};
+
+	class new_resource : public config::default_abstract_memory_resource_t
+	{
+		using base_type = config::default_abstract_memory_resource_t;
+
+	  public:
+		new_resource(size_t alignment) : base_type(alignment) {}
+
+	  private:
+		alloc_results<void> do_allocate(size_t size, size_t alignment, size_t count) override;
+
+		bool do_deallocate(void* ptr, size_t size, size_t alignment) override;
 	};
 } // namespace psl

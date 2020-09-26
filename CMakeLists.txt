@@ -53,7 +53,9 @@ endif()
 ### Includes 																										###
 #######################################################################################################################
 
-list(APPEND INC_IMPL)
+list(APPEND INC_IMPL
+	allocator
+	)
 
 list(APPEND PSL_GENERATED_INC
 	config
@@ -65,7 +67,8 @@ list(TRANSFORM PSL_GENERATED_INC APPEND .hpp)
 
 list(APPEND PSL_INC
 	${INC_IMPL}
-	allocator
+	algorithms
+	concepts
 	enum
 	exceptions
 	types
@@ -104,6 +107,7 @@ add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
+	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
 	)
 
 if(opt_make_tests)
