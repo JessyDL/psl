@@ -1,9 +1,9 @@
 {
-  "includes":  ["psl/fwd/allocator.hpp", "psl/allocator_traits.hpp"],
+  "includes":  ["psl/fwd/allocator.hpp"],
   "errors_strategy": "exceptions",
   "implementation_errors_strategy": "exceptions",
   "asserts": "is_debug",
-  "default_abstract_memory_resource": "psl::abstract_memory_resource<psl::traits::shareable_t<true>>",
+  "default_abstract_memory_resource": "psl::abstract_memory_resource<psl::traits::shareable_t<true>, psl::traits::basic_allocation>",
   "default_memory_resource": "psl::new_resource",
-  "default_allocator": "psl::allocator<psl::traits::shareable_t<true>>"
+  "default_allocator": "psl::allocator<psl::traits::shareable_t<true>, psl::traits::basic_allocation>"
 }

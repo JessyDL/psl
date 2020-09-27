@@ -43,7 +43,7 @@ namespace psl
 	 * @brief Exception class signifying a feature that is not yet implemented.
 	 * @details Debug exception type to signify a work-in-progress feature/codepath that should not be used yet.
 	 * Optionally will contain an issue number that links to the project management tool.
-	*/
+	 */
 	class not_implemented : std::exception
 	{
 	  public:
@@ -51,7 +51,7 @@ namespace psl
 			: m_What(to_message(issue, location))
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
-		not_implemented(not_implemented&& other) noexcept	   = default;
+		not_implemented(not_implemented&& other) noexcept	  = default;
 		not_implemented& operator=(const not_implemented& other) noexcept = default;
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
 		~not_implemented()											 = default;

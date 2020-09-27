@@ -32,6 +32,8 @@ namespace psl
 			return alloc_results<Y>{(Y*)data, head, tail, stride};
 		}
 
+		constexpr size_t size() const noexcept { return (size_t)(tail) - (size_t)(head); }
+
 		constexpr operator bool() const noexcept { return stride != 0; }
 		/// \cond NOPE
 		type* data{nullptr};
@@ -42,3 +44,11 @@ namespace psl
 		/// \endcond
 	};
 } // namespace psl
+
+namespace psl::traits
+{
+	struct basic_allocation;
+
+	template <bool Value>
+	struct shareable_t;
+} // namespace psl::traits

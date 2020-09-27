@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-option(opt_make_tests "build tests" FALSE)
+option(opt_make_tests "build tests" TRUE)
 option(opt_make_documentation "build documentation" TRUE)
 
 
@@ -104,10 +104,14 @@ target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${
 target_link_libraries(${LOCAL_PROJECT} fmt)
 add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 
+# -Wno-error=terminate is silenced globally due to constent expressions not figuring out that they are not runtime, and 
+# so warn of throws in noexcept marked functions.
+
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<CXX_COMPILER_ID:GCC>:-Wno-error=terminate -Wall -Wextra -pedantic>
 	)
 
 if(opt_make_tests)
