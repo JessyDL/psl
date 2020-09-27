@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>fwd/allocator.hpp file | Paradigm
+  <title>psl::traits::allocator_trait&lt;debug_basic_allocation, Y&gt; struct | Paradigm
 Standard
 Library</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
@@ -53,7 +53,9 @@ Library</a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_4b402f12b0a15b9a1b59a364c0b52536.html">fwd</a>/</span>allocator.hpp <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="debug__basic__allocation_8hpp.html">&lt;debug/debug_basic_allocation.hpp&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Y&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacepsl.html">psl</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespacepsl_1_1traits.html">traits</a>::<wbr/></span>allocator_trait&lt;debug_basic_allocation, Y&gt; <span class="m-thin">struct</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -62,44 +64,36 @@ Library</a>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacepsl.html" class="m-doc">psl</a></dt>
-            <dd>root library namespace</dd>
-            <dt>namespace <a href="namespacepsl_1_1traits.html" class="m-doc">psl::traits</a></dt>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Y&gt;</div>
+              struct <a href="structpsl_1_1traits_1_1allocator__trait_3_01basic__allocation_00_01Y_01_4.html" class="m-doc">allocator_trait&lt;basic_allocation, Y&gt;</a> <span class="m-label m-flat m-warning">protected</span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">psl::abstract_memory_resource</a>
-            </dt>
-            <dd>Abstract memory resource interface.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1allocator.html" class="m-doc">psl::allocator</a>
-            </dt>
-            <dd>Traited allocator class, as a replacement for the <code>std::pmr::allocator</code></dd>
-            <dt>
+            <dt id="a634664d84ea7b2c738432e8c497d1f90">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structpsl_1_1alloc__results.html" class="m-doc">psl::alloc_results</a>
+              <span class="m-doc-wrap-bumper">auto <a href="#a634664d84ea7b2c738432e8c497d1f90" class="m-doc-self">allocate</a>(</span><span class="m-doc-wrap">size_t bytes = sizeof(T)) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;T&gt;</span>
             </dt>
-            <dd>Result type of an allocation invocation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;bool Value&gt;</div>
-              struct <a href="structpsl_1_1traits_1_1shareable__t.html" class="m-doc">psl::traits::shareable_t</a>
+            <dd><span></span></dd>
+            <dt id="a5b4a9fa80fe4025bef59e1d288d7082a">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5b4a9fa80fe4025bef59e1d288d7082a" class="m-doc-self">deallocate</a>(</span><span class="m-doc-wrap">T* object,
+              size_t bytes = sizeof(T)) -&gt; bool</span>
             </dt>
-            <dd>Indicates if the resource allocates in a way that can be shared with others.</dd>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

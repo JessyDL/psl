@@ -64,16 +64,26 @@ Library</a>
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pro-methods">Protected functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
 <p>Used to describe the intended API for implementing a custom memory resource. The Traits can be used to extend the API of the abstract class.</p>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename Y&gt;</div>
+              struct <a href="structpsl_1_1traits_1_1memory__resource__trait.html" class="m-doc">memory_resource_trait&lt;Traits, abstract_memory_resource&lt;Traits...&gt;&gt;</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="derived-classes">
           <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
@@ -129,112 +139,7 @@ Library</a>
               <span class="m-doc-wrap-bumper">auto <a href="#ae726a5d52eb4c2e240dfc3eb03e01562" class="m-doc-self">alignment</a>(</span><span class="m-doc-wrap">) const -&gt; size_t <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae784c77304b41aa990e5511d623a8679" class="m-doc">allocate</a>(</span><span class="m-doc-wrap">size_t size,
-              size_t alignment,
-              size_t count = 1) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;void&gt; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Attempts to allocate the given size, and returns the information of said allocation.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae6337714ebf96efec9318098e9f1599b" class="m-doc">deallocate</a>(</span><span class="m-doc-wrap">void* item,
-              size_t size,
-              size_t alignment) -&gt; bool</span>
-            </dt>
-            <dd>Deallocates the given item, this is the &#x27;.data&#x27; member from alloc_results&lt;T&gt;</dd>
           </dl>
-        </section>
-        <section id="pro-methods">
-          <h2><a href="#pro-methods">Protected functions</a></h2>
-          <dl class="m-doc">
-            <dt id="a1f15a5c7c1e0b2f0efeb5a5bdc5c1260">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1f15a5c7c1e0b2f0efeb5a5bdc5c1260" class="m-doc-self">do_allocate</a>(</span><span class="m-doc-wrap">size_t size,
-              size_t alignment,
-              size_t count) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;void&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a9bdf35e00f4a419e7abe26f669a5655e">
-              <span class="m-doc-wrap-bumper">auto <a href="#a9bdf35e00f4a419e7abe26f669a5655e" class="m-doc-self">do_deallocate</a>(</span><span class="m-doc-wrap">void* ptr,
-              size_t size,
-              size_t alignment) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ae784c77304b41aa990e5511d623a8679"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename... Traits&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;void&gt; psl::<wbr />abstract_memory_resource&lt;Traits&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae784c77304b41aa990e5511d623a8679" class="m-doc-self">allocate</a>(</span><span class="m-doc-wrap">size_t size,
-              size_t alignment,
-              size_t count = 1) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Attempts to allocate the given size, and returns the information of said allocation.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">size&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>Amount you wish the allocate (this will be the minimum allocated size)</td>
-                </tr>
-                <tr>
-                  <td>alignment&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>Special alignment override for the given allocation</td>
-                </tr>
-                <tr>
-                  <td>count&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>how many items should be allocated</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>alloc_results&lt;void&gt;</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the alignment override cannot override the backing resource&#x27;s own requirements, instead the allocation will try to satisfy both (or fail the allocation). For example, if the resource requires 4 byte alignment, and the user requests 6 byte alignment, the least common alignment they both satisfy is 12 bytes.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ae6337714ebf96efec9318098e9f1599b"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename... Traits&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool psl::<wbr />abstract_memory_resource&lt;Traits&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae6337714ebf96efec9318098e9f1599b" class="m-doc-self">deallocate</a>(</span><span class="m-doc-wrap">void* item,
-              size_t size,
-              size_t alignment)</span></span>
-            </h3>
-            <p>Deallocates the given item, this is the &#x27;.data&#x27; member from alloc_results&lt;T&gt;</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">item&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>size&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>Original size of the allocation</td>
-                </tr>
-                <tr>
-                  <td>alignment&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>Original alignment of the allocation</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>true when the deallocation succeeds</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
         </section>
       </div>
     </div>

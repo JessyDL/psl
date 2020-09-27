@@ -101,7 +101,7 @@ Library</a>
               <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
               class <a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>
             </dt>
-            <dd><span></span></dd>
+            <dd>Traited allocator class, as a replacement for the <code>std::pmr::allocator</code></dd>
             <dt>
               class <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a>
             </dt>
@@ -185,6 +185,18 @@ Library</a>
               T alignment) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Aligns a value to the previous possible value that satisfies the alignment (including the seed value)</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... Traits, typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a29cff9741d5e6c6080ba49c0dfb44a17" class="m-doc">construct</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
+              Args &amp;&amp; ... args) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;T&gt;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a945ffdc2dc80a2225f8d5f6645cfa7bb" class="m-doc">destroy</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
+              T&amp; object) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="var-members">
@@ -486,6 +498,28 @@ Library</a>
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a29cff9741d5e6c6080ba49c0dfb44a17"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... Traits, typename... Args&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;T&gt; psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a29cff9741d5e6c6080ba49c0dfb44a17" class="m-doc-self">construct</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
+              Args &amp;&amp; ... args)</span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a945ffdc2dc80a2225f8d5f6645cfa7bb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... Traits&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a945ffdc2dc80a2225f8d5f6645cfa7bb" class="m-doc-self">destroy</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
+              T&amp; object)</span></span>
+            </h3>
+            <p><span></span></p>
           </div></section>
         </section>
         <section>
