@@ -66,7 +66,7 @@ namespace psl::traits
 
 	/**
 	 * \brief Basic allocation interface.
-	 * @details can be compared to a simplistic allocator, that can only allocate in bytes.
+	 * \details can be compared to a simplistic allocator, that can only allocate in bytes.
 	 * The alignment is determined by the alignof of the target object.
 	 *
 	 */
@@ -114,14 +114,14 @@ namespace psl::traits
 		template <typename T>
 		alloc_results<T> allocate(size_t bytes = sizeof(T))
 		{
-			auto* memoryResource = ((Y*)(this))->memory_resource();
+			auto* memoryResource = ((Y*)(this))->resource();
 			return static_cast<alloc_results<T>>(memoryResource->allocate(bytes, alignof(T)));
 		}
 
 		template <typename T>
 		bool deallocate(T* object, size_t bytes = sizeof(T))
 		{
-			auto* memoryResource = ((Y*)(this))->memory_resource();
+			auto* memoryResource = ((Y*)(this))->resource();
 			return memoryResource->deallocate(object, bytes, alignof(T));
 		}
 	};
@@ -147,7 +147,7 @@ namespace psl::traits
 		{
 			PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
 			auto res = do_allocate(size, alignment);
-			PSL_CONTRACT_EXCEPT_IF(res && (size_t)res.tail % ((const Y*)this)->alignment() != 0,
+			PSL_CONTRACT_EXCEPT_IF(res && (std::uintptr_t)res.tail % ((const Y*)this)->alignment() != 0,
 								   "implementation of abstract region does not satisfy the requirements");
 			return res;
 		}

@@ -14,9 +14,7 @@ namespace psl
 	 * \details Used to describe the intended API for implementing a custom memory resource.
 	 * The Traits can be used to extend the API of the abstract class.
 	 */
-	template <typename... Traits>
 	class abstract_memory_resource
-		: public traits::memory_resource_trait<Traits, abstract_memory_resource<Traits...>>...
 	{
 	  public:
 		abstract_memory_resource(const size_t alignment) noexcept : m_Alignment(alignment) {}
@@ -29,6 +27,29 @@ namespace psl
 
 		size_t alignment() const noexcept { return m_Alignment; }
 
+	  private:
+		size_t m_Alignment;
+	};
+
+
+	/**
+	 * \brief Base class to derive your custom memory resource from.
+	 *
+	 * \tparam Traits
+	 */
+	template <typename... Traits>
+	class traited_memory_resource : public traits::memory_resource_trait<Traits, traited_memory_resource<Traits...>>...,
+									public abstract_memory_resource
+	{
+	  public:
+		traited_memory_resource(const size_t alignment) noexcept : abstract_memory_resource(alignment) {}
+		virtual ~traited_memory_resource()									 = default;
+		traited_memory_resource(const traited_memory_resource& rhs) noexcept = default;
+		traited_memory_resource(traited_memory_resource&& rhs) noexcept		 = default;
+
+		traited_memory_resource& operator=(const traited_memory_resource& rhs) noexcept = default;
+		traited_memory_resource& operator=(traited_memory_resource&& rhs) noexcept = default;
+
 		template <typename T>
 		static consteval bool has_trait()
 		{
@@ -37,11 +58,7 @@ namespace psl
 			else
 				return (std::is_same_v<T, Traits> || ...);
 		}
-
-	  private:
-		size_t m_Alignment;
 	};
-
 
 	/**
 	 * \brief Traited allocator class, as a replacement for the `std::pmr::allocator`
@@ -57,10 +74,11 @@ namespace psl
 	class allocator final : public traits::allocator_trait<Traits, allocator<Traits...>>...
 	{
 	  public:
-		using abstract_memory_resource_t = abstract_memory_resource<Traits...>;
+		using abstract_memory_resource_t = abstract_memory_resource;
+		using traited_memory_resource_t  = traited_memory_resource<Traits...>;
 
 		allocator() = default;
-		allocator(abstract_memory_resource_t* memoryResource) noexcept : m_MemoryResource(memoryResource){};
+		allocator(traited_memory_resource_t* memoryResource) noexcept : m_MemoryResource(memoryResource){};
 		~allocator() = default;
 
 		allocator(const allocator& other) noexcept = default;
@@ -68,10 +86,12 @@ namespace psl
 		allocator& operator=(const allocator& other) noexcept = default;
 		allocator& operator=(allocator&& other) noexcept = default;
 
-		abstract_memory_resource_t* memory_resource() { return m_MemoryResource; }
+		abstract_memory_resource_t* abstract_resource() { return (abstract_memory_resource_t*)m_MemoryResource; }
+
+		traited_memory_resource_t* resource() { return m_MemoryResource; }
 
 	  private:
-		abstract_memory_resource_t* m_MemoryResource{nullptr};
+		traited_memory_resource_t* m_MemoryResource{nullptr};
 	};
 
 	template <typename T, typename... Traits, typename... Args>
@@ -96,9 +116,10 @@ namespace psl
 		}
 	}
 
-	class new_resource : public config::default_abstract_memory_resource_t
+	class new_resource
+		: public psl::traited_memory_resource<psl::traits::shareable_t<true>, psl::traits::basic_allocation>
 	{
-		using base_type = config::default_abstract_memory_resource_t;
+		using base_type = psl::traited_memory_resource<psl::traits::shareable_t<true>, psl::traits::basic_allocation>;
 
 	  public:
 		new_resource(size_t alignment) : base_type(alignment) {}

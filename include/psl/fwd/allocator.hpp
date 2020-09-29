@@ -2,8 +2,10 @@
 
 namespace psl
 {
-	template <typename... Traits>
 	class abstract_memory_resource;
+
+	template <typename... Traits>
+	class traited_memory_resource;
 
 	template <typename... Traits>
 	class allocator;
@@ -32,13 +34,13 @@ namespace psl
 			return alloc_results<Y>{(Y*)data, head, tail, stride};
 		}
 
-		constexpr size_t size() const noexcept { return (size_t)(tail) - (size_t)(head); }
+		constexpr size_t size() const noexcept { return tail - head; }
 
 		constexpr operator bool() const noexcept { return stride != 0; }
 		/// \cond NOPE
 		type* data{nullptr};
-		void* head{0};
-		void* tail{0};
+		std::byte* head{0};
+		std::byte* tail{0};
 		size_t stride{0}; // stride till the next element (if doing a multi alloc), or till the end of the block
 
 		/// \endcond

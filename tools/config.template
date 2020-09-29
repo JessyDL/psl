@@ -54,13 +54,6 @@ namespace psl::config
 	constexpr static bool implementation_asserts = implementation_errors_strategy_v == exceptions_handling::ASSERTS;
 	
 	/**
-	 * \brief Default abstract memory resource to use.
-	 * \details Can be used to override the base abstract resources the built-in `memory_resource`'s use. Do be cautious
-	 * of this setting.
-	 */
-	using default_abstract_memory_resource_t = $DEFAULT_ABSTRACT_MEMORY_RESOURCE;
-	
-	/**
 	 * \brief Default memory resource that will be used by containers, or anything needed allocations.
 	 * \details Can be used to override the `memory_resource` used by most collection type classes. Be mindful that the
 	 * new resource does need to adhere to the traits.

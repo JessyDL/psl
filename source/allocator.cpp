@@ -13,14 +13,14 @@ alloc_results<void> new_resource::do_allocate(size_t size, size_t alignment)
 
 	// auto requested = aligned_bytes + (stride * (count - 1));
 	auto requested = aligned_bytes;
-	auto res	   = operator new(requested, std::align_val_t{align});
+	std::byte* res = (std::byte*)operator new(requested, std::align_val_t{align});
 
 	PSL_EXCEPT_IF(!res, std::runtime_error, "no allocation happened");
 
 	alloc_results<void> result{};
 	result.data   = res;
 	result.head   = res;
-	result.tail   = (void*)((size_t)result.data + requested);
+	result.tail   = (std::byte*)((size_t)result.data + requested);
 	result.stride = stride;
 	return result;
 }
