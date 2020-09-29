@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>psl::abstract_memory_resource class | Paradigm
+  <title>psl::traited_memory_resource class | Paradigm
 Standard
 Library</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
@@ -53,56 +53,77 @@ Library</a>
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacepsl.html">psl</a>::<wbr/></span>abstract_memory_resource <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacepsl.html">psl</a>::<wbr/></span>traited_memory_resource <span class="m-thin">class</span>
         </h1>
-        <p>Abstract memory resource interface.</p>
+        <p>Base class to derive your custom memory resource from.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Traits</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>Used to describe the intended API for implementing a custom memory resource. The Traits can be used to extend the API of the abstract class.</p>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_memory_resource</a>
+              <div class="m-doc-template">template&lt;typename T, typename Y&gt;</div>
+              struct <a href="structpsl_1_1traits_1_1memory__resource__trait.html" class="m-doc">memory_resource_trait&lt;Traits, traited_memory_resource&lt;Traits...&gt;&gt;</a>
             </dt>
-            <dd>Base class to derive your custom memory resource from.</dd>
+            <dd><span></span></dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_memory_resource</a>
+              class <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_memory_resource</a>
             </dt>
-            <dd>Base class to derive your custom memory resource from.</dd>
+            <dd>Abstract memory resource interface.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a98da060aa6728ca4df4b0d3089ddd76a">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a href="#a98da060aa6728ca4df4b0d3089ddd76a" class="m-doc-self">has_trait</a>(</span><span class="m-doc-wrap">) -&gt; consteval bool</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a679fc0b4e5e9f447e551766e53cbdc6f">
-              <span class="m-doc-wrap-bumper"><a href="#a679fc0b4e5e9f447e551766e53cbdc6f" class="m-doc-self">abstract_memory_resource</a>(</span><span class="m-doc-wrap">const size_t alignment) <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aad9d575bf6e45efd32b5425871fb33a9">
+              <span class="m-doc-wrap-bumper"><a href="#aad9d575bf6e45efd32b5425871fb33a9" class="m-doc-self">traited_memory_resource</a>(</span><span class="m-doc-wrap">const size_t alignment) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a3b2461eef08f0da5da88694295dfdc80">
-              <span class="m-doc-wrap-bumper"><a href="#a3b2461eef08f0da5da88694295dfdc80" class="m-doc-self">~abstract_memory_resource</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            <dt id="ac4322c5224a85f949b835e05461093bc">
+              <span class="m-doc-wrap-bumper"><a href="#ac4322c5224a85f949b835e05461093bc" class="m-doc-self">~traited_memory_resource</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aefa11a6c2f1558a95915f52efdd7206e">
-              <span class="m-doc-wrap-bumper"><a href="#aefa11a6c2f1558a95915f52efdd7206e" class="m-doc-self">abstract_memory_resource</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp; rhs) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a32d17f75d4276298355247d7a83ebf97">
+              <span class="m-doc-wrap-bumper"><a href="#a32d17f75d4276298355247d7a83ebf97" class="m-doc-self">traited_memory_resource</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp; rhs) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aa3accdddb64cde45d8c326fbdf9dbda6">
-              <span class="m-doc-wrap-bumper"><a href="#aa3accdddb64cde45d8c326fbdf9dbda6" class="m-doc-self">abstract_memory_resource</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp;&amp; rhs) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a9ebc8cd4a97cd2d512ed607f2387f763">
+              <span class="m-doc-wrap-bumper"><a href="#a9ebc8cd4a97cd2d512ed607f2387f763" class="m-doc-self">traited_memory_resource</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp;&amp; rhs) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -110,16 +131,12 @@ Library</a>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a1422d7e626fe1170f6c56c693bd6cdef">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1422d7e626fe1170f6c56c693bd6cdef" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp; rhs) -&gt; <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a93c0a33b2f90c491b56b745615ccedec">
+              <span class="m-doc-wrap-bumper">auto <a href="#a93c0a33b2f90c491b56b745615ccedec" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp; rhs) -&gt; <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ac702748e977aa3fe587b162be0119fb6">
-              <span class="m-doc-wrap-bumper">auto <a href="#ac702748e977aa3fe587b162be0119fb6" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp;&amp; rhs) -&gt; <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_<wbr />memory_<wbr />resource</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ac76c3f97898b9041177f819f1ea9a078">
-              <span class="m-doc-wrap-bumper">auto <a href="#ac76c3f97898b9041177f819f1ea9a078" class="m-doc-self">alignment</a>(</span><span class="m-doc-wrap">) const -&gt; size_t <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="abf4eb0a8b60aca6fd0a31d5276e2293d">
+              <span class="m-doc-wrap-bumper">auto <a href="#abf4eb0a8b60aca6fd0a31d5276e2293d" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp;&amp; rhs) -&gt; <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_<wbr />memory_<wbr />resource</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
