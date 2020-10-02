@@ -9,18 +9,10 @@ set(DOC_PROJECT "Documentation")
 set(LOCAL_PROJECT ${DOC_PROJECT})
 project(${LOCAL_PROJECT} VERSION 1.0.0)
 
-include(FetchContent)
+SET(Python_ADDITIONAL_VERSIONS 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+find_package(PythonInterp REQUIRED)
 
-FetchContent_Declare(
-	mcss
-	GIT_REPOSITORY
-	https://github.com/mosra/m.css.git
-)
-
-FetchContent_GetProperties(mcss)
-if(NOT mcss_POPULATED)
-	FetchContent_Populate(mcss)
-endif()
+set(mcss_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/externals/mcss")
 
 set(DOXYGEN_PROJECT_NAME ${PSL})
 set(DOXYGEN_PROJECT_VERSION ${${PSL_PROJECT}_VERSION})
@@ -30,28 +22,18 @@ set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 configure_file(${CMAKE_CURRENT_LIST_DIR}/doxyfile ${CMAKE_CURRENT_BINARY_DIR}/doxyfile)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/configuration.py ${CMAKE_CURRENT_BINARY_DIR}/configuration.py)
 
-file(GLOB CSS
-  "css/*"
-)
-set(commands)
-foreach(file ${CSS})
-  list(APPEND commands
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${file} "${mcss_SOURCE_DIR}/css")
-endforeach()
-
-add_custom_target(${LOCAL_PROJECT}_COPY ${commands} WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
-add_custom_target(${LOCAL_PROJECT}_COMPILE 
-    COMMAND "${mcss_SOURCE_DIR}/css/postprocess.py" m-dark.css
-    COMMAND "${mcss_SOURCE_DIR}/css/postprocess.py" m-dark.css m-documentation.css -o m-dark+documentation.compiled.css
-    COMMAND "${mcss_SOURCE_DIR}/css/postprocess.py" m-dark.css m-theme-dark.css m-documentation.css --no-import -o m-dark.documentation.compiled.css
-    DEPENDS ${LOCAL_PROJECT}_COPY WORKING_DIRECTORY "${mcss_SOURCE_DIR}/css")
+add_custom_target(${LOCAL_PROJECT}_COMPILE_CSS 
+    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css -o "m-dark.compiled.css"
+    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css m-documentation.css -o "m-dark+documentation.compiled.css"
+    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css m-theme-dark.css m-documentation.css --no-import -o "m-dark.documentation.compiled.css"
+    WORKING_DIRECTORY "${mcss_SOURCE_DIR}/css")
 
 add_custom_target(
     ${LOCAL_PROJECT}
     COMMAND cmake -E make_directory "${DOXYGEN_OUTPUT_DIRECTORY}"
-    COMMAND "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
+    COMMAND ${PYTHON_EXECUTABLE} "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
     COMMAND echo "Generated documentation to: ${DOXYGEN_OUTPUT_DIRECTORY}"
-    DEPENDS ${PSL_GENERATED_INC} ${LOCAL_PROJECT}_COMPILE
+    DEPENDS ${PSL_GENERATED_INC} ${LOCAL_PROJECT}_COMPILE_CSS 
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
