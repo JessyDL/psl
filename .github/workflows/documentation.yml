@@ -17,7 +17,10 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: prepare
-      run: sudo apt-get install -y doxygen
+      run: | 
+        sudo apt-get install -y doxygen
+        git submodule foreach 'git config -f .gitmodules submodule.$sm_path.shallow true'
+        git submodule update --init --recursive
 
     - name: configure
       run: cmake . -Bbuild -Dopt_make_documentation=ON -Dopt_make_tests=OFF
