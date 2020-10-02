@@ -1,3 +1,3 @@
 [submodule "documentation/externals/mcss"]
 	path = documentation/externals/mcss
-	url = git@github.com:JessyDL/m.css.git
+	url = https://github.com/JessyDL/m.css.git
