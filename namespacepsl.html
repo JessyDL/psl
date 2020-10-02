@@ -1,427 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>psl namespace | Paradigm
+	<meta charset="UTF-8" />
+	<title>psl namespace | Paradigm
 Standard
-Library</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
-  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
-  <link rel="icon" href="favicon-dark.png" type="image/png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#22272e" />
+Library	</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
+	<link rel="stylesheet" href="m-dark+documentation.compiled.css" title="dark"/>
+	<link rel="stylesheet-alternate" href="m-light+documentation.compiled.css" title="light"/>
+	<link rel="icon" href="favicon-dark.png" type="image/png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#22272e" />
 </head>
-<body>
-<header><nav id="navigation">
-  <div class="m-container">
-    <div class="m-row">
-      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">Paradigm
+
+<body style="visibility: hidden;" onload="html_load()">
+	<header>
+		<nav id="navigation">
+			<div class="m-container">
+				<div class="m-row">
+					<a href="index.html" id="m-navbar-brand"
+						class="m-col-t-8 m-col-m-none m-left-m">Paradigm
 Standard
 Library</a>
-      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
-        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
-          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
-        </svg></a>
-        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
-        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
-      </div>
-      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
-        <div class="m-row">
-          <ol class="m-col-t-6 m-col-m-none">
-            <li>
-              <a href="pages.html">Pages</a>
-              <ol>
-                <li><a href="about.html">About</a></li>
-              </ol>
-            </li>
-            <li><a href="namespaces.html">Namespaces</a></li>
-          </ol>
-          <ol class="m-col-t-6 m-col-m-none" start="3">
-            <li><a href="annotated.html">Classes</a></li>
-            <li><a href="files.html">Files</a></li>
-            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
-              <use href="#m-doc-search-icon-path" />
-            </svg></a></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav></header>
-<main><article>
-  <div class="m-container m-container-inflatable">
-    <div class="m-row">
-      <div class="m-col-l-10 m-push-l-1">
+					<div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+						<a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg
+								style="height: 0.9rem;" viewBox="0 0 16 16">
+								<path id="m-doc-search-icon-path"
+									d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" />
+							</svg></a>
+						<a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+						<a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+					</div>
+					<div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+						<div class="m-row">
+							<ol class="m-col-t-6 m-col-m-none">
+								<li>
+									<a href="pages.html"
+>Pages</a>
+									<ol>
+										<li><a href="about.html"
+>About</a></li>
+									</ol>
+								</li>
+								<li><a href="namespaces.html"
+>Namespaces</a></li>
+							</ol>
+							<ol class="m-col-t-6 m-col-m-none" start="3">
+								<li><a href="annotated.html"
+>Classes</a></li>
+								<li><a href="files.html"
+>Files</a></li>
+								<li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search"
+										onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+											<use href="#m-doc-search-icon-path" />
+										</svg></a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="sidenav">
+			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+			<a href="namespacepsl.html">psl</a>
+<ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1config.html">config</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1details.html">details</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1source__location.html">source_location</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1traits.html">traits</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1alignment__override.html">alignment_override</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1allocator__trait.html">allocator_trait</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1basic__allocation.html">basic_allocation</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1debug__basic__allocation.html">debug_basic_allocation</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__reachable__t.html">host_reachable_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__readability__t.html">host_readability_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__writability__t.html">host_writability_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1memory__resource__trait.html">memory_resource_trait</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1physically__allocated__t.html">physically_allocated_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1queryable__size__t.html">queryable_size_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1reallocate__able__t.html">reallocate_able_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1shareable__t.html">shareable_t</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1abstract__memory__resource.html">abstract_memory_resource</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1alloc__results.html">alloc_results</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1allocator.html">allocator</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1implementation__error.html">implementation_error</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1new__resource.html">new_resource</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1not__implemented.html">not_implemented</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1traited__memory__resource.html">traited_memory_resource</a>
+  			</li>
+				</ul>
+			</li>
+	  </div>
+	<main>
+		<article>
+			<div class="m-container m-container-inflatable">
+				<div class="m-row">
+					<div class="m-col-l-10 m-push-l-1">
         <h1>
           psl <span class="m-thin">namespace</span>
         </h1>
-        <p>root library namespace</p>
-        <div class="m-block m-default">
-          <h3>Contents</h3>
-          <ul>
-            <li>
-              Reference
-              <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
-                <li><a href="#typedef-members">Typedefs</a></li>
-                <li><a href="#func-members">Functions</a></li>
-                <li><a href="#var-members">Variables</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+<p>root library namespace</p>
+<div class="m-block m-default">
+	<h3>Contents</h3>
+	<ul>
+		<li><a href="#namespaces">Namespaces</a></li>
+		<li><a href="#nested-classes">Classes</a></li>
+		<li><a href="#enum-members">Enums</a></li>
+		<li><a href="#typedef-members">Typedefs</a></li>
+		<li><a href="#func-members">Functions</a></li>
+		<li><a href="#var-members">Variables</a></li>
+	</ul>
+</div>
 <p>the entire Paradigm Standard Library lives in this namespace. Rarely some free functions might be declared, but they will likely be limited in scope to a certain constraint (like `enum.hpp&#x27;)</p>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-doc">
-            <dt>namespace <a href="namespacepsl_1_1config.html" class="m-doc">config</a></dt>
-            <dd>contains all configurations options for PSL</dd>
-            <dt>namespace <a href="namespacepsl_1_1details.html" class="m-doc">details</a></dt>
-            <dd><span></span></dd>
-            <dt>namespace <a href="namespacepsl_1_1traits.html" class="m-doc">traits</a></dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              class <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_memory_resource</a>
-            </dt>
-            <dd>Abstract memory resource interface.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_results</a>
-            </dt>
-            <dd>Result type of an allocation invocation.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>
-            </dt>
-            <dd>Traited allocator class, as a replacement for the <code>std::pmr::allocator</code></dd>
-            <dt>
-              class <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a>
-            </dt>
-            <dd>Exception class to notify the user of implementation errors.</dd>
-            <dt>
-              class <a href="classpsl_1_1new__resource.html" class="m-doc">new_resource</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              class <a href="classpsl_1_1not__implemented.html" class="m-doc">not_implemented</a>
-            </dt>
-            <dd>Exception class signifying a feature that is not yet implemented.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename... Traits&gt;</div>
-              class <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_memory_resource</a>
-            </dt>
-            <dd>Base class to derive your custom memory resource from.</dd>
-          </dl>
-        </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">enum <a href="#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_ops_t</a> { </span><span class="m-doc-wrap"><a href="#aecb0a8885bdc42c770bc3dddd7a7717eab50339a10e1de285ac99d4c3990b8693" class="m-doc">NONE</a> = 0,
-              <a href="#aecb0a8885bdc42c770bc3dddd7a7717eadb957fdc8000e1eef04a243f5199aa52" class="m-doc">BIT</a> = 1 &lt;&lt; 0,
-              <a href="#aecb0a8885bdc42c770bc3dddd7a7717ea46afff2b309b8b16a46d812172a9235c" class="m-doc">SHIFT</a> = 1 &lt;&lt; 1,
-              <a href="#aecb0a8885bdc42c770bc3dddd7a7717ea78c4822e271ae44dd7798dfd8abf35f7" class="m-doc">ARITHMETIC</a> = 1 &lt;&lt; 2,
-              <a href="#aecb0a8885bdc42c770bc3dddd7a7717ea3ac41e252379806a89e97a5755b95011" class="m-doc">LOGICAL</a> = 1 &lt;&lt; 3 }</span>
-            </dt>
-            <dd>Defines the set of operations that can be applied to the given enum.</dd>
-          </dl>
-        </section>
-        <section id="typedef-members">
-          <h2><a href="#typedef-members">Typedefs</a></h2>
-          <dl class="m-doc">
-            <dt>
-              using <a href="#ab9a8494b19c4906d32d3d40e4372ec5d" class="m-doc">i8</a> = std::int8_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#a83e88be43ecf118f9014b1d72f151cbd" class="m-doc">i16</a> = std::int16_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#a233642f847e61fe40fa60e9df275e490" class="m-doc">i32</a> = std::int32_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#ad55fdd525cb04201e14a47d33e97d6ff" class="m-doc">i64</a> = std::int64_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#ac8e67c008905e6e0b06b5662e3d8d621" class="m-doc">ui8</a> = std::uint8_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#aa3a07418e7c56b0b12a6f32f92c4deae" class="m-doc">ui16</a> = std::uint16_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> = std::uint32_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> = std::uint64_t
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              using <a href="#ad0345cb20849797a7a6a113e16543326" class="m-doc">uint</a> = unsigned int
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
-          <dl class="m-doc">
-            <dt>
+<section id="namespaces">
+	<h2><a href="#namespaces">Namespaces</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td><a href="namespacepsl_1_1config.html" class="m-doc">config</a></td>
+            <td>contains all configurations options for PSL</td>
+	</tr>
+	<tr>
+	            <td><a href="namespacepsl_1_1details.html" class="m-doc">details</a></td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td><a href="namespacepsl_1_1traits.html" class="m-doc">traits</a></td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="nested-classes">
+	<h2><a href="#nested-classes">Classes</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+              <a href="classpsl_1_1abstract__memory__resource.html" class="m-doc">abstract_memory_resource</a>            </td>
+            <td>Abstract memory resource interface.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_results<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>Result type of an allocation invocation.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1allocator.html" class="m-doc">allocator<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>Traited allocator class, as a replacement for the <code>std::pmr::allocator</code></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a>            </td>
+            <td>Exception class to notify the user of implementation errors.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1new__resource.html" class="m-doc">new_resource</a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1not__implemented.html" class="m-doc">not_implemented</a>            </td>
+            <td>Exception class signifying a feature that is not yet implemented.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1traited__memory__resource.html" class="m-doc">traited_memory_resource<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>Base class to derive your custom memory resource from.</td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="enum-members">
+	<h2><a href="#enum-members">Enums</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+              <span class="m-doc-wrap-bumper">global <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717e"
+                  class="m-doc-self">enum_ops_t</a></span>
+              </td>
+              <td>Defines the set of operations that can be applied to the given enum.</td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="typedef-members">
+	<h2><a href="#typedef-members">Typedefs</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+<a href="#ab9a8494b19c4906d32d3d40e4372ec5d" class="m-doc">i8</a> = std::int8_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#a83e88be43ecf118f9014b1d72f151cbd" class="m-doc">i16</a> = std::int16_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#a233642f847e61fe40fa60e9df275e490" class="m-doc">i32</a> = std::int32_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#ad55fdd525cb04201e14a47d33e97d6ff" class="m-doc">i64</a> = std::int64_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#ac8e67c008905e6e0b06b5662e3d8d621" class="m-doc">ui8</a> = std::uint8_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#aa3a07418e7c56b0b12a6f32f92c4deae" class="m-doc">ui16</a> = std::uint16_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> = std::uint32_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> = std::uint64_t
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+<a href="#ad0345cb20849797a7a6a113e16543326" class="m-doc">uint</a> = unsigned int
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="func-members">
+	<h2><a href="#func-members">Functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
               <div class="m-doc-template">template&lt;IsIntegral T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a4983f8e1acf57fdfd4037d837539e4cb" class="m-doc">align_to</a>(</span><span class="m-doc-wrap">T value,
               T alignment) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Aligns a value to the next possible value that satisfies the alignment.</dd>
-            <dt>
+            </td>
+            <td>Aligns a value to the next possible value that satisfies the alignment.</td>
+	</tr>
+	<tr>
+	            <td>
               <div class="m-doc-template">template&lt;IsIntegral T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#aa5416c274074f6eabe8b5c88dc6d021b" class="m-doc">ralign_to</a>(</span><span class="m-doc-wrap">T value,
               T alignment) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Aligns a value to the previous possible value that satisfies the alignment (including the seed value)</dd>
-            <dt>
+            </td>
+            <td>Aligns a value to the previous possible value that satisfies the alignment (including the seed value)</td>
+	</tr>
+	<tr>
+	            <td>
               <div class="m-doc-template">template&lt;typename T, typename... Traits, typename... Args&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a29cff9741d5e6c6080ba49c0dfb44a17" class="m-doc">construct</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
               Args &amp;&amp; ... args) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;T&gt;</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <div class="m-doc-template">template&lt;typename T, typename... Traits&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a945ffdc2dc80a2225f8d5f6645cfa7bb" class="m-doc">destroy</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
               T&amp; object) -&gt; bool</span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="var-members">
-          <h2><a href="#var-members">Variables</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a61df533186bebc02df18d25898ca7884" class="m-doc">IsIntegral</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc">IsSignedIntegral</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a47c466908f9ea380df78c589cc628906" class="m-doc">IsUnsignedIntegral</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc">IsArithmetic</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;IsEnumClass T&gt;</div>
-              <a href="namespacepsl.html#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_<wbr />ops_<wbr />t</a> <a href="#a7e9f14b7d6a0a338137233b5b298b8b8" class="m-doc">enable_enum_ops</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>Customization point, override for your given enum to allow those specific operations to be applied.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              auto <a href="#ac3241701e780ad3e499e9d320da103c8" class="m-doc">enable_enum_ops< enum_ops_t ></a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc">HasEnumBitOps</a>
-            </dt>
-            <dd>True for any enum class that has bit arithmetic operations.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc">HasEnumShiftOps</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc">HasEnumArithmeticOps</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              concept <a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc">HasEnumLogicalOps</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              std::string_view <a href="#ac88d071afc0b69dd89ccba2a60f4d90a" class="m-doc">VERSION_TIME_UTC</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              std::string_view <a href="#addf5e86d91200f4935e3270ba4c82e4b" class="m-doc">VERSION_SHA1</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              std::string_view <a href="#ae6b3b5b481b861c094fd85a930cb7a2b" class="m-doc">VERSION_FULL</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <a href="namespacepsl.html#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> <a href="#a192bf2beaf9fbc8300479547ecc37734" class="m-doc">VERSION_TIME_UNIX</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a58129a2353cc4469662a08b01ce23822" class="m-doc">VERSION_MAJOR</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#ad29c4857ae93ac0b70e3c2008f82232b" class="m-doc">VERSION_MINOR</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a689ebef54a83f341ff929f56ab02d6ae" class="m-doc">VERSION_PATCH</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a8e80bc79d783990756f8253b1f119b55" class="m-doc">VERSION</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              static std::array&lt;std::string_view, 1&gt; <a href="#a58082b4ae5433d0564c91ae772af5630" class="m-doc">PROJECT_CREDITS</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="aecb0a8885bdc42c770bc3dddd7a7717e"><div>
-            <h3>
-              enum psl::<wbr /><a href="#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc-self">enum_ops_t</a>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
-            </h3>
-            <p>Defines the set of operations that can be applied to the given enum.</p>
-            <table class="m-table m-fullwidth m-flat m-doc">
-              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><a href="#aecb0a8885bdc42c770bc3dddd7a7717eab50339a10e1de285ac99d4c3990b8693" class="m-doc-self" id="aecb0a8885bdc42c770bc3dddd7a7717eab50339a10e1de285ac99d4c3990b8693">NONE</a></td>
-                  <td>
-                  <p>No operations permitted.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#aecb0a8885bdc42c770bc3dddd7a7717eadb957fdc8000e1eef04a243f5199aa52" class="m-doc-self" id="aecb0a8885bdc42c770bc3dddd7a7717eadb957fdc8000e1eef04a243f5199aa52">BIT</a></td>
-                  <td>
-                  <p>bit operators are permitted</p>
-<p>operators <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&amp;=</code>, <code>|=</code>, and <code>^=</code></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#aecb0a8885bdc42c770bc3dddd7a7717ea46afff2b309b8b16a46d812172a9235c" class="m-doc-self" id="aecb0a8885bdc42c770bc3dddd7a7717ea46afff2b309b8b16a46d812172a9235c">SHIFT</a></td>
-                  <td>
-                  <p>shift related operators are permitted</p>
-<p>operators <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&lt;&lt;=</code>, and <code>&gt;&gt;=</code></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#aecb0a8885bdc42c770bc3dddd7a7717ea78c4822e271ae44dd7798dfd8abf35f7" class="m-doc-self" id="aecb0a8885bdc42c770bc3dddd7a7717ea78c4822e271ae44dd7798dfd8abf35f7">ARITHMETIC</a></td>
-                  <td>
-                  <p>remaining arithmetic operators that do not fall in the previous categories</p>
-<p>operators <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, <code>%</code>, <code>+=</code>, <code>-=</code>, <code>/=</code>, <code>*=</code>, and <code>%=</code>, for both the enum&#x27;s underlaying type as well as any type that can normally do these actions with the underlaying type</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#aecb0a8885bdc42c770bc3dddd7a7717ea3ac41e252379806a89e97a5755b95011" class="m-doc-self" id="aecb0a8885bdc42c770bc3dddd7a7717ea3ac41e252379806a89e97a5755b95011">LOGICAL</a></td>
-                  <td>
-                  <p>defines the logical <code>bool operator&amp;&amp;</code> (AND) to return true when the left-hand side satisfies the flag of the right-hand side</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>do take special care when enabling this as it changes the behaviour of the logical and operator, which might be confusing</p></aside>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-        </section>
-        <section>
-          <h2>Typedef documentation</h2>
-          <section class="m-doc-details" id="ab9a8494b19c4906d32d3d40e4372ec5d"><div>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="var-members">
+	<h2><a href="#var-members">Variables</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#aecb0a8885bdc42c770bc3dddd7a7717e" class="m-doc">enum_<wbr />ops_<wbr />t</a> <a href="#a7e9f14b7d6a0a338137233b5b298b8b8" class="m-doc">enable_enum_ops<span class="m-doc-template">&lt;...&gt;</div></a>
+            </td>
+            <td>Customization point, override for your given enum to allow those specific operations to be applied.</td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              auto <a href="#ac3241701e780ad3e499e9d320da103c8" class="m-doc">enable_enum_ops< enum_ops_t ><span class="m-doc-template">&lt;...&gt;</div></a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              std::string_view <a href="#ac88d071afc0b69dd89ccba2a60f4d90a" class="m-doc">VERSION_TIME_UTC</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              std::string_view <a href="#addf5e86d91200f4935e3270ba4c82e4b" class="m-doc">VERSION_SHA1</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              std::string_view <a href="#ae6b3b5b481b861c094fd85a930cb7a2b" class="m-doc">VERSION_FULL</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> <a href="#a192bf2beaf9fbc8300479547ecc37734" class="m-doc">VERSION_TIME_UNIX</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a58129a2353cc4469662a08b01ce23822" class="m-doc">VERSION_MAJOR</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#ad29c4857ae93ac0b70e3c2008f82232b" class="m-doc">VERSION_MINOR</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a689ebef54a83f341ff929f56ab02d6ae" class="m-doc">VERSION_PATCH</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> <a href="#a8e80bc79d783990756f8253b1f119b55" class="m-doc">VERSION</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span><span class="m-attr-block m-attr-static"></span></td><td>
+              std::array&lt;std::string_view, 1&gt; <a href="#a58082b4ae5433d0564c91ae772af5630" class="m-doc">PROJECT_CREDITS</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<!-- todo: concepts should be handled better -->
+<section id="concepts-members">
+	<h2><a href="#concepts-members">Concepts</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+              <a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a61df533186bebc02df18d25898ca7884" class="m-doc">IsIntegral</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc">IsSignedIntegral</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a47c466908f9ea380df78c589cc628906" class="m-doc">IsUnsignedIntegral</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc">IsArithmetic</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc">HasEnumBitOps</a>
+            </td>
+            <td>True for any enum class that has bit arithmetic operations.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc">HasEnumShiftOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc">HasEnumArithmeticOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc">HasEnumLogicalOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+
+<section>
+	<h2>Enum documentation</h2>
+	
+	            <td>
+              <span class="m-doc-wrap-bumper">global <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717e"
+                  class="m-doc">enum_ops_t</a> { </span><span class="m-doc-wrap"><a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717eab50339a10e1de285ac99d4c3990b8693" class="m-doc">NONE</a>                = 0,
+              <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717eadb957fdc8000e1eef04a243f5199aa52" class="m-doc">BIT</a>                = 1 &lt;&lt; 0,
+              <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717ea46afff2b309b8b16a46d812172a9235c" class="m-doc">SHIFT</a>                = 1 &lt;&lt; 1,
+              <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717ea78c4822e271ae44dd7798dfd8abf35f7" class="m-doc">ARITHMETIC</a>                = 1 &lt;&lt; 2,
+              <a
+                  href="#aecb0a8885bdc42c770bc3dddd7a7717ea3ac41e252379806a89e97a5755b95011" class="m-doc">LOGICAL</a>                = 1 &lt;&lt; 3                }</span>
+              </td>
+              <td>Defines the set of operations that can be applied to the given enum.</td>
+	
+</section>
+
+<section>
+	<h2>Typedef documentation</h2>
+	          <section class="m-doc-details" id="ab9a8494b19c4906d32d3d40e4372ec5d"><div>
             <h3>
               using psl::<wbr /><a href="#ab9a8494b19c4906d32d3d40e4372ec5d" class="m-doc-self">i8</a> = std::int8_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a83e88be43ecf118f9014b1d72f151cbd"><div>
+	          <section class="m-doc-details" id="a83e88be43ecf118f9014b1d72f151cbd"><div>
             <h3>
               using psl::<wbr /><a href="#a83e88be43ecf118f9014b1d72f151cbd" class="m-doc-self">i16</a> = std::int16_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a233642f847e61fe40fa60e9df275e490"><div>
+	          <section class="m-doc-details" id="a233642f847e61fe40fa60e9df275e490"><div>
             <h3>
               using psl::<wbr /><a href="#a233642f847e61fe40fa60e9df275e490" class="m-doc-self">i32</a> = std::int32_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ad55fdd525cb04201e14a47d33e97d6ff"><div>
+	          <section class="m-doc-details" id="ad55fdd525cb04201e14a47d33e97d6ff"><div>
             <h3>
               using psl::<wbr /><a href="#ad55fdd525cb04201e14a47d33e97d6ff" class="m-doc-self">i64</a> = std::int64_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ac8e67c008905e6e0b06b5662e3d8d621"><div>
+	          <section class="m-doc-details" id="ac8e67c008905e6e0b06b5662e3d8d621"><div>
             <h3>
               using psl::<wbr /><a href="#ac8e67c008905e6e0b06b5662e3d8d621" class="m-doc-self">ui8</a> = std::uint8_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aa3a07418e7c56b0b12a6f32f92c4deae"><div>
+	          <section class="m-doc-details" id="aa3a07418e7c56b0b12a6f32f92c4deae"><div>
             <h3>
               using psl::<wbr /><a href="#aa3a07418e7c56b0b12a6f32f92c4deae" class="m-doc-self">ui16</a> = std::uint16_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a2bed41a36a58f6df8510a7930699f14a"><div>
+	          <section class="m-doc-details" id="a2bed41a36a58f6df8510a7930699f14a"><div>
             <h3>
               using psl::<wbr /><a href="#a2bed41a36a58f6df8510a7930699f14a" class="m-doc-self">ui32</a> = std::uint32_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="afaec68b6aa639e2fb37bc21d56064891"><div>
+	          <section class="m-doc-details" id="afaec68b6aa639e2fb37bc21d56064891"><div>
             <h3>
               using psl::<wbr /><a href="#afaec68b6aa639e2fb37bc21d56064891" class="m-doc-self">ui64</a> = std::uint64_t
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ad0345cb20849797a7a6a113e16543326"><div>
+	          <section class="m-doc-details" id="ad0345cb20849797a7a6a113e16543326"><div>
             <h3>
               using psl::<wbr /><a href="#ad0345cb20849797a7a6a113e16543326" class="m-doc-self">uint</a> = unsigned int
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a4983f8e1acf57fdfd4037d837539e4cb"><div>
+</section>
+<section>
+	<h2>Function documentation</h2>
+	          <section class="m-doc-details" id="a4983f8e1acf57fdfd4037d837539e4cb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -462,7 +650,7 @@ Library</a>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aa5416c274074f6eabe8b5c88dc6d021b"><div>
+	          <section class="m-doc-details" id="aa5416c274074f6eabe8b5c88dc6d021b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -503,7 +691,7 @@ Library</a>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a29cff9741d5e6c6080ba49c0dfb44a17"><div>
+	          <section class="m-doc-details" id="a29cff9741d5e6c6080ba49c0dfb44a17"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -514,7 +702,7 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a945ffdc2dc80a2225f8d5f6645cfa7bb"><div>
+	          <section class="m-doc-details" id="a945ffdc2dc80a2225f8d5f6645cfa7bb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -525,70 +713,10 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
-        </section>
-        <section>
-          <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc-self">IsIterator</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a61df533186bebc02df18d25898ca7884"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#a61df533186bebc02df18d25898ca7884" class="m-doc-self">IsIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a37877312a7ebfcebbe439a52396b6e4d"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc-self">IsSignedIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a47c466908f9ea380df78c589cc628906"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#a47c466908f9ea380df78c589cc628906" class="m-doc-self">IsUnsignedIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ad82cddf7b267b0209b53b7679bcae6ae"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc-self">IsArithmetic</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="aed1964bcaafbacc15d18337329f0f11d"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-              concept psl::<wbr /><a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc-self">IsEnumClass</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a7e9f14b7d6a0a338137233b5b298b8b8"><div>
+</section>
+<section>
+	<h2>Variable documentation</h2>
+	          <section class="m-doc-details" id="a7e9f14b7d6a0a338137233b5b298b8b8"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -609,7 +737,7 @@ Library</a>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ac3241701e780ad3e499e9d320da103c8"><div>
+	          <section class="m-doc-details" id="ac3241701e780ad3e499e9d320da103c8"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
@@ -619,13 +747,139 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a489322f505f1a10097fcf56c687977e4"><div>
+	          <section class="m-doc-details" id="ac88d071afc0b69dd89ccba2a60f4d90a"><div>
+            <h3>
+              std::string_view psl::<wbr /><a href="#ac88d071afc0b69dd89ccba2a60f4d90a" class="m-doc-self">VERSION_TIME_UTC</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="addf5e86d91200f4935e3270ba4c82e4b"><div>
+            <h3>
+              std::string_view psl::<wbr /><a href="#addf5e86d91200f4935e3270ba4c82e4b" class="m-doc-self">VERSION_SHA1</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="ae6b3b5b481b861c094fd85a930cb7a2b"><div>
+            <h3>
+              std::string_view psl::<wbr /><a href="#ae6b3b5b481b861c094fd85a930cb7a2b" class="m-doc-self">VERSION_FULL</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a192bf2beaf9fbc8300479547ecc37734"><div>
+            <h3>
+              <a href="namespacepsl.html#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> psl::<wbr /><a href="#a192bf2beaf9fbc8300479547ecc37734" class="m-doc-self">VERSION_TIME_UNIX</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a58129a2353cc4469662a08b01ce23822"><div>
+            <h3>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a58129a2353cc4469662a08b01ce23822" class="m-doc-self">VERSION_MAJOR</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="ad29c4857ae93ac0b70e3c2008f82232b"><div>
+            <h3>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#ad29c4857ae93ac0b70e3c2008f82232b" class="m-doc-self">VERSION_MINOR</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a689ebef54a83f341ff929f56ab02d6ae"><div>
+            <h3>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a689ebef54a83f341ff929f56ab02d6ae" class="m-doc-self">VERSION_PATCH</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a8e80bc79d783990756f8253b1f119b55"><div>
+            <h3>
+              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a8e80bc79d783990756f8253b1f119b55" class="m-doc-self">VERSION</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a58082b4ae5433d0564c91ae772af5630"><div>
+            <h3>
+              static std::array&lt;std::string_view, 1&gt; psl::<wbr /><a href="#a58082b4ae5433d0564c91ae772af5630" class="m-doc-self">PROJECT_CREDITS</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+</section>
+<section>
+	<h2>Concepts documentation</h2>
+	          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc-self">IsIterator</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a61df533186bebc02df18d25898ca7884"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a61df533186bebc02df18d25898ca7884" class="m-doc-self">IsIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a37877312a7ebfcebbe439a52396b6e4d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc-self">IsSignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a47c466908f9ea380df78c589cc628906"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a47c466908f9ea380df78c589cc628906" class="m-doc-self">IsUnsignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="ad82cddf7b267b0209b53b7679bcae6ae"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc-self">IsArithmetic</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="aed1964bcaafbacc15d18337329f0f11d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              concept psl::<wbr /><a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc-self">HasEnumBitOps</a>
+               psl::<wbr /><a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc-self">IsEnumClass</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a489322f505f1a10097fcf56c687977e4"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc-self">HasEnumBitOps</a>
             </h3>
             <p>True for any enum class that has bit arithmetic operations.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -640,120 +894,62 @@ Library</a>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a799389cae625dfbc61da4be1682fb6bd"><div>
+	          <section class="m-doc-details" id="a799389cae625dfbc61da4be1682fb6bd"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              concept psl::<wbr /><a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc-self">HasEnumShiftOps</a>
+               psl::<wbr /><a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc-self">HasEnumShiftOps</a>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a73da34e11adadbeb66e17416e7d917c9"><div>
+	          <section class="m-doc-details" id="a73da34e11adadbeb66e17416e7d917c9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              concept psl::<wbr /><a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc-self">HasEnumArithmeticOps</a>
+               psl::<wbr /><a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc-self">HasEnumArithmeticOps</a>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aee521239c4547570f2294d3a49db0ea0"><div>
+	          <section class="m-doc-details" id="aee521239c4547570f2294d3a49db0ea0"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              concept psl::<wbr /><a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc-self">HasEnumLogicalOps</a>
+               psl::<wbr /><a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc-self">HasEnumLogicalOps</a>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ac88d071afc0b69dd89ccba2a60f4d90a"><div>
-            <h3>
-              std::string_view psl::<wbr /><a href="#ac88d071afc0b69dd89ccba2a60f4d90a" class="m-doc-self">VERSION_TIME_UTC</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="addf5e86d91200f4935e3270ba4c82e4b"><div>
-            <h3>
-              std::string_view psl::<wbr /><a href="#addf5e86d91200f4935e3270ba4c82e4b" class="m-doc-self">VERSION_SHA1</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ae6b3b5b481b861c094fd85a930cb7a2b"><div>
-            <h3>
-              std::string_view psl::<wbr /><a href="#ae6b3b5b481b861c094fd85a930cb7a2b" class="m-doc-self">VERSION_FULL</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a192bf2beaf9fbc8300479547ecc37734"><div>
-            <h3>
-              <a href="namespacepsl.html#afaec68b6aa639e2fb37bc21d56064891" class="m-doc">ui64</a> psl::<wbr /><a href="#a192bf2beaf9fbc8300479547ecc37734" class="m-doc-self">VERSION_TIME_UNIX</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a58129a2353cc4469662a08b01ce23822"><div>
-            <h3>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a58129a2353cc4469662a08b01ce23822" class="m-doc-self">VERSION_MAJOR</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ad29c4857ae93ac0b70e3c2008f82232b"><div>
-            <h3>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#ad29c4857ae93ac0b70e3c2008f82232b" class="m-doc-self">VERSION_MINOR</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a689ebef54a83f341ff929f56ab02d6ae"><div>
-            <h3>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a689ebef54a83f341ff929f56ab02d6ae" class="m-doc-self">VERSION_PATCH</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a8e80bc79d783990756f8253b1f119b55"><div>
-            <h3>
-              <a href="namespacepsl.html#a2bed41a36a58f6df8510a7930699f14a" class="m-doc">ui32</a> psl::<wbr /><a href="#a8e80bc79d783990756f8253b1f119b55" class="m-doc-self">VERSION</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a58082b4ae5433d0564c91ae772af5630"><div>
-            <h3>
-              static std::array&lt;std::string_view, 1&gt; psl::<wbr /><a href="#a58082b4ae5433d0564c91ae772af5630" class="m-doc-self">PROJECT_CREDITS</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="psl_8hpp.html">&lt;psl.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-        </section>
-      </div>
-    </div>
-  </div>
-</article></main>
-<div class="m-doc-search" id="search">
-  <a href="#!" onclick="return hideSearch()"></a>
-  <div class="m-container">
-    <div class="m-row">
-      <div class="m-col-m-8 m-push-m-2">
-        <div class="m-doc-search-header m-text m-small">
-          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
-          <div id="search-symbolcount">&hellip;</div>
-        </div>
-        <div class="m-doc-search-content">
-          <form>
-            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
-          </form>
-          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
-          <div id="search-help" class="m-text m-dim m-text-center">
-            <p class="m-noindent">Search for symbols, directories, files, pages or
+</section>
+					</div>
+				</div>
+			</div>
+		</article>
+	</main>
+	<div class="m-doc-search" id="search">
+		<a href="#!" onclick="return hideSearch()"></a>
+		<div class="m-container">
+			<div class="m-row">
+				<div class="m-col-m-8 m-push-m-2">
+					<div class="m-doc-search-header m-text m-small">
+						<div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to
+							search, <span class="m-label m-default">Esc</span> to close</div>
+						<div id="search-symbolcount">&hellip;</div>
+					</div>
+					<div class="m-doc-search-content">
+						<form>
+							<input type="search" name="q" id="search-input" placeholder="Loading &hellip;"
+								disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+							</form>
+							<noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the
+								search
+								functionality <em>requires</em> JavaScript.</noscript>
+							<div id="search-help" class="m-text m-dim m-text-center">
+								<p class="m-noindent">Search for symbols, directories, files, pages or
             modules. You can omit any prefix from the symbol or file path; adding a
             <code>:</code> or <code>/</code> suffix lists all members of given symbol or
             directory.</p>
@@ -764,26 +960,71 @@ Library</a>
             copy a link to the result using <span class="m-label m-dim">⌘</span>
             <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
             <span class="m-label m-dim">M</span> produces a Markdown link.</p>
-          </div>
-          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
-          <ul id="search-results"></ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script src="search-v1.js"></script>
-<script src="searchdata-v1.js" async="async"></script>
-<footer><nav>
-  <div class="m-container">
-    <div class="m-row">
-      <div class="m-col-l-10 m-push-l-1">
-        <p>Paradigm
-Standard
-Library. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.13 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
-      </div>
-    </div>
-  </div>
-</nav></footer>
+							</div>
+							<div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was
+								found.</div>
+							<ul id="search-results"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="search-v1.js"></script>
+	<script src="searchdata-v1.js" async="async"></script>
+
+	<script type="text/javascript">
+function setActiveStyleSheet(title) {
+   var i, a;
+   var allElements = document.getElementsByTagName("link");
+   for(i=0; i < allElements.length; i++) {
+     a = allElements[i];
+     if(a != null && a.getAttribute("rel")?.indexOf("style") != -1
+        && a.getAttribute("title")) {
+
+        a.disabled = a.getAttribute("title") != title;
+       setCookie("stylesheet", title);
+     }
+   }
+}
+
+function html_load() {
+  document.body.style.visibility='visible';
+  var cookie = getCookie("stylesheet");
+  if(cookie && cookie != "") {
+    setActiveStyleSheet(cookie);
+  }
+}
+
+function setCookie(cname, cvalue) {
+  setCookie(cname, cvalue, 3650);
+}
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}     </script>
+	<footer>
+	<select style="float: right; left: -345px; position: relative;">
+		<option onclick="setActiveStyleSheet('dark')">dark</option> 
+		<option onclick="setActiveStyleSheet('light')">light</option> 
+	</select>
+	</footer>
 </body>
+
 </html>
