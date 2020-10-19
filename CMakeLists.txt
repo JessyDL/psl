@@ -7,14 +7,19 @@ SET(PSL "Paradigm Standard Library")
 set(PSL_PROJECT "psl")
 set(LOCAL_PROJECT ${PSL_PROJECT})
 project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
+include(CMakeDependentOption)
 
 set(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-option(opt_make_tests "build tests" TRUE)
-option(opt_make_documentation "build documentation" TRUE)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+option(tests "build tests" TRUE)
+option(documentation "build documentation" TRUE)
+cmake_dependent_option(coverage "show the code coverage of the tests" FALSE "tests" FALSE)
 
 
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -111,14 +116,21 @@ target_compile_options(${LOCAL_PROJECT} PUBLIC
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
-	$<$<CXX_COMPILER_ID:GCC>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
 	)
 
-if(opt_make_tests)
+target_link_options(${LOCAL_PROJECT} PUBLIC
+	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage>
+)
+
+set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE $<BOOL:${coverage}>)
+
+if(tests)
 	include(CTest)
 	add_subdirectory(tests)
 endif()
 
-if(opt_make_documentation)
+if(documentation)
 	add_subdirectory(documentation)
 endif()

@@ -75,8 +75,13 @@ target_compile_options(${LOCAL_PROJECT} PUBLIC
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
-	$<$<CXX_COMPILER_ID:GCC>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
 	)
+
+target_link_options(${LOCAL_PROJECT} PUBLIC
+	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage>
+)
 
 include(GoogleTest)
 
