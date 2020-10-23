@@ -339,6 +339,13 @@ Library</a>
             </td>
             <td><span></span></td>
 	</tr>
+	<tr>
+	            <td>
+              <div class="m-doc-template">template&lt;typename T, i64 Stride = 1&gt;</div>
+              <span class="m-doc-wrap-bumper"><a href="#af09183d518f21dcb14286656ccd65e51" class="m-doc">requires</a>(</span><span class="m-doc-wrap">Stride ! = 0) class contiguous_range_iterator</span>
+            </td>
+            <td>denotes an iterator that can go either direction in a contiguous range.</td>
+	</tr>
 	</table>
 
 	</dl>
@@ -457,6 +464,36 @@ Library</a>
 			<table style="width:100%">
 	<tr>
 	            <td>
+              <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc">HasEnumBitOps</a>
+            </td>
+            <td>True for any enum class that has bit arithmetic operations.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc">HasEnumShiftOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc">HasEnumArithmeticOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc">HasEnumLogicalOps</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a>
             </td>
             <td><span></span></td>
@@ -487,31 +524,7 @@ Library</a>
 	</tr>
 	<tr>
 	            <td>
-              <a href="#aed1964bcaafbacc15d18337329f0f11d" class="m-doc">IsEnumClass</a>
-            </td>
-            <td><span></span></td>
-	</tr>
-	<tr>
-	            <td>
-              <a href="#a489322f505f1a10097fcf56c687977e4" class="m-doc">HasEnumBitOps</a>
-            </td>
-            <td>True for any enum class that has bit arithmetic operations.</td>
-	</tr>
-	<tr>
-	            <td>
-              <a href="#a799389cae625dfbc61da4be1682fb6bd" class="m-doc">HasEnumShiftOps</a>
-            </td>
-            <td><span></span></td>
-	</tr>
-	<tr>
-	            <td>
-              <a href="#a73da34e11adadbeb66e17416e7d917c9" class="m-doc">HasEnumArithmeticOps</a>
-            </td>
-            <td><span></span></td>
-	</tr>
-	<tr>
-	            <td>
-              <a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc">HasEnumLogicalOps</a>
+              <a href="#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc">IsRange</a>
             </td>
             <td><span></span></td>
 	</tr>
@@ -713,6 +726,31 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
+	          <section class="m-doc-details" id="af09183d518f21dcb14286656ccd65e51"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="iterators_8hpp.html">&lt;iterators.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, i64 Stride = 1&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af09183d518f21dcb14286656ccd65e51" class="m-doc-self">requires</a>(</span><span class="m-doc-wrap">Stride ! = 0) class contiguous_range_iterator</span></span>
+            </h3>
+            <p>denotes an iterator that can go either direction in a contiguous range.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>type of the value to iterate over</td>
+                </tr>
+                <tr>
+                  <td>Stride</td>
+                  <td>indices to jump</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
 </section>
 <section>
 	<h2>Variable documentation</h2>
@@ -813,56 +851,6 @@ Library</a>
 </section>
 <section>
 	<h2>Concepts documentation</h2>
-	          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-               psl::<wbr /><a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc-self">IsIterator</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-	          <section class="m-doc-details" id="a61df533186bebc02df18d25898ca7884"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-               psl::<wbr /><a href="#a61df533186bebc02df18d25898ca7884" class="m-doc-self">IsIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-	          <section class="m-doc-details" id="a37877312a7ebfcebbe439a52396b6e4d"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-               psl::<wbr /><a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc-self">IsSignedIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-	          <section class="m-doc-details" id="a47c466908f9ea380df78c589cc628906"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-               psl::<wbr /><a href="#a47c466908f9ea380df78c589cc628906" class="m-doc-self">IsUnsignedIntegral</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-	          <section class="m-doc-details" id="ad82cddf7b267b0209b53b7679bcae6ae"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="concepts_8hpp.html">&lt;concepts.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T&gt;
-              </div>
-               psl::<wbr /><a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc-self">IsArithmetic</a>
-            </h3>
-            <p><span></span></p>
-          </div></section>
 	          <section class="m-doc-details" id="aed1964bcaafbacc15d18337329f0f11d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="enum_8hpp.html">&lt;enum.hpp&gt;</a></div>
@@ -921,6 +909,66 @@ Library</a>
                 template&lt;typename T&gt;
               </div>
                psl::<wbr /><a href="#aee521239c4547570f2294d3a49db0ea0" class="m-doc-self">HasEnumLogicalOps</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc-self">IsIterator</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a61df533186bebc02df18d25898ca7884"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a61df533186bebc02df18d25898ca7884" class="m-doc-self">IsIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a37877312a7ebfcebbe439a52396b6e4d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a37877312a7ebfcebbe439a52396b6e4d" class="m-doc-self">IsSignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a47c466908f9ea380df78c589cc628906"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a47c466908f9ea380df78c589cc628906" class="m-doc-self">IsUnsignedIntegral</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="ad82cddf7b267b0209b53b7679bcae6ae"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#ad82cddf7b267b0209b53b7679bcae6ae" class="m-doc-self">IsArithmetic</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a4da17d8e05864f21ec4a57c2e3af4413"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc-self">IsRange</a>
             </h3>
             <p><span></span></p>
           </div></section>
