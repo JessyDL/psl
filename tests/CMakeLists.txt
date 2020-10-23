@@ -51,6 +51,7 @@ list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
 	allocator
+	iterators
 	)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND include)
@@ -74,8 +75,8 @@ target_compile_options(${LOCAL_PROJECT} PUBLIC
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
-	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
-	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
+	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
 	)
 

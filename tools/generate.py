@@ -5,5 +5,6 @@ import os
 
 if __name__ == "__main__":
     root = os.path.dirname(os.path.realpath(__file__))
-    generate_project_info.generate(root +"/../include/psl/psl.hpp")
-    generate_configuration.generate(root + "/../settings.json", root +"/../include/psl/config.hpp", root + "/config.template")
+    project = os.path.abspath(os.path.join(root, ".."))
+    generate_project_info.generate(os.path.join(project, "include/psl/psl.hpp"))
+    generate_configuration.generate(os.path.join(project, "settings.json"), os.path.join(project, "include/psl/config.hpp"), os.path.join(root, "config.template"))

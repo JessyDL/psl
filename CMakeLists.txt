@@ -73,9 +73,10 @@ list(TRANSFORM PSL_GENERATED_INC APPEND .hpp)
 list(APPEND PSL_INC
 	${INC_IMPL}
 	algorithms
-	concepts
 	enum
 	exceptions
+	iterators
+	type_concepts
 	types
 	)
 
@@ -115,8 +116,8 @@ add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
 	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
-	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic>
-	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic>
+	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
+	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
 	)
 
