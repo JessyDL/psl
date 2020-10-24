@@ -52,6 +52,7 @@ list(APPEND PSL_TESTS_SRC
 	tests
 	allocator
 	iterators
+	span
 	)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND include)

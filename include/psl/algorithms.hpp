@@ -12,7 +12,7 @@ namespace psl
 	 * \returns constexpr auto
 	 */
 	template <IsIntegral T>
-	constexpr inline auto align_to(T value, T alignment) noexcept
+	constexpr auto align_to(T value, T alignment) noexcept
 	{
 		if(alignment <= T{1}) return value;
 		auto remainder = value % alignment;
@@ -28,10 +28,30 @@ namespace psl
 	 * \returns constexpr auto
 	 */
 	template <IsIntegral T>
-	constexpr inline auto ralign_to(T value, T alignment) noexcept
+	constexpr auto ralign_to(T value, T alignment) noexcept
 	{
 		if(alignment <= T{1}) return value;
 		auto remainder = value % alignment;
 		return (remainder) ? value - remainder : value;
 	}
+
+	/**
+	 * \brief Calculates the max amount value fits in target without overflowing
+	 *
+	 * \param value
+	 * \param target
+	 * \return constexpr auto
+	 */
+	constexpr auto greatest_contained_count(auto value, auto target) noexcept
+	{
+		return (target - (target % value)) / value;
+	}
+
+	/**
+	 * \brief Helper to construct the reverse of a given input.
+	 *
+	 * \param range Input to convert to its reverse
+	 * \return constexpr auto
+	 */
+	constexpr auto reverse(IsRange auto& range) noexcept { return range.reverse(); }
 } // namespace psl

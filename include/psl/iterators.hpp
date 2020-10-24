@@ -17,10 +17,12 @@ namespace psl
 	 *
 	 * \tparam T type of the value to iterate over
 	 * \tparam Stride indices to jump
+	 * \note Stride must be a non-zero value
 	 */
 	template <typename T, i64 Stride = 1>
-	requires(Stride != 0) class contiguous_range_iterator
+	class contiguous_range_iterator
 	{
+		static_assert(Stride != 0, "0 stride is not valid");
 		static constexpr size_t AbsStride = (Stride > 0) ? Stride : -Stride;
 
 	  public:
