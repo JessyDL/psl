@@ -127,6 +127,9 @@ Library</a>
   			<a href="classpsl_1_1allocator.html">allocator</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1contiguous__range__iterator.html">contiguous_range_iterator</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1implementation__error.html">implementation_error</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -134,6 +137,9 @@ Library</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1not__implemented.html">not_implemented</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1span.html">span</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1traited__memory__resource.html">traited_memory_resource</a>
@@ -203,6 +209,11 @@ Library</a>
 	</tr>
 	<tr>
 	            <td>
+              <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_range_iterator<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>denotes an iterator that can go either direction in a contiguous range.</td>
+	</tr>
+	<tr>
+	            <td>
               <a href="classpsl_1_1implementation__error.html" class="m-doc">implementation_error</a>            </td>
             <td>Exception class to notify the user of implementation errors.</td>
 	</tr>
@@ -215,6 +226,11 @@ Library</a>
 	            <td>
               <a href="classpsl_1_1not__implemented.html" class="m-doc">not_implemented</a>            </td>
             <td>Exception class signifying a feature that is not yet implemented.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1span.html" class="m-doc">span<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>Span type with optional support for stride.</td>
 	</tr>
 	<tr>
 	            <td>
@@ -325,6 +341,19 @@ Library</a>
 	</tr>
 	<tr>
 	            <td>
+              <span class="m-doc-wrap-bumper">auto <a href="#a53b6c9802f1c9bc22ff5b0baf782720a" class="m-doc">greatest_contained_count</a>(</span><span class="m-doc-wrap">auto value,
+              auto target) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td>Calculates the max amount value fits in target without overflowing.</td>
+	</tr>
+	<tr>
+	            <td>
+              <span class="m-doc-wrap-bumper">auto <a href="#a60376764ac1c9fcc3c68a37843ca2e76" class="m-doc">reverse</a>(</span><span class="m-doc-wrap"><a href="namespacepsl.html#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc">IsRange</a> auto&amp; range) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td>Helper to construct the reverse of a given input.</td>
+	</tr>
+	<tr>
+	            <td>
               <div class="m-doc-template">template&lt;typename T, typename... Traits, typename... Args&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a29cff9741d5e6c6080ba49c0dfb44a17" class="m-doc">construct</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1allocator.html" class="m-doc">allocator</a>&lt;Traits...&gt;&amp; allocator,
               Args &amp;&amp; ... args) -&gt; <a href="structpsl_1_1alloc__results.html" class="m-doc">alloc_<wbr />results</a>&lt;T&gt;</span>
@@ -338,13 +367,6 @@ Library</a>
               T&amp; object) -&gt; bool</span>
             </td>
             <td><span></span></td>
-	</tr>
-	<tr>
-	            <td>
-              <div class="m-doc-template">template&lt;typename T, i64 Stride = 1&gt;</div>
-              <span class="m-doc-wrap-bumper"><a href="#af09183d518f21dcb14286656ccd65e51" class="m-doc">requires</a>(</span><span class="m-doc-wrap">Stride ! = 0) class contiguous_range_iterator</span>
-            </td>
-            <td>denotes an iterator that can go either direction in a contiguous range.</td>
 	</tr>
 	</table>
 
@@ -704,6 +726,59 @@ Library</a>
               </tfoot>
             </table>
           </div></section>
+	          <section class="m-doc-details" id="a53b6c9802f1c9bc22ff5b0baf782720a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a53b6c9802f1c9bc22ff5b0baf782720a" class="m-doc-self">greatest_contained_count</a>(</span><span class="m-doc-wrap">auto value,
+              auto target) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
+            </h3>
+            <p>Calculates the max amount value fits in target without overflowing.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">value</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>target</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>constexpr auto</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+	          <section class="m-doc-details" id="a60376764ac1c9fcc3c68a37843ca2e76"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a60376764ac1c9fcc3c68a37843ca2e76" class="m-doc-self">reverse</a>(</span><span class="m-doc-wrap"><a href="namespacepsl.html#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc">IsRange</a> auto&amp; range) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="algorithms_8hpp.html">&lt;algorithms.hpp&gt;</a></div>
+            </h3>
+            <p>Helper to construct the reverse of a given input.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">range</td>
+                  <td>Input to convert to its reverse</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>constexpr auto</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
 	          <section class="m-doc-details" id="a29cff9741d5e6c6080ba49c0dfb44a17"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="allocator_8hpp.html">&lt;allocator.hpp&gt;</a></div>
@@ -725,31 +800,6 @@ Library</a>
               T&amp; object)</span></span>
             </h3>
             <p><span></span></p>
-          </div></section>
-	          <section class="m-doc-details" id="af09183d518f21dcb14286656ccd65e51"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="iterators_8hpp.html">&lt;iterators.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename T, i64 Stride = 1&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> psl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af09183d518f21dcb14286656ccd65e51" class="m-doc-self">requires</a>(</span><span class="m-doc-wrap">Stride ! = 0) class contiguous_range_iterator</span></span>
-            </h3>
-            <p>denotes an iterator that can go either direction in a contiguous range.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>type of the value to iterate over</td>
-                </tr>
-                <tr>
-                  <td>Stride</td>
-                  <td>indices to jump</td>
-                </tr>
-              </tbody>
-            </table>
           </div></section>
 </section>
 <section>

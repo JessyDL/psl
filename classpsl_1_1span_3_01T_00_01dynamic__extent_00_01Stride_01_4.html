@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>psl::span&lt;T, dynamic_extent, Stride&gt;class | Paradigm
+Standard
+Library	</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
+	<link rel="stylesheet" href="m-dark+documentation.compiled.css" title="dark"/>
+	<link rel="stylesheet-alternate" href="m-light+documentation.compiled.css" title="light"/>
+	<link rel="icon" href="favicon-dark.png" type="image/png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#22272e" />
+</head>
+
+<body style="visibility: hidden;" onload="html_load()">
+	<header>
+		<nav id="navigation">
+			<div class="m-container">
+				<div class="m-row">
+					<a href="index.html" id="m-navbar-brand"
+						class="m-col-t-8 m-col-m-none m-left-m">Paradigm
+Standard
+Library</a>
+					<div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+						<a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg
+								style="height: 0.9rem;" viewBox="0 0 16 16">
+								<path id="m-doc-search-icon-path"
+									d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" />
+							</svg></a>
+						<a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+						<a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+					</div>
+					<div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+						<div class="m-row">
+							<ol class="m-col-t-6 m-col-m-none">
+								<li>
+									<a href="pages.html"
+>Pages</a>
+									<ol>
+										<li><a href="about.html"
+>About</a></li>
+									</ol>
+								</li>
+								<li><a href="namespaces.html"
+>Namespaces</a></li>
+							</ol>
+							<ol class="m-col-t-6 m-col-m-none" start="3">
+								<li><a href="annotated.html"
+>Classes</a></li>
+								<li><a href="files.html"
+>Files</a></li>
+								<li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search"
+										onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+											<use href="#m-doc-search-icon-path" />
+										</svg></a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="sidenav">
+			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+			<a href="namespacepsl.html">psl</a>
+<ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1config.html">config</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1details.html">details</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1source__location.html">source_location</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1traits.html">traits</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1alignment__override.html">alignment_override</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1allocator__trait.html">allocator_trait</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1basic__allocation.html">basic_allocation</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1debug__basic__allocation.html">debug_basic_allocation</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__reachable__t.html">host_reachable_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__readability__t.html">host_readability_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1host__writability__t.html">host_writability_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1memory__resource__trait.html">memory_resource_trait</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1physically__allocated__t.html">physically_allocated_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1queryable__size__t.html">queryable_size_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1reallocate__able__t.html">reallocate_able_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1traits_1_1shareable__t.html">shareable_t</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1abstract__memory__resource.html">abstract_memory_resource</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1alloc__results.html">alloc_results</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1allocator.html">allocator</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1contiguous__range__iterator.html">contiguous_range_iterator</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1implementation__error.html">implementation_error</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1new__resource.html">new_resource</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1not__implemented.html">not_implemented</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1span.html">span</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1traited__memory__resource.html">traited_memory_resource</a>
+  			</li>
+				</ul>
+			</li>
+	  </div>
+	<main>
+		<article>
+			<div class="m-container m-container-inflatable">
+				<div class="m-row">
+					<div class="m-col-l-10 m-push-l-1">
+<h1>
+	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
+			href="span_8hpp.html">&lt;span.hpp&gt;</a></div>
+	<div class="m-doc-template">template&lt;typename		T, <a href="namespacepsl.html#ad55fdd525cb04201e14a47d33e97d6ff" class="m-doc">i64</a>		Stride&gt;</div>
+	<span class="m-breadcrumb"><a
+			href="namespacepsl.html">psl</a>::<wbr/></span>span&lt;T, dynamic_extent, Stride&gt; <span
+		class="m-thin">class</span>
+</h1>
+<p><span></span></p>
+
+<div class="m-block m-default">
+	<h3>Contents</h3>
+	<ul>
+
+		<li><a href="#pub-types">Public types</a></li>
+		<li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+		<li><a href="#pub-methods">Public functions</a></li>
+
+	</ul>
+</div>
+<section id="pub-types">
+	<h2><a href="#pub-types">Public types</a></h2>
+	<dl class="m-doc">
+			<h3>Typedefs</h3>
+	<table style="width:100%">
+		<tr>
+			            <td id="a083ba16ec66c7f1a5e262b37bea3e3a4">
+using <a href="#a083ba16ec66c7f1a5e262b37bea3e3a4" class="m-doc-self">element_type</a> = T
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a28d346cabc55869d39a0ebdb86516013">
+using <a href="#a28d346cabc55869d39a0ebdb86516013" class="m-doc-self">value_type</a> = std::remove_cv_t&lt;T&gt;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="ace9bd46847bb6733da734aee003a6d37">
+using <a href="#ace9bd46847bb6733da734aee003a6d37" class="m-doc-self">size_type</a> = std::size_t
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a0fac46c04c6c1ebb2fa632d1fc8d6f55">
+using <a href="#a0fac46c04c6c1ebb2fa632d1fc8d6f55" class="m-doc-self">difference_type</a> = std::ptrdiff_t
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="abc00fe3dc57c63978f8171dc8bb56a7d">
+using <a href="#abc00fe3dc57c63978f8171dc8bb56a7d" class="m-doc-self">pointer</a> = T*
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a5cef9fd45cc146340dc974d125fc7a6c">
+using <a href="#a5cef9fd45cc146340dc974d125fc7a6c" class="m-doc-self">const_pointer</a> = const T*
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a7aac8788bec846156ce271b20ad98255">
+using <a href="#a7aac8788bec846156ce271b20ad98255" class="m-doc-self">reference</a> = T&amp;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a374411e2f977b516a9ba936cc72c5796">
+using <a href="#a374411e2f977b516a9ba936cc72c5796" class="m-doc-self">const_reference</a> = const T&amp;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="a96f92c3b43fd733993aaf3ebc078c1c2">
+using <a href="#a96f92c3b43fd733993aaf3ebc078c1c2" class="m-doc-self">iterator</a> = <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_<wbr />range_<wbr />iterator</a>&lt;<a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a28d346cabc55869d39a0ebdb86516013" class="m-doc">value_<wbr />type</a>, Stride&gt;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="aaff4ee0fb864a5432654aaab5152a68c">
+using <a href="#aaff4ee0fb864a5432654aaab5152a68c" class="m-doc-self">const_iterator</a> = <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_<wbr />range_<wbr />iterator</a>&lt;const <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a28d346cabc55869d39a0ebdb86516013" class="m-doc">value_<wbr />type</a>, Stride&gt;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="ab8a5abafb0a093c71f7808e388184e95">
+using <a href="#ab8a5abafb0a093c71f7808e388184e95" class="m-doc-self">reverse_iterator</a> = <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_<wbr />range_<wbr />iterator</a>&lt;<a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a28d346cabc55869d39a0ebdb86516013" class="m-doc">value_<wbr />type</a>, -Stride&gt;
+            </td>
+            <td><span></span></td>
+		</tr>
+		<tr>
+			            <td id="ab26011f75b075ac0612edb76b750f539">
+using <a href="#ab26011f75b075ac0612edb76b750f539" class="m-doc-self">const_reverse_iterator</a> = <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_<wbr />range_<wbr />iterator</a>&lt;const <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a28d346cabc55869d39a0ebdb86516013" class="m-doc">value_<wbr />type</a>, -Stride&gt;
+            </td>
+            <td><span></span></td>
+		</tr>
+	</table>
+
+		
+		
+	</dl>
+</section>
+<section id="typeless-methods">
+	<h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="a08af5f11736c115337de5ba77224b2f7">
+              <span class="m-doc-wrap-bumper"><a href="#a08af5f11736c115337de5ba77224b2f7" class="m-doc-self">span</a>(</span><span class="m-doc-wrap"><a href="namespacepsl.html#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a> auto begin,
+              <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a150e9bc57e1333f6c6037e6703843dad">
+              <span class="m-doc-wrap-bumper"><a href="#a150e9bc57e1333f6c6037e6703843dad" class="m-doc-self">span</a>(</span><span class="m-doc-wrap">T* begin,
+              <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a67a03d1f5b2a0f2da5f760648da06a27">
+              <div class="m-doc-template">template&lt;size_t OtherExtent, <a href="namespacepsl.html#ad55fdd525cb04201e14a47d33e97d6ff" class="m-doc">i64</a> OtherStride&gt;</div>
+              <span class="m-doc-wrap-bumper"><a href="#a67a03d1f5b2a0f2da5f760648da06a27" class="m-doc-self">span</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1span.html" class="m-doc">span</a>&lt;T, OtherExtent, OtherStride&gt;&amp; other) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="pub-methods">
+	<h2><a href="#pub-methods">Public functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="ada4274f3f1a25ea48c267839571e8a42">
+              <span class="m-doc-wrap-bumper">auto <a href="#ada4274f3f1a25ea48c267839571e8a42" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> index) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a7aac8788bec846156ce271b20ad98255" class="m-doc">reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="aa6c2180d7ade6bf26b8b0389d9b0bb44">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa6c2180d7ade6bf26b8b0389d9b0bb44" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> index) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a374411e2f977b516a9ba936cc72c5796" class="m-doc">const_<wbr />reference</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="af5435372ab6d75ac6753a27581aaccea">
+              <span class="m-doc-wrap-bumper">auto <a href="#af5435372ab6d75ac6753a27581aaccea" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a96f92c3b43fd733993aaf3ebc078c1c2" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="aa2ad32b74319337b1e656d07bd467d8e">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa2ad32b74319337b1e656d07bd467d8e" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#aaff4ee0fb864a5432654aaab5152a68c" class="m-doc">const_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a9dd849887ef1e0b7d7cf87a9d8bfe8f7">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9dd849887ef1e0b7d7cf87a9d8bfe8f7" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a96f92c3b43fd733993aaf3ebc078c1c2" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ab2af6857e08ef5f51cca5bf6af3f9ce7">
+              <span class="m-doc-wrap-bumper">auto <a href="#ab2af6857e08ef5f51cca5bf6af3f9ce7" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#aaff4ee0fb864a5432654aaab5152a68c" class="m-doc">const_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a5a2fe27cdbae5b07134ed7ccf5dfb316">
+              <span class="m-doc-wrap-bumper">auto <a href="#a5a2fe27cdbae5b07134ed7ccf5dfb316" class="m-doc-self">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#aaff4ee0fb864a5432654aaab5152a68c" class="m-doc">const_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ac7a27260adbd52fe2b7c9d0bf16e3baf">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac7a27260adbd52fe2b7c9d0bf16e3baf" class="m-doc-self">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#aaff4ee0fb864a5432654aaab5152a68c" class="m-doc">const_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="afef3a5531aeba16ef56f2a815e245643">
+              <span class="m-doc-wrap-bumper">auto <a href="#afef3a5531aeba16ef56f2a815e245643" class="m-doc-self">rbegin</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab8a5abafb0a093c71f7808e388184e95" class="m-doc">reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a16dd969fc5754cc449883dfc6de886ae">
+              <span class="m-doc-wrap-bumper">auto <a href="#a16dd969fc5754cc449883dfc6de886ae" class="m-doc-self">rbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab26011f75b075ac0612edb76b750f539" class="m-doc">const_<wbr />reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a666fbb22681c4721008d4874591fd87c">
+              <span class="m-doc-wrap-bumper">auto <a href="#a666fbb22681c4721008d4874591fd87c" class="m-doc-self">rend</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab8a5abafb0a093c71f7808e388184e95" class="m-doc">reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ac67d6cbb674e72066415e711e41284d2">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac67d6cbb674e72066415e711e41284d2" class="m-doc-self">rend</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab26011f75b075ac0612edb76b750f539" class="m-doc">const_<wbr />reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="abc746f0bfbc2d05aed438a8351ecd9af">
+              <span class="m-doc-wrap-bumper">auto <a href="#abc746f0bfbc2d05aed438a8351ecd9af" class="m-doc-self">crbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab26011f75b075ac0612edb76b750f539" class="m-doc">const_<wbr />reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="acfc06da2446fe3522037dff4a8bf3c3e">
+              <span class="m-doc-wrap-bumper">auto <a href="#acfc06da2446fe3522037dff4a8bf3c3e" class="m-doc-self">crend</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ab26011f75b075ac0612edb76b750f539" class="m-doc">const_<wbr />reverse_<wbr />iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="acd6c410c4bf792d1db9b64fd33ab39d7">
+              <span class="m-doc-wrap-bumper">auto <a href="#acd6c410c4bf792d1db9b64fd33ab39d7" class="m-doc-self">data</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#abc00fe3dc57c63978f8171dc8bb56a7d" class="m-doc">pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a785b6a24637f3c108be84383bd7a10e9">
+              <span class="m-doc-wrap-bumper">auto <a href="#a785b6a24637f3c108be84383bd7a10e9" class="m-doc-self">front</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#abc00fe3dc57c63978f8171dc8bb56a7d" class="m-doc">pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a8f2cd8ba9a30e98fd7589ac9e1473391">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f2cd8ba9a30e98fd7589ac9e1473391" class="m-doc-self">front</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a5cef9fd45cc146340dc974d125fc7a6c" class="m-doc">const_<wbr />pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a87b617b8aeb0e4a23a5bd7b2a53dbee1">
+              <span class="m-doc-wrap-bumper">auto <a href="#a87b617b8aeb0e4a23a5bd7b2a53dbee1" class="m-doc-self">back</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#abc00fe3dc57c63978f8171dc8bb56a7d" class="m-doc">pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a47dca3b852fabfa94f09f36ac12d07f2">
+              <span class="m-doc-wrap-bumper">auto <a href="#a47dca3b852fabfa94f09f36ac12d07f2" class="m-doc-self">back</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#a5cef9fd45cc146340dc974d125fc7a6c" class="m-doc">const_<wbr />pointer</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a32f872f33ed00402a75624013e05a3b8">
+              <span class="m-doc-wrap-bumper">auto <a href="#a32f872f33ed00402a75624013e05a3b8" class="m-doc-self">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="aec46789aedf7effe9773b4b23be9ed9a">
+              <span class="m-doc-wrap-bumper">auto <a href="#aec46789aedf7effe9773b4b23be9ed9a" class="m-doc-self">size_bytes</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="aacb49bcf49ddfbcab83a5510b7a33c87">
+              <span class="m-doc-wrap-bumper">auto <a href="#aacb49bcf49ddfbcab83a5510b7a33c87" class="m-doc-self">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a18c26b462dca81d791875648b494c4f0">
+              <span class="m-doc-wrap-bumper">auto <a href="#a18c26b462dca81d791875648b494c4f0" class="m-doc-self">stride</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span_3_01T_00_01dynamic__extent_00_01Stride_01_4.html#ace9bd46847bb6733da734aee003a6d37" class="m-doc">size_<wbr />type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a36937e494a6f3d319a579b6a71f38f5f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a36937e494a6f3d319a579b6a71f38f5f" class="m-doc-self">reverse</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classpsl_1_1span.html" class="m-doc">span</a>&lt;T, dynamic_extent, -Stride&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+					</div>
+				</div>
+			</div>
+		</article>
+	</main>
+	<div class="m-doc-search" id="search">
+		<a href="#!" onclick="return hideSearch()"></a>
+		<div class="m-container">
+			<div class="m-row">
+				<div class="m-col-m-8 m-push-m-2">
+					<div class="m-doc-search-header m-text m-small">
+						<div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to
+							search, <span class="m-label m-default">Esc</span> to close</div>
+						<div id="search-symbolcount">&hellip;</div>
+					</div>
+					<div class="m-doc-search-content">
+						<form>
+							<input type="search" name="q" id="search-input" placeholder="Loading &hellip;"
+								disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+							</form>
+							<noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the
+								search
+								functionality <em>requires</em> JavaScript.</noscript>
+							<div id="search-help" class="m-text m-dim m-text-center">
+								<p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+							</div>
+							<div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was
+								found.</div>
+							<ul id="search-results"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="search-v1.js"></script>
+	<script src="searchdata-v1.js" async="async"></script>
+
+	<script type="text/javascript">
+function setActiveStyleSheet(title) {
+   var i, a;
+   var allElements = document.getElementsByTagName("link");
+   for(i=0; i < allElements.length; i++) {
+     a = allElements[i];
+     if(a != null && a.getAttribute("rel")?.indexOf("style") != -1
+        && a.getAttribute("title")) {
+
+        a.disabled = a.getAttribute("title") != title;
+       setCookie("stylesheet", title);
+     }
+   }
+}
+
+function html_load() {
+  document.body.style.visibility='visible';
+  var cookie = getCookie("stylesheet");
+  if(cookie && cookie != "") {
+    setActiveStyleSheet(cookie);
+  }
+}
+
+function setCookie(cname, cvalue) {
+  setCookie(cname, cvalue, 3650);
+}
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}     </script>
+	<footer>
+	<select style="float: right; left: -345px; position: relative;">
+		<option onclick="setActiveStyleSheet('dark')">dark</option> 
+		<option onclick="setActiveStyleSheet('light')">light</option> 
+	</select>
+	</footer>
+</body>
+
+</html>
