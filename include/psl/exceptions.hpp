@@ -7,18 +7,10 @@
 
 namespace psl
 {
-	/**
-	 * \brief Exception class to notify the user of implementation errors.
-	 * \details Gets thrown in instances where the user has implemented an extension or feature incorrectly.
-	 * When you see this exception being raised, read the documentation, or inspect the code surrounding the
-	 * exception location for further information on how to resolve the issue.
-	 *
-	 */
-	class implementation_error : std::exception
+	class exception : public std::exception
 	{
 	  public:
-		implementation_error(const std::string& message, const source_location& location = source_location::current())
-			: m_What()
+		exception(const std::string& message, const source_location& location = source_location::current())
 		{
 			m_What.append("at: ");
 			m_What.append(location.file_name());
@@ -27,16 +19,36 @@ namespace psl
 			m_What.append("\n");
 			m_What.append(message);
 		}
-		implementation_error(const implementation_error& other) noexcept = default;
-		implementation_error(implementation_error&& other) noexcept		 = default;
-		implementation_error& operator=(const implementation_error& other) noexcept = default;
-		implementation_error& operator=(implementation_error&& other) noexcept = default;
-		~implementation_error()												   = default;
+
+		exception(const exception& other) noexcept = default;
+		exception(exception&& other) noexcept	  = default;
+		exception& operator=(const exception& other) noexcept = default;
+		exception& operator=(exception&& other) noexcept = default;
+		virtual ~exception()							 = default;
 
 		const char* what() const noexcept override { return m_What.c_str(); };
 
 	  private:
-		std::string m_What;
+		std::string m_What{};
+	};
+	/**
+	 * \brief Exception class to notify the user of implementation errors.
+	 * \details Gets thrown in instances where the user has implemented an extension or feature incorrectly.
+	 * When you see this exception being raised, read the documentation, or inspect the code surrounding the
+	 * exception location for further information on how to resolve the issue.
+	 *
+	 */
+	class implementation_error : exception
+	{
+	  public:
+		implementation_error(const std::string& message, const source_location& location = source_location::current())
+			: exception(message, location)
+		{}
+		implementation_error(const implementation_error& other) noexcept = default;
+		implementation_error(implementation_error&& other) noexcept		 = default;
+		implementation_error& operator=(const implementation_error& other) noexcept = default;
+		implementation_error& operator=(implementation_error&& other) noexcept = default;
+		virtual ~implementation_error()										   = default;
 	};
 
 	/**
@@ -44,17 +56,17 @@ namespace psl
 	 * @details Debug exception type to signify a work-in-progress feature/codepath that should not be used yet.
 	 * Optionally will contain an issue number that links to the project management tool.
 	 */
-	class not_implemented : std::exception
+	class not_implemented : exception
 	{
 	  public:
 		not_implemented(size_t issue, const source_location& location = source_location::current())
-			: m_What(to_message(issue, location))
+			: exception(to_message(issue, location), location)
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
 		not_implemented(not_implemented&& other) noexcept	  = default;
 		not_implemented& operator=(const not_implemented& other) noexcept = default;
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
-		~not_implemented()											 = default;
+		virtual ~not_implemented()									 = default;
 
 		static std::string to_message(size_t issue, const source_location& location = source_location::current())
 		{
@@ -70,16 +82,11 @@ namespace psl
 			}
 			return what;
 		}
-
-		const char* what() const noexcept override { return m_What.c_str(); };
-
-	  private:
-		std::string m_What;
 	};
 } // namespace psl
 
-#define PSL_ASSERT(condition, ...)                                                                                     \
-	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!!(false)__VA_OPT__(&&) __VA_ARGS__)
+#define PSL_ASSERT(expr, ...)                                                                                          \
+	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!!(expr)__VA_OPT__(&&) __VA_ARGS__)
 
 #define PSL_EXCEPT(exception_type, ...)                                                                                \
 	if constexpr(psl::config::exceptions)                                                                              \
@@ -102,7 +109,7 @@ namespace psl
 	{                                                                                                                  \
 		if(std::is_constant_evaluated() && !!(expr)) throw exception_type(__VA_ARGS__);                                \
 	}                                                                                                                  \
-	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!(expr) && __VA_ARGS__)
+	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!(expr)__VA_OPT__(&&) __VA_ARGS__)
 
 #define PSL_CONTRACT_EXCEPT_IF(expr, ...)                                                                              \
 	if constexpr(psl::config::implementation_exceptions)                                                               \
@@ -113,7 +120,7 @@ namespace psl
 	{                                                                                                                  \
 		if(std::is_constant_evaluated() && !!(expr)) throw psl::implementation_error(__VA_ARGS__);                     \
 	}                                                                                                                  \
-	if constexpr(psl::config::implementation_asserts) assert(!(expr) && __VA_ARGS__)
+	if constexpr(psl::config::implementation_asserts) assert(!(expr)__VA_OPT__(&&) __VA_ARGS__)
 
 #define __STRINGIFY(TEXT) #TEXT
 #define __WARNING(TEXT) __STRINGIFY(GCC warning TEXT)

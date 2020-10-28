@@ -75,6 +75,7 @@ list(APPEND PSL_INC
 	algorithms
 	enum
 	exceptions
+	expected
 	iterators
 	span
 	type_concepts

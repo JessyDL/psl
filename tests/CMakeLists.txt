@@ -51,6 +51,7 @@ list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
 	allocator
+	expected
 	iterators
 	span
 	)

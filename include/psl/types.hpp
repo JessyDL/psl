@@ -15,4 +15,12 @@ namespace psl
 	using ui64 = std::uint64_t;
 
 	using uint = unsigned int;
+
+	inline constexpr std::size_t dynamic_extent = -1;
+
+
+	struct default_value_t
+	{};
+
+	inline constexpr default_value_t default_value{};
 } // namespace psl
