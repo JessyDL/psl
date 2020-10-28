@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>span.hpp file | Paradigm
+	<title>psl::exceptionclass | Paradigm
 Standard
 Library	</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
@@ -167,48 +167,97 @@ Library</a>
 			<div class="m-container m-container-inflatable">
 				<div class="m-row">
 					<div class="m-col-l-10 m-push-l-1">
-        <h1>
-          span.hpp <span class="m-thin">file</span>
-        </h1>
+<h1>
+	<span class="m-breadcrumb"><a
+			href="namespacepsl.html">psl</a>::<wbr/></span>exception <span
+		class="m-thin">class</span>
+	<div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf"
+			href="exceptions_8hpp.html">&lt;exceptions.hpp&gt;</a></div>
+</h1>
 <p><span></span></p>
+
 <div class="m-block m-default">
 	<h3>Contents</h3>
 	<ul>
-		<li><a href="#namespaces">Namespaces</a></li>
-		<li><a href="#nested-classes">Classes</a></li>
+
+		<li><a href="#derived-classes">Derived classes</a></li>
+		<li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+		<li><a href="#pub-methods">Public functions</a></li>
+
 	</ul>
 </div>
-<section id="namespaces">
-	<h2><a href="#namespaces">Namespaces</a></h2>
+<section id="typeless-methods">
+	<h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
 	<dl class="m-doc">
 			<table style="width:100%">
 	<tr>
-	            <td><a href="namespacepsl.html" class="m-doc">psl</a></td>
-            <td>root library namespace</td>
+	            <td id="a0a2d8fd2aa719c45025a84d7f215a345">
+              <span class="m-doc-wrap-bumper"><a href="#a0a2d8fd2aa719c45025a84d7f215a345" class="m-doc-self">exception</a>(</span><span class="m-doc-wrap">const std::string&amp; message,
+              const source_location&amp; location = source_location::current())</span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a9aeb37f8b70e6cd01905ac284df91054">
+              <span class="m-doc-wrap-bumper"><a href="#a9aeb37f8b70e6cd01905ac284df91054" class="m-doc-self">exception</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a1bb0eb5ad924bb12b6cc1d508492f659">
+              <span class="m-doc-wrap-bumper"><a href="#a1bb0eb5ad924bb12b6cc1d508492f659" class="m-doc-self">exception</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp;&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a828c9ded315ce6c1cd1298317b4d6045">
+              <span class="m-doc-wrap-bumper"><a href="#a828c9ded315ce6c1cd1298317b4d6045" class="m-doc-self">~exception</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </td>
+            <td><span></span></td>
 	</tr>
 	</table>
 
 	</dl>
 </section>
-<section id="nested-classes">
-	<h2><a href="#nested-classes">Classes</a></h2>
+<section id="pub-methods">
+	<h2><a href="#pub-methods">Public functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="a94a2b5b45bda6c85f52c30c49e80da08">
+              <span class="m-doc-wrap-bumper">auto <a href="#a94a2b5b45bda6c85f52c30c49e80da08" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp; other) -&gt; <a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a10645ddec0936e5b250cef81a5076241">
+              <span class="m-doc-wrap-bumper">auto <a href="#a10645ddec0936e5b250cef81a5076241" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp;&amp; other) -&gt; <a href="classpsl_1_1exception.html" class="m-doc">exception</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ae9982c13ae54f7d94034777658f81b90">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae9982c13ae54f7d94034777658f81b90" class="m-doc-self">what</a>(</span><span class="m-doc-wrap">) const -&gt; const char* <span class="m-label m-flat m-warning">override</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="derived-classes">
+	<h2><a href="#derived-classes">Derived classes</a></h2>
 	<dl class="m-doc">
 			<table style="width:100%">
 	<tr>
 	            <td>
-              <a href="classpsl_1_1span.html" class="m-doc">psl::span<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
-            <td>Span type with optional support for stride.</td>
+              <a href="classpsl_1_1bad__exceptional__access.html" class="m-doc">bad_exceptional_access</a>            </td>
+            <td><span></span></td>
 	</tr>
 	</table>
 
 	</dl>
 </section>
-<!-- todo: concepts should be handled better -->
-
-<section>
-	<h2>Enum documentation</h2>
-</section>
-
 					</div>
 				</div>
 			</div>

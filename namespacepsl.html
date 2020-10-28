@@ -72,6 +72,9 @@ Library</a>
   			<a href="namespacepsl_1_1details.html">details</a>
   <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
   					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1is__expected.html">is_expected</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1source__location.html">source_location</a>
     			</li>
   				</ul>
@@ -127,7 +130,19 @@ Library</a>
   			<a href="classpsl_1_1allocator.html">allocator</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1bad__exceptional__access.html">bad_exceptional_access</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1contiguous__range__iterator.html">contiguous_range_iterator</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1default__value__t.html">default_value_t</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1exception.html">exception</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1expected.html">expected</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1implementation__error.html">implementation_error</a>
@@ -209,8 +224,28 @@ Library</a>
 	</tr>
 	<tr>
 	            <td>
+              <a href="classpsl_1_1bad__exceptional__access.html" class="m-doc">bad_exceptional_access</a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <a href="classpsl_1_1contiguous__range__iterator.html" class="m-doc">contiguous_range_iterator<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
             <td>denotes an iterator that can go either direction in a contiguous range.</td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="structpsl_1_1default__value__t.html" class="m-doc">default_value_t</a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1exception.html" class="m-doc">exception</a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="classpsl_1_1expected.html" class="m-doc">expected<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td>contains either a result (the expected), or an error</td>
 	</tr>
 	<tr>
 	            <td>
@@ -475,6 +510,24 @@ Library</a>
             <td><span></span></td>
 
 	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              std::size_t <a href="#a28c13d5f73c51bc65918ab5c5165adea" class="m-doc">dynamic_extent</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	<tr>
+	            <td>
+
+<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span></td><td>
+              <a href="structpsl_1_1default__value__t.html" class="m-doc">default_<wbr />value_<wbr />t</a> <a href="#a992b134dc7e9331ac77d5e52faeef52c" class="m-doc">default_value</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
 	</table>
 
 	</dl>
@@ -516,6 +569,12 @@ Library</a>
 	</tr>
 	<tr>
 	            <td>
+              <a href="#ab84b67fd27f6b2e5bd62f5b75f15331e" class="m-doc">IsExpected</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <a href="#a5497923178ea0f51b3f5a2fc13e78b4e" class="m-doc">IsIterator</a>
             </td>
             <td><span></span></td>
@@ -547,6 +606,78 @@ Library</a>
 	<tr>
 	            <td>
               <a href="#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc">IsRange</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#abc0dd658647ba32bff34bf97a2207d06" class="m-doc">MoveAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a14f99ed5d17034f50bebb9bf664b0904" class="m-doc">CopyAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a3c8ebbe961c5c037b07c6979e71c4da7" class="m-doc">MoveCopyAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a3ad39111aa0392fd5beb800e18822766" class="m-doc">NothrowMoveAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#afdfabe2caaa6112c505f00c53289fd3d" class="m-doc">NothrowCopyAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#aeeb925586400a427bde2423829611d5e" class="m-doc">NothrowMoveCopyAssignable</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#afa8c37bd0d0289701823380e29ee667e" class="m-doc">MoveConstructible</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a470e07aae50dc6c1cfb890fb6a5d376a" class="m-doc">CopyConstructible</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a9e1fec6d67adac4897da02c0979d3f2b" class="m-doc">MoveCopyConstructible</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a47d2c58a9731ff8dc0827bff592c7389" class="m-doc">NothrowMoveConstructible</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#ac555bcfa32c2933e39017e9b205519b9" class="m-doc">NothrowCopyConstructible</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="#a5ca449c87852e66e0c0e981f9e8d696c" class="m-doc">NothrowMoveCopyConstructible</a>
             </td>
             <td><span></span></td>
 	</tr>
@@ -898,6 +1029,20 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
+	          <section class="m-doc-details" id="a28c13d5f73c51bc65918ab5c5165adea"><div>
+            <h3>
+              std::size_t psl::<wbr /><a href="#a28c13d5f73c51bc65918ab5c5165adea" class="m-doc-self">dynamic_extent</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a992b134dc7e9331ac77d5e52faeef52c"><div>
+            <h3>
+              <a href="structpsl_1_1default__value__t.html" class="m-doc">default_<wbr />value_<wbr />t</a> psl::<wbr /><a href="#a992b134dc7e9331ac77d5e52faeef52c" class="m-doc-self">default_value</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="types_8hpp.html">&lt;types.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
 </section>
 <section>
 	<h2>Concepts documentation</h2>
@@ -962,6 +1107,16 @@ Library</a>
             </h3>
             <p><span></span></p>
           </div></section>
+	          <section class="m-doc-details" id="ab84b67fd27f6b2e5bd62f5b75f15331e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="expected_8hpp.html">&lt;expected.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#ab84b67fd27f6b2e5bd62f5b75f15331e" class="m-doc-self">IsExpected</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
 	          <section class="m-doc-details" id="a5497923178ea0f51b3f5a2fc13e78b4e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
@@ -1019,6 +1174,126 @@ Library</a>
                 template&lt;typename T&gt;
               </div>
                psl::<wbr /><a href="#a4da17d8e05864f21ec4a57c2e3af4413" class="m-doc-self">IsRange</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="abc0dd658647ba32bff34bf97a2207d06"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#abc0dd658647ba32bff34bf97a2207d06" class="m-doc-self">MoveAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a14f99ed5d17034f50bebb9bf664b0904"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a14f99ed5d17034f50bebb9bf664b0904" class="m-doc-self">CopyAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a3c8ebbe961c5c037b07c6979e71c4da7"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a3c8ebbe961c5c037b07c6979e71c4da7" class="m-doc-self">MoveCopyAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a3ad39111aa0392fd5beb800e18822766"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a3ad39111aa0392fd5beb800e18822766" class="m-doc-self">NothrowMoveAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="afdfabe2caaa6112c505f00c53289fd3d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#afdfabe2caaa6112c505f00c53289fd3d" class="m-doc-self">NothrowCopyAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="aeeb925586400a427bde2423829611d5e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#aeeb925586400a427bde2423829611d5e" class="m-doc-self">NothrowMoveCopyAssignable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="afa8c37bd0d0289701823380e29ee667e"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#afa8c37bd0d0289701823380e29ee667e" class="m-doc-self">MoveConstructible</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a470e07aae50dc6c1cfb890fb6a5d376a"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a470e07aae50dc6c1cfb890fb6a5d376a" class="m-doc-self">CopyConstructible</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a9e1fec6d67adac4897da02c0979d3f2b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a9e1fec6d67adac4897da02c0979d3f2b" class="m-doc-self">MoveCopyConstructible</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a47d2c58a9731ff8dc0827bff592c7389"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a47d2c58a9731ff8dc0827bff592c7389" class="m-doc-self">NothrowMoveConstructible</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="ac555bcfa32c2933e39017e9b205519b9"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#ac555bcfa32c2933e39017e9b205519b9" class="m-doc-self">NothrowCopyConstructible</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+	          <section class="m-doc-details" id="a5ca449c87852e66e0c0e981f9e8d696c"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__concepts_8hpp.html">&lt;type_concepts.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr /><a href="#a5ca449c87852e66e0c0e981f9e8d696c" class="m-doc-self">NothrowMoveCopyConstructible</a>
             </h3>
             <p><span></span></p>
           </div></section>
