@@ -232,11 +232,12 @@ Library</a>
 				<div class="m-row">
 					<div class="m-col-l-10 m-push-l-1">
 <h1>
+	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
+			href="exceptions_8hpp.html">&lt;exceptions.hpp&gt;</a></div>
+	<div class="m-doc-template">template&lt;size_t		issue&gt;</div>
 	<span class="m-breadcrumb"><a
 			href="namespacepsl.html">psl</a>::<wbr/></span>not_implemented <span
 		class="m-thin">class</span>
-	<div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf"
-			href="exceptions_8hpp.html">&lt;exceptions.hpp&gt;</a></div>
 </h1>
 <p>Exception class signifying a feature that is not yet implemented.</p>
 
@@ -244,54 +245,37 @@ Library</a>
 	<h3>Contents</h3>
 	<ul>
 
-		<li><a href="#pub-static-methods">Public static functions</a></li>
 		<li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
 		<li><a href="#pub-methods">Public functions</a></li>
 
 	</ul>
 </div>
 <p>Debug exception type to signify a work-in-progress feature/codepath that should not be used yet. Optionally will contain an issue number that links to the project management tool.</p>
-<section id="pub-static-methods">
-	<h2><a href="#pub-static-methods">Public static functions</a></h2>
-	<dl class="m-doc">
-			<table style="width:100%">
-	<tr>
-	            <td id="aa92b23c0c1e50cd9698a71c05692e0d0">
-              <span class="m-doc-wrap-bumper">static auto <a href="#aa92b23c0c1e50cd9698a71c05692e0d0" class="m-doc-self">to_message</a>(</span><span class="m-doc-wrap">size_t issue,
-              const source_location&amp; location = source_location::current()) -&gt; std::string</span>
-            </td>
-            <td><span></span></td>
-	</tr>
-	</table>
-
-	</dl>
-</section>
 <section id="typeless-methods">
 	<h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
 	<dl class="m-doc">
 			<table style="width:100%">
 	<tr>
-	            <td id="ac3523fb3d21e13389eaa698e3d7f2d2a">
-              <span class="m-doc-wrap-bumper"><a href="#ac3523fb3d21e13389eaa698e3d7f2d2a" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">size_t issue,
-              const source_location&amp; location = source_location::current())</span>
+	            <td id="a44924cd313474a993912814eef4d019b">
+              <span class="m-doc-wrap-bumper"><a href="#a44924cd313474a993912814eef4d019b" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">const source_location&amp; location = source_location::current())</span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a7b3c88ade1094af8c29821c9b4f94efd">
-              <span class="m-doc-wrap-bumper"><a href="#a7b3c88ade1094af8c29821c9b4f94efd" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+	            <td id="a872dded4101accd4908536c372d2d12b">
+              <span class="m-doc-wrap-bumper"><a href="#a872dded4101accd4908536c372d2d12b" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a7bc12344e4808dacdbfd315b2b594e64">
-              <span class="m-doc-wrap-bumper"><a href="#a7bc12344e4808dacdbfd315b2b594e64" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp;&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+	            <td id="ae15ab7e9353cb1784e12625b5b8982f3">
+              <span class="m-doc-wrap-bumper"><a href="#ae15ab7e9353cb1784e12625b5b8982f3" class="m-doc-self">not_implemented</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp;&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a58636ed432e11d83464cf6aa3d7f9be8">
-              <span class="m-doc-wrap-bumper"><a href="#a58636ed432e11d83464cf6aa3d7f9be8" class="m-doc-self">~not_implemented</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+	            <td id="aa90655d853ead0e9b0bed84d44eb1d03">
+              <span class="m-doc-wrap-bumper"><a href="#aa90655d853ead0e9b0bed84d44eb1d03" class="m-doc-self">~not_implemented</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </td>
             <td><span></span></td>
 	</tr>
@@ -304,14 +288,14 @@ Library</a>
 	<dl class="m-doc">
 			<table style="width:100%">
 	<tr>
-	            <td id="a50f039bd323551245880122ab27ce9aa">
-              <span class="m-doc-wrap-bumper">auto <a href="#a50f039bd323551245880122ab27ce9aa" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; other) -&gt; <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+	            <td id="a639b701b180d0f8d7e1cf39b957d1c28">
+              <span class="m-doc-wrap-bumper">auto <a href="#a639b701b180d0f8d7e1cf39b957d1c28" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; other) -&gt; <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a9da834cc58ae975b9346c58ab2b3c6ed">
-              <span class="m-doc-wrap-bumper">auto <a href="#a9da834cc58ae975b9346c58ab2b3c6ed" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp;&amp; other) -&gt; <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+	            <td id="abe954fb5f0340d87577a8ac124cd4f6c">
+              <span class="m-doc-wrap-bumper">auto <a href="#abe954fb5f0340d87577a8ac124cd4f6c" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp;&amp; other) -&gt; <a href="classpsl_1_1not__implemented.html" class="m-doc">not_<wbr />implemented</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </td>
             <td><span></span></td>
 	</tr>
