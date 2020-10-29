@@ -9,8 +9,12 @@ namespace psl
 	class bad_exceptional_access : public exception
 	{
 	  public:
-		bad_exceptional_access(const source_location& location = source_location::current())
-			: exception("bad exceptional access", location)
+		bad_exceptional_access(bool has_value, const source_location& location = source_location::current())
+			: exception(
+				  (has_value)
+					  ? "bad exceptional access, tried to access an error, but expected contains a value instead."
+					  : "bad exceptional access, tried to access a value, but expected contains an error instead.",
+				  location)
 		{}
 		virtual ~bad_exceptional_access() = default;
 	};
@@ -39,8 +43,8 @@ namespace psl
 	 * \details Models an object that can either contain the result of an operation, or an error in case the operation
 	 * failed. It cannot be re-assigned, meaning that the value or error is set at construction time.
 	 * After this it supports continuation behaviours `then()` and `on_error()`.
-	 * \note when storing reference types, it will be stored as a pointer under the hood.
-	 * \todo should reference types be stored as `psl::optional` instead?
+	 * \todo should references and pointers be supported in this type, or fall under a distinct type such as
+	 * expected_ref?
 	 *
 	 * \tparam T value type to contain.
 	 * \tparam Error error type to throw, by default this is `std::error_code`.
@@ -51,16 +55,23 @@ namespace psl
 	class expected
 	{
 	  public:
-		static_assert(std::is_default_constructible_v<T>, "must be default constructible");
+		static_assert(std::is_same_v<T, std::remove_pointer_t<std::remove_cvref_t<T>>>,
+					  "no support for reference or pointer types");
 		static_assert(MoveAssignable<T> || CopyAssignable<T>,
 					  "contained type should either be move, or copy assignable");
 		using value_type = T;
 		using error_type = Error;
 
 		constexpr expected() = delete;
-		explicit constexpr expected(default_value_t) noexcept(std::is_nothrow_default_constructible_v<T>) requires(
+		explicit constexpr expected(value_init_t) noexcept(std::is_nothrow_constructible_v<T>) requires(
+			std::is_constructible_v<T>)
+			: m_Value({}), m_HasValue(true){};
+		explicit constexpr expected(default_init_t) noexcept(std::is_nothrow_default_constructible_v<T>) requires(
 			std::is_default_constructible_v<T>)
 			: m_Value(), m_HasValue(true){};
+		explicit constexpr expected(zero_init_t) noexcept(std::is_nothrow_constructible_v<T, zero_init_t>) requires(
+			std::is_constructible_v<T, zero_init_t>)
+			: m_Value(zero_init), m_HasValue(true){};
 
 		template <typename Arg, typename... Args>
 		constexpr expected(Arg&& arg, Args&&... args) noexcept(
@@ -70,39 +81,57 @@ namespace psl
 
 		constexpr expected(const expected& other) noexcept(std::is_nothrow_copy_constructible_v<T>) requires(
 			std::is_copy_constructible_v<T>)
-			: m_Value(other.m_Value), m_Error(other.m_Error), m_HasValue(other.m_HasValue)
-		{}
+			: m_Error(other.m_Error), m_HasValue(other.m_HasValue)
+		{
+			if(m_HasValue)
+				[[likely]] m_Value = other.m_Value;
+			else
+				[[unlikely]] m_EmptyMarker = {};
+		}
 		constexpr expected(expected&& other) noexcept(std::is_nothrow_move_constructible_v<T>) requires(
 			std::is_move_constructible_v<T>)
-			: m_Value(std::move(other.m_Value)), m_Error(other.m_Error), m_HasValue(other.m_HasValue)
-		{}
+			: m_Error(other.m_Error), m_HasValue(other.m_HasValue)
+		{
+			if(m_HasValue)
+				[[likely]] m_Value = std::move(other.m_Value);
+			else
+				[[unlikely]] m_EmptyMarker = {};
+		}
 
 		constexpr expected& operator=(const expected& other) noexcept(std::is_nothrow_copy_assignable_v<T>) requires(
 			std::is_copy_assignable_v<T>)
 		{
-			if(this != &other)
-			{
-				m_HasValue = other.m_HasValue;
-				if(m_HasValue) m_Value = other.m_Value;
-				m_Error = other.m_Error;
-			}
+			if(this != &other) [[likely]]
+				{
+					m_HasValue = other.m_HasValue;
+					if(m_HasValue)
+						[[likely]] m_Value = other.m_Value;
+					else
+						[[unlikely]] m_EmptyMarker = {};
+					m_Error = other.m_Error;
+				}
 			return *this;
 		}
 		constexpr expected& operator=(expected&& other) noexcept(std::is_nothrow_move_assignable_v<T>) requires(
 			std::is_move_assignable_v<T>)
 		{
-			if(this != &other)
-			{
-				m_HasValue = other.m_HasValue;
-				if(m_HasValue) m_Value = std::move(other.m_Value);
-				m_Error = other.m_Error;
-			}
+			if(this != &other) [[likely]]
+				{
+					m_HasValue = other.m_HasValue;
+					if(m_HasValue)
+						[[likely]] m_Value = std::move(other.m_Value);
+					else
+						[[unlikely]] m_EmptyMarker = {};
+					m_Error = other.m_Error;
+				}
 			return *this;
 		}
 
-		constexpr expected(Error& error) noexcept requires(CopyAssignable<Error>) : m_Error(error){};
-		constexpr expected(const Error& error) noexcept requires(CopyAssignable<Error>) : m_Error(error){};
-		constexpr expected(Error&& error) noexcept requires(MoveAssignable<Error>) : m_Error(std::move(error)){};
+		constexpr expected(Error& error) noexcept requires(CopyAssignable<Error>) : m_EmptyMarker({}), m_Error(error){};
+		constexpr expected(const Error& error) noexcept requires(CopyAssignable<Error>)
+			: m_EmptyMarker({}), m_Error(error){};
+		constexpr expected(Error&& error) noexcept requires(MoveAssignable<Error>)
+			: m_EmptyMarker({}), m_Error(std::move(error)){};
 
 		/**
 		 * \brief runs the given function when the expected is in an error condition. The first argument will be the
@@ -116,10 +145,10 @@ namespace psl
 		constexpr expected on_error(FN&& fn, Args&&... args) noexcept(
 			std::is_nothrow_invocable_v<FN, Error, Args...>) requires(std::is_invocable_v<FN, Error, Args...>)
 		{
-			if(!m_HasValue)
-			{
-				fn(m_Error, std::forward<Args>(args)...);
-			}
+			if(!m_HasValue) [[unlikely]]
+				{
+					fn(m_Error, std::forward<Args>(args)...);
+				}
 			return std::move(*this);
 		}
 
@@ -134,11 +163,11 @@ namespace psl
 		constexpr auto then(FN&& fn, Args&&... args) -> expected<std::invoke_result_t<FN, T, Args...>, Error> requires(
 			!IsExpected<std::invoke_result_t<FN, T, Args...>>)
 		{
-			if(m_HasValue)
-			{
-				m_HasValue = false;
-				return {fn(std::move(m_Value), std::forward<Args>(args)...)};
-			}
+			if(m_HasValue) [[likely]]
+				{
+					m_HasValue = false;
+					return {fn(std::move(m_Value), std::forward<Args>(args)...)};
+				}
 			return m_Error;
 		}
 
@@ -147,11 +176,11 @@ namespace psl
 			IsExpected<std::invoke_result_t<FN, T, Args...>>&&
 				std::is_same_v<error_type, typename std::invoke_result_t<FN, T, Args...>::error_type>)
 		{
-			if(m_HasValue)
-			{
-				m_HasValue = false;
-				return fn(std::move(m_Value), std::forward<Args>(args)...);
-			}
+			if(m_HasValue) [[likely]]
+				{
+					m_HasValue = false;
+					return fn(std::move(m_Value), std::forward<Args>(args)...);
+				}
 			return m_Error;
 		}
 
@@ -162,9 +191,19 @@ namespace psl
 		constexpr auto consume() noexcept(NothrowMoveCopyAssignable<T> && !config::exceptions)
 			-> decltype(std::move(std::declval<T>()))
 		{
-			PSL_EXCEPT_IF(!m_HasValue, bad_exceptional_access);
+			PSL_EXCEPT_IF(!m_HasValue, bad_exceptional_access, m_HasValue);
 			m_HasValue = false;
 			return std::move(m_Value);
+		}
+
+		/**
+		 * \return `Error` if in an error state.
+		 * \throw in case of not being in an error state.
+		 */
+		constexpr auto consume_error() noexcept -> error_type
+		{
+			PSL_EXCEPT_IF(m_HasValue, bad_exceptional_access, m_HasValue);
+			return m_Error;
 		}
 
 		/**
@@ -173,23 +212,30 @@ namespace psl
 		 * \tparam Args arguments to construct a valid `T` object with in case of error state.
 		 */
 		template <typename... Args>
-		expected recover(Args&&... args) noexcept(
+		constexpr expected recover(Args&&... args) noexcept(
 			NothrowMoveCopyAssignable<T>&& std::is_nothrow_constructible_v<
 				T, Args...>) requires(MoveCopyAssignable<T>&& std::is_constructible_v<T, Args...>)
 		{
-			if(!m_HasValue)
-			{
-				m_Error	= {};
-				m_Value	= std::move(T{std::forward<Args>(args)...});
-				m_HasValue = true;
-			}
+			if(!m_HasValue) [[unlikely]]
+				{
+					m_Error	= {};
+					m_Value	= std::move(T{std::forward<Args>(args)...});
+					m_HasValue = true;
+				}
 			return std::move(*this);
 		}
 
 		constexpr operator bool() const noexcept { return m_HasValue; }
 
 	  private:
-		T m_Value;
+		struct empty
+		{};
+		union
+		{
+			empty m_EmptyMarker;
+			T m_Value;
+		};
+
 		Error m_Error;
 		bool m_HasValue{false};
 	};

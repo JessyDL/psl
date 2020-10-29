@@ -16,11 +16,68 @@ namespace psl
 
 	using uint = unsigned int;
 
+	using byte = std::byte;
+
 	inline constexpr std::size_t dynamic_extent = -1;
 
+	namespace private_details
+	{
+		template <typename T>
+		struct id_token
+		{
+			enum class identifier
+			{
+				token
+			};
+		};
+	} // namespace private_details
 
-	struct default_value_t
-	{};
+	/**
+	 * \brief value initalization tag. Used by constainers and wrappers to force specific construction behaviour of
+	 * contained types.
+	 *
+	 */
+	struct value_init_t : public private_details::id_token<value_init_t>
+	{
+		explicit constexpr value_init_t(identifier) {}
+	};
+	inline constexpr value_init_t value_init{value_init_t::identifier::token};
 
-	inline constexpr default_value_t default_value{};
+	/**
+	 * \brief default initalization tag. Used by constainers and wrappers to force specific construction behaviour of
+	 * contained types.
+	 *
+	 */
+	struct default_init_t : public private_details::id_token<default_init_t>
+	{
+		explicit constexpr default_init_t(identifier) {}
+	};
+	inline constexpr default_init_t default_init{default_init_t::identifier::token};
+
+	/**
+	 * \brief zero initalization tag. Used by constainers and wrappers to force specific construction behaviour of
+	 * contained types.
+	 *
+	 */
+	struct zero_init_t : public private_details::id_token<zero_init_t>
+	{
+		explicit constexpr zero_init_t(identifier) {}
+	};
+	inline constexpr zero_init_t zero_init{zero_init_t::identifier::token};
+
+	/**
+	 * \brief "no-operation" initalization tag. Used by constainers and wrappers to force specific construction
+	 * behaviour of contained types.
+	 * \warning this signifies "no initialization at all", not "initialize with nothing".
+	 * This means an object will not even be constructed.
+	 * As example, an `array<>` type will allocate memory for objects, but not construct them at all with this tag. You
+	 * will have to in-place construct them after if you wish to have access to non-trivial types (or don't like
+	 * undefined behaviour).
+	 *
+	 */
+	struct nop_init_t : public private_details::id_token<nop_init_t>
+	{
+		explicit constexpr nop_init_t(identifier) {}
+	};
+	inline constexpr nop_init_t nop_init{nop_init_t::identifier::token};
 } // namespace psl
