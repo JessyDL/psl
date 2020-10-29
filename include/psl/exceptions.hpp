@@ -33,7 +33,7 @@ namespace psl
 		std::string m_What{};
 	};
 
-	template <IsFixedAsciiString auto Message>
+	template <fixed_ascii_string Message>
 	class static_exception : public exception
 	{
 	  public:
@@ -66,32 +66,18 @@ namespace psl
 	 * @details Debug exception type to signify a work-in-progress feature/codepath that should not be used yet.
 	 * Optionally will contain an issue number that links to the project management tool.
 	 */
+	template <size_t issue>
 	class not_implemented : exception
 	{
 	  public:
-		not_implemented(size_t issue, const source_location& location = source_location::current())
-			: exception(to_message(issue, location), location)
+		not_implemented(const source_location& location = source_location::current())
+			: exception("https://github.com/JessyDL/psl/issues/" + std::to_string(issue), location)
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
 		not_implemented(not_implemented&& other) noexcept	  = default;
 		not_implemented& operator=(const not_implemented& other) noexcept = default;
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
 		virtual ~not_implemented()									 = default;
-
-		static std::string to_message(size_t issue, const source_location& location = source_location::current())
-		{
-			std::string what{};
-			what.append("NotImplemented\nat: ");
-			what.append(location.file_name());
-			what.append(":");
-			what.append(std::to_string(location.line()));
-			if(issue != 0)
-			{
-				what.append("\nhttps://github.com/JessyDL/psl/issues/");
-				what.append(std::to_string(issue));
-			}
-			return what;
-		}
 	};
 
 	/**
@@ -101,11 +87,10 @@ namespace psl
 	 * \todo second template argument should be a message string
 	 */
 	template <typename T, fixed_ascii_string Message>
-	class bad_access : static_exception<Message>
+	class bad_access : exception
 	{
 	  public:
-		bad_access(const source_location& location = source_location::current())
-			: static_exception<Message>(location){};
+		bad_access(const source_location& location = source_location::current()) : exception(Message, location){};
 		virtual ~bad_access() = default;
 	};
 } // namespace psl
@@ -158,11 +143,11 @@ namespace psl
 #define PSL_NOT_IMPLEMENTED(issue)                                                                                     \
 	if constexpr(psl::config::exceptions)                                                                              \
 	{                                                                                                                  \
-		throw psl::not_implemented(issue);                                                                             \
+		throw psl::not_implemented<issue>();                                                                           \
 	}                                                                                                                  \
 	else                                                                                                               \
 	{                                                                                                                  \
-		if(std::is_constant_evaluated()) throw psl::not_implemented(issue);                                            \
+		if(std::is_constant_evaluated()) throw psl::not_implemented<issue>();                                          \
 	}                                                                                                                  \
 	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts)                                           \
 		assert(!"NotImplemented: https://github.com/JessyDL/psl/issues/" #issue);                                      \
