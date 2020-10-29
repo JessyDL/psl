@@ -60,7 +60,7 @@ namespace psl
 	class optional
 	{
 	  public:
-		using bad_optional_access = bad_access<optional>;
+		using bad_optional_access = bad_access<optional, "bad optional access">;
 
 		static_assert(std::is_same_v<T, std::remove_pointer_t<std::remove_cvref_t<T>>>,
 					  "no support for reference or pointer types");

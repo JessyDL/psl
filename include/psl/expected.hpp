@@ -7,18 +7,6 @@
 
 namespace psl
 {
-	class bad_exceptional_access : public exception
-	{
-	  public:
-		bad_exceptional_access(bool has_value, const source_location& location = source_location::current())
-			: exception(
-				  (has_value)
-					  ? "bad exceptional access, tried to access an error, but expected contains a value instead."
-					  : "bad exceptional access, tried to access a value, but expected contains an error instead.",
-				  location)
-		{}
-		virtual ~bad_exceptional_access() = default;
-	};
 	template <typename T, typename Error>
 	class expected;
 
@@ -56,6 +44,13 @@ namespace psl
 	class expected
 	{
 	  public:
+		using bad_exceptional_error_access =
+			bad_access<expected,
+					   "bad exceptional access, tried to access an error, but expected contains a value instead.">;
+		using bad_exceptional_value_access =
+			bad_access<expected,
+					   "bad exceptional access, tried to access a value, but expected contains an error instead.">;
+
 		static_assert(std::is_same_v<T, std::remove_pointer_t<std::remove_cvref_t<T>>>,
 					  "no support for reference or pointer types");
 		static_assert(MoveAssignable<T> || CopyAssignable<T>,
@@ -174,7 +169,7 @@ namespace psl
 		 */
 		constexpr auto consume() noexcept(NothrowMoveCopyAssignable<T> && !config::exceptions)
 		{
-			PSL_EXCEPT_IF(!m_ValueStorage.has_value(), bad_exceptional_access, m_ValueStorage.has_value());
+			PSL_EXCEPT_IF(!m_ValueStorage.has_value(), bad_exceptional_value_access);
 			return m_ValueStorage.take();
 		}
 
@@ -184,7 +179,7 @@ namespace psl
 		 */
 		constexpr auto consume_error() noexcept -> error_type
 		{
-			PSL_EXCEPT_IF(m_ValueStorage.has_value(), bad_exceptional_access, m_ValueStorage.has_value());
+			PSL_EXCEPT_IF(m_ValueStorage.has_value(), bad_exceptional_error_access);
 			return m_Error;
 		}
 

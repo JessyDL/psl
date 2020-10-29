@@ -3,6 +3,7 @@
 #include <string>
 #include <assert.h>
 #include <psl/details/source_location.hpp>
+#include <psl/details/fixed_ascii_string.hpp>
 #include <psl/config.hpp>
 
 namespace psl
@@ -10,7 +11,7 @@ namespace psl
 	class exception : public std::exception
 	{
 	  public:
-		exception(const std::string& message, const source_location& location = source_location::current())
+		exception(std::string_view message, const source_location& location = source_location::current())
 		{
 			m_What.append("at: ");
 			m_What.append(location.file_name());
@@ -31,6 +32,15 @@ namespace psl
 	  private:
 		std::string m_What{};
 	};
+
+	template <IsFixedAsciiString auto Message>
+	class static_exception : public exception
+	{
+	  public:
+		static_exception(const source_location& location = source_location::current()) : exception(Message, location) {}
+		virtual ~static_exception() = default;
+	};
+
 	/**
 	 * \brief Exception class to notify the user of implementation errors.
 	 * \details Gets thrown in instances where the user has implemented an extension or feature incorrectly.
@@ -90,12 +100,12 @@ namespace psl
 	 * \tparam T
 	 * \todo second template argument should be a message string
 	 */
-	template <typename T>
-	class bad_access : exception
+	template <typename T, fixed_ascii_string Message>
+	class bad_access : static_exception<Message>
 	{
 	  public:
-		bad_access(const std::string& message = "", const source_location& location = source_location::current())
-			: exception(message, location){};
+		bad_access(const source_location& location = source_location::current())
+			: static_exception<Message>(location){};
 		virtual ~bad_access() = default;
 	};
 } // namespace psl

@@ -83,6 +83,8 @@ list(APPEND PSL_INC
 	types
 
 	details/optional_value_storage
+	details/source_location
+	details/fixed_ascii_string
 	)
 
 list(TRANSFORM PSL_INC PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/include/psl/)
