@@ -41,6 +41,9 @@ namespace psl
 	{
 		explicit constexpr value_init_t(identifier) {}
 	};
+	/**
+	 * \copydoc value_init_t
+	 */
 	inline constexpr value_init_t value_init{value_init_t::identifier::token};
 
 	/**
@@ -52,6 +55,9 @@ namespace psl
 	{
 		explicit constexpr default_init_t(identifier) {}
 	};
+	/**
+	 * \copydoc default_init_t
+	 */
 	inline constexpr default_init_t default_init{default_init_t::identifier::token};
 
 	/**
@@ -63,6 +69,9 @@ namespace psl
 	{
 		explicit constexpr zero_init_t(identifier) {}
 	};
+	/**
+	 * \copydoc zero_init_t
+	 */
 	inline constexpr zero_init_t zero_init{zero_init_t::identifier::token};
 
 	/**
@@ -79,5 +88,8 @@ namespace psl
 	{
 		explicit constexpr nop_init_t(identifier) {}
 	};
+	/**
+	 * \copydoc nop_init_t
+	 */
 	inline constexpr nop_init_t nop_init{nop_init_t::identifier::token};
 } // namespace psl

@@ -45,7 +45,10 @@ endif()
 
 list(APPEND PSL_TESTS_INC_SRC)
 
-list(APPEND PSL_TESTS_INC ${PSL_TESTS_INC_SRC})
+list(APPEND PSL_TESTS_INC 
+	${PSL_TESTS_INC_SRC}
+	types
+)
 
 list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
@@ -53,10 +56,11 @@ list(APPEND PSL_TESTS_SRC
 	allocator
 	expected
 	iterators
+	optional
 	span
 	)
 
-list(TRANSFORM PSL_TESTS_INC PREPEND include)
+list(TRANSFORM PSL_TESTS_INC PREPEND include/tests/)
 list(TRANSFORM PSL_TESTS_INC APPEND .hpp)
 list(TRANSFORM PSL_TESTS_SRC PREPEND source/)
 list(TRANSFORM PSL_TESTS_SRC APPEND .cpp)

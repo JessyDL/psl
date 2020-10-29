@@ -83,6 +83,21 @@ namespace psl
 			return what;
 		}
 	};
+
+	/**
+	 * \brief bad access exception for specific types.
+	 *
+	 * \tparam T
+	 * \todo second template argument should be a message string
+	 */
+	template <typename T>
+	class bad_access : exception
+	{
+	  public:
+		bad_access(const std::string& message = "", const source_location& location = source_location::current())
+			: exception(message, location){};
+		virtual ~bad_access() = default;
+	};
 } // namespace psl
 
 #define PSL_ASSERT(expr, ...)                                                                                          \

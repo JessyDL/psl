@@ -77,9 +77,12 @@ list(APPEND PSL_INC
 	exceptions
 	expected
 	iterators
+	optional
 	span
 	type_concepts
 	types
+
+	details/optional_value_storage
 	)
 
 list(TRANSFORM PSL_INC PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/include/psl/)
