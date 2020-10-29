@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>psl::bad_exceptional_accessclass | Paradigm
+	<title>psl::static_exceptionclass | Paradigm
 Standard
 Library	</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
@@ -72,7 +72,13 @@ Library</a>
   			<a href="namespacepsl_1_1details.html">details</a>
   <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
   					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1fixed__ascii__string.html">fixed_ascii_string</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1is__expected.html">is_expected</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1is__fixed__ascii__string.html">is_fixed_ascii_string</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1is__opt__invocable.html">is_opt_invocable</a>
@@ -161,9 +167,6 @@ Library</a>
   			<a href="classpsl_1_1bad__access.html">bad_access</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
-  			<a href="classpsl_1_1bad__exceptional__access.html">bad_exceptional_access</a>
-  			</li>
-  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1contiguous__range__iterator.html">contiguous_range_iterator</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -209,6 +212,9 @@ Library</a>
   			<a href="classpsl_1_1span.html">span</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1static__exception.html">static_exception</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1traited__memory__resource.html">traited_memory_resource</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -226,11 +232,12 @@ Library</a>
 				<div class="m-row">
 					<div class="m-col-l-10 m-push-l-1">
 <h1>
+	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
+			href="exceptions_8hpp.html">&lt;exceptions.hpp&gt;</a></div>
+	<div class="m-doc-template">template&lt;IsFixedAsciiString auto		Message&gt;</div>
 	<span class="m-breadcrumb"><a
-			href="namespacepsl.html">psl</a>::<wbr/></span>bad_exceptional_access <span
+			href="namespacepsl.html">psl</a>::<wbr/></span>static_exception <span
 		class="m-thin">class</span>
-	<div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf"
-			href="expected_8hpp.html">&lt;expected.hpp&gt;</a></div>
 </h1>
 <p><span></span></p>
 
@@ -256,15 +263,14 @@ Library</a>
 	<dl class="m-doc">
 			<table style="width:100%">
 	<tr>
-	            <td id="ad67bfbf9f84f82c77843a8763f8ee403">
-              <span class="m-doc-wrap-bumper"><a href="#ad67bfbf9f84f82c77843a8763f8ee403" class="m-doc-self">bad_exceptional_access</a>(</span><span class="m-doc-wrap">bool has_value,
-              const source_location&amp; location = source_location::current())</span>
+	            <td id="a101644651a0b871f38681d31b895c23e">
+              <span class="m-doc-wrap-bumper"><a href="#a101644651a0b871f38681d31b895c23e" class="m-doc-self">static_exception</a>(</span><span class="m-doc-wrap">const source_location&amp; location = source_location::current())</span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="ac714534366efd5a88076470bbe8d9545">
-              <span class="m-doc-wrap-bumper"><a href="#ac714534366efd5a88076470bbe8d9545" class="m-doc-self">~bad_exceptional_access</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+	            <td id="ae3502dd1486b0a1aefa4b35239abbf47">
+              <span class="m-doc-wrap-bumper"><a href="#ae3502dd1486b0a1aefa4b35239abbf47" class="m-doc-self">~static_exception</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </td>
             <td><span></span></td>
 	</tr>

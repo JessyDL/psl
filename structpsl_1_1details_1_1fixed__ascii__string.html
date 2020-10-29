@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>psl::traits::allocator_traitstruct | Paradigm
+	<title>psl::details::fixed_ascii_stringstruct | Paradigm
 Standard
 Library	</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
@@ -233,15 +233,101 @@ Library</a>
 					<div class="m-col-l-10 m-push-l-1">
 <h1>
 	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
-			href="allocator__traits_8hpp.html">&lt;allocator_traits.hpp&gt;</a></div>
-	<div class="m-doc-template">template&lt;typename		T, typename		Y&gt;</div>
+			href="fixed__ascii__string_8hpp.html">&lt;details/fixed_ascii_string.hpp&gt;</a></div>
+	<div class="m-doc-template">template&lt;size_t		N&gt;</div>
 	<span class="m-breadcrumb"><a
 			href="namespacepsl.html">psl</a>::<wbr/></span><span class="m-breadcrumb"><a
-			href="namespacepsl_1_1traits.html">traits</a>::<wbr/></span>allocator_trait <span
+			href="namespacepsl_1_1details.html">details</a>::<wbr/></span>fixed_ascii_string <span
 		class="m-thin">struct</span>
 </h1>
 <p><span></span></p>
 
+<div class="m-block m-default">
+	<h3>Contents</h3>
+	<ul>
+
+		<li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+		<li><a href="#pub-methods">Public functions</a></li>
+		<li><a href="#pub-attribs">Public variables</a></li>
+
+	</ul>
+</div>
+<section id="typeless-methods">
+	<h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="a11590dcd723e9ebe318e71d033afb45b">
+              <span class="m-doc-wrap-bumper"><a href="#a11590dcd723e9ebe318e71d033afb45b" class="m-doc-self">operator std::string_view</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a314fa94750f44cbdecfa0b5156999335">
+              <span class="m-doc-wrap-bumper"><a href="#a314fa94750f44cbdecfa0b5156999335" class="m-doc-self">operator char const*</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-primary">constexpr</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="pub-methods">
+	<h2><a href="#pub-methods">Public functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="ae27a22dff3ab2f80b17e715a6eb37a15">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae27a22dff3ab2f80b17e715a6eb37a15" class="m-doc-self">fixed_ascii_string</a>(</span><span class="m-doc-wrap">char const* s) -&gt; consteval</span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a66b06d2cfc6439c20af7aa5f6d1c75c1">
+              <span class="m-doc-wrap-bumper">auto <a href="#a66b06d2cfc6439c20af7aa5f6d1c75c1" class="m-doc-self">operator</a>(</span><span class="m-doc-wrap">const <a href="structpsl_1_1details_1_1fixed__ascii__string.html" class="m-doc">fixed_<wbr />ascii_<wbr />string</a>&amp;) const -&gt; auto <span class="m-label m-flat m-info">defaulted</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="adbad116d5b1fe1aa57894a6d50d706ca">
+              <span class="m-doc-wrap-bumper">auto <a href="#adbad116d5b1fe1aa57894a6d50d706ca" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">size_t index) const -&gt; char <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ac79107691a2a32482a50da9686a410d5">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac79107691a2a32482a50da9686a410d5" class="m-doc-self">size</a>(</span><span class="m-doc-wrap">) const -&gt; size_t <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a0ca0eb2e4f3440bbd04e943dcd196b11">
+              <div class="m-doc-template">template&lt;size_t start, size_t end&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0ca0eb2e4f3440bbd04e943dcd196b11" class="m-doc-self">substr</a>(</span><span class="m-doc-wrap">) const -&gt; consteval <a href="structpsl_1_1details_1_1fixed__ascii__string.html" class="m-doc">fixed_<wbr />ascii_<wbr />string</a>&lt;end - start&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="pub-attribs">
+	<h2><a href="#pub-attribs">Public variables</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="aa561743fa63c9f3d5288e754f3fa4c03">
+
+</td><td>
+              char <a href="#aa561743fa63c9f3d5288e754f3fa4c03" class="m-doc-self">buf</a>
+            </td>
+            <td><span></span></td>
+
+	</tr>
+	</table>
+
+	</dl>
+</section>
 					</div>
 				</div>
 			</div>

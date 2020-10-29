@@ -72,7 +72,13 @@ Library</a>
   			<a href="namespacepsl_1_1details.html">details</a>
   <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
   					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1fixed__ascii__string.html">fixed_ascii_string</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1is__expected.html">is_expected</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1details_1_1is__fixed__ascii__string.html">is_fixed_ascii_string</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1is__opt__invocable.html">is_opt_invocable</a>
@@ -161,9 +167,6 @@ Library</a>
   			<a href="classpsl_1_1bad__access.html">bad_access</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
-  			<a href="classpsl_1_1bad__exceptional__access.html">bad_exceptional_access</a>
-  			</li>
-  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1contiguous__range__iterator.html">contiguous_range_iterator</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -209,6 +212,9 @@ Library</a>
   			<a href="classpsl_1_1span.html">span</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1static__exception.html">static_exception</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1traited__memory__resource.html">traited_memory_resource</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -234,6 +240,7 @@ Library</a>
 	<ul>
 		<li><a href="#nested-classes">Classes</a></li>
 		<li><a href="#typedef-members">Typedefs</a></li>
+		<li><a href="#func-members">Functions</a></li>
 		<li><a href="#var-members">Variables</a></li>
 	</ul>
 </div>
@@ -243,7 +250,17 @@ Library</a>
 			<table style="width:100%">
 	<tr>
 	            <td>
+              <a href="structpsl_1_1details_1_1fixed__ascii__string.html" class="m-doc">fixed_ascii_string<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <a href="structpsl_1_1details_1_1is__expected.html" class="m-doc">is_expected<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
+              <a href="structpsl_1_1details_1_1is__fixed__ascii__string.html" class="m-doc">is_fixed_ascii_string<span class="m-doc-template">&lt;...&gt;</div></a>            </td>
             <td><span></span></td>
 	</tr>
 	<tr>
@@ -294,6 +311,21 @@ Library</a>
 
 	</dl>
 </section>
+<section id="func-members">
+	<h2><a href="#func-members">Functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td>
+              <div class="m-doc-template">template&lt;unsigned N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a href="#a2347284a4b9081df4cccc6c1d21653fd" class="m-doc">fixed_ascii_string</a>(</span><span class="m-doc-wrap">char  const(&)[N]) -&gt; fixed_ascii_string&lt; N - 1 &gt;</span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
 <section id="var-members">
 	<h2><a href="#var-members">Variables</a></h2>
 	<dl class="m-doc">
@@ -336,6 +368,12 @@ Library</a>
 			<table style="width:100%">
 	<tr>
 	            <td>
+              <a href="#a5c1309a1b8617b11576e903f24c0cc44" class="m-doc">IsFixedAsciiString</a>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td>
               <a href="#aa917970ef7a4d67a84b9af790071ec39" class="m-doc">IsOptionalValue</a>
             </td>
             <td><span></span></td>
@@ -361,6 +399,19 @@ Library</a>
             <h3>
               using psl::<wbr />details::<wbr /><a href="#a4b7155635678fe5121f480da610291e6" class="m-doc-self">is_opt_invocable_r_t</a> = typename <a href="structpsl_1_1details_1_1is__opt__invocable__r.html" class="m-doc">is_<wbr />opt_<wbr />invocable_<wbr />r</a>&lt;FN, Opt, Args...&gt;::type
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="optional_8hpp.html">&lt;optional.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+</section>
+<section>
+	<h2>Function documentation</h2>
+	          <section class="m-doc-details" id="a2347284a4b9081df4cccc6c1d21653fd"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="fixed__ascii__string_8hpp.html">&lt;details/fixed_ascii_string.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;unsigned N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> psl::<wbr />details::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2347284a4b9081df4cccc6c1d21653fd" class="m-doc-self">fixed_ascii_string</a>(</span><span class="m-doc-wrap">char  const(&)[N]) -&gt; fixed_ascii_string&lt; N - 1 &gt;</span></span>
             </h3>
             <p><span></span></p>
           </div></section>
@@ -400,6 +451,16 @@ Library</a>
 </section>
 <section>
 	<h2>Concepts documentation</h2>
+	          <section class="m-doc-details" id="a5c1309a1b8617b11576e903f24c0cc44"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="fixed__ascii__string_8hpp.html">&lt;details/fixed_ascii_string.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+               psl::<wbr />details::<wbr /><a href="#a5c1309a1b8617b11576e903f24c0cc44" class="m-doc-self">IsFixedAsciiString</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
 	          <section class="m-doc-details" id="aa917970ef7a4d67a84b9af790071ec39"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="optional__value__storage_8hpp.html">&lt;details/optional_value_storage.hpp&gt;</a></div>
