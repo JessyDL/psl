@@ -96,3 +96,10 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras/)
 
 include(Catch)
 catch_discover_tests(${LOCAL_PROJECT})
+
+if(coverage)
+	include(CodeCov)
+	set(LCOV_BASE_DIR "'${CMAKE_SOURCE_DIR}'")
+	set(LCOV_REMOVE_EXTRA "'${CMAKE_SOURCE_DIR}/tests/*'")
+	code_coverage(${LOCAL_PROJECT}_coverage ${LOCAL_PROJECT} coverage)
+endif()

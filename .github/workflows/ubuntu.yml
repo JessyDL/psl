@@ -43,7 +43,7 @@ jobs:
     name: Test
     needs: compile
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: download artifacts
         uses: actions/download-artifact@v2
