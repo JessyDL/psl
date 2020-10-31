@@ -2,10 +2,12 @@
 ### Definitions																										###
 #######################################################################################################################
 
-cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
-SET(PSL_TESTS "tests")
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+SET(PSL_TESTS ${PSL_PROJECT}_tests)
 set(LOCAL_PROJECT ${PSL_TESTS})
 project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
+
+include(CTest)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -17,6 +19,8 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   )
 endif()
 
+message("building tests...")
+
 #######################################################################################################################
 ### Externals 																										###
 #######################################################################################################################
@@ -24,20 +28,15 @@ endif()
 include(FetchContent)
 
 FetchContent_Declare(
-	googletest
+	catch2
 	GIT_REPOSITORY
-	https://github.com/google/googletest.git
+	https://github.com/catchorg/Catch2.git
 	GIT_TAG
-	v1.10.x
+	devel
+	GIT_SHALLOW 1
 )
 
-FetchContent_GetProperties(googletest)
-if(NOT googletest_POPULATED)
-	FetchContent_Populate(googletest)
-	set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE BOOL "")
-	add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
-	unset(CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
-endif()
+FetchContent_MakeAvailable(catch2)
 
 #######################################################################################################################
 ### Includes 																										###
@@ -53,6 +52,7 @@ list(APPEND PSL_TESTS_INC
 list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
+	array
 	allocator
 	expected
 	iterators
@@ -90,7 +90,9 @@ target_link_options(${LOCAL_PROJECT} PUBLIC
 	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage>
 )
 
-include(GoogleTest)
+target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} Catch2)
 
-target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} gtest gmock gtest_main)
-gtest_discover_tests(${LOCAL_PROJECT})
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras/)
+
+include(Catch)
+catch_discover_tests(${LOCAL_PROJECT})

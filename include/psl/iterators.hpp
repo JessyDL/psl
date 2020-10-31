@@ -26,15 +26,15 @@ namespace psl
 		static constexpr size_t AbsStride = (Stride > 0) ? Stride : -Stride;
 
 	  public:
-		using difference_type   = std::ptrdiff_t;
+		using difference_type	= std::ptrdiff_t;
 		using value_type		= std::remove_cv_t<T>;
 		using reference			= value_type&;
-		using const_reference   = const value_type&;
+		using const_reference	= const value_type&;
 		using pointer			= value_type*;
 		using const_pointer		= const value_type*;
 		using size_type			= size_t;
 		using iterator_category = std::random_access_iterator_tag;
-		using iterator_concept  = std::contiguous_iterator_tag;
+		using iterator_concept	= std::contiguous_iterator_tag;
 
 
 		friend class contiguous_range_iterator<value_type, Stride>;
@@ -42,16 +42,15 @@ namespace psl
 
 		constexpr contiguous_range_iterator() noexcept = default;
 		constexpr contiguous_range_iterator(pointer data) noexcept : m_Data(data){};
-		constexpr contiguous_range_iterator(const_pointer data) noexcept requires std::is_const_v<T>
-			: m_Data(const_cast<pointer>(data)){};
-		constexpr contiguous_range_iterator(
-			const contiguous_range_iterator<value_type>& other) noexcept requires std::is_const_v<T>
-			: m_Data(other.m_Data)
+		constexpr contiguous_range_iterator(const_pointer data) noexcept
+			requires std::is_const_v<T> : m_Data(const_cast<pointer>(data)){};
+		constexpr contiguous_range_iterator(const contiguous_range_iterator<value_type>& other) noexcept
+			requires std::is_const_v<T> : m_Data(other.m_Data)
 		{}
 
 		constexpr ~contiguous_range_iterator()										   = default;
 		constexpr contiguous_range_iterator(const contiguous_range_iterator&) noexcept = default;
-		constexpr contiguous_range_iterator(contiguous_range_iterator&&) noexcept	  = default;
+		constexpr contiguous_range_iterator(contiguous_range_iterator&&) noexcept	   = default;
 		constexpr contiguous_range_iterator& operator=(const contiguous_range_iterator&) noexcept = default;
 		constexpr contiguous_range_iterator& operator=(contiguous_range_iterator&&) noexcept = default;
 
@@ -97,7 +96,7 @@ namespace psl
 			return *m_Data;
 		}
 
-		constexpr auto operator-> () const noexcept -> std::conditional_t<std::is_const_v<T>, const_pointer, pointer>
+		constexpr auto operator->() const noexcept -> std::conditional_t<std::is_const_v<T>, const_pointer, pointer>
 		{
 			return m_Data;
 		}
@@ -161,8 +160,8 @@ namespace psl
 		{
 			return (m_Data - other.ptr()) / Stride;
 		}
-		constexpr difference_type operator-(const contiguous_range_iterator<const value_type, Stride>& other) const
-			noexcept
+		constexpr difference_type
+		operator-(const contiguous_range_iterator<const value_type, Stride>& other) const noexcept
 		{
 			return (m_Data - other.ptr()) / Stride;
 		}
@@ -176,8 +175,8 @@ namespace psl
 		constexpr pointer ptr() noexcept requires(!std::is_const_v<T>) { return m_Data; }
 		constexpr const_pointer ptr() const noexcept { return m_Data; }
 
-		constexpr i64 stride() const noexcept { return Stride; }
-		constexpr size_t abs_stride() const noexcept { return AbsStride; }
+		static constexpr i64 stride() noexcept { return Stride; }
+		static constexpr size_t abs_stride() noexcept { return AbsStride; }
 
 		constexpr bool is_valid_pair(const contiguous_range_iterator<value_type, Stride>& other) const noexcept
 		{

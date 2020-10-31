@@ -7,14 +7,20 @@
 
 namespace psl
 {
-	enum class sbo_alias : bool
+	template <bool Value>
+	struct sbo_alias
 	{
-		no  = 0,
-		yes = 1
+		static inline constexpr bool value = Value;
 	};
 
-	template <>
-	constexpr auto enable_enum_ops<sbo_alias> = enum_ops_t::LOGICAL;
+	template <bool Value>
+	inline constexpr auto sbo_alias_v = sbo_alias<Value>::value;
+
+	template <typename T>
+	concept IsSBOAlias = std::is_same_v<T, sbo_alias<true>> || std::is_same_v<T, sbo_alias<false>>;
+
+	template <typename T>
+	concept SBOAlias = std::is_same_v<T, sbo_alias<true>>;
 
 	/**
 	 * \brief container type that can store aliased types correctly for sbo_storage
@@ -69,7 +75,7 @@ namespace psl
 		 * \tparam N amount of elements to store in the sbo
 		 * \tparam Alias changes the internal structure to be aliased when true.
 		 */
-		template <typename T, size_t N, bool Alias = true>
+		template <typename T, size_t N, IsSBOAlias Alias = sbo_alias<true>>
 		struct sbo_storage
 		{
 			inline constexpr static size_t SBO = N;
@@ -82,13 +88,13 @@ namespace psl
 		};
 
 		template <typename T>
-		struct sbo_storage<T, 0, true>
+		struct sbo_storage<T, 0, sbo_alias<true>>
 		{
 			inline constexpr static size_t SBO = 0;
 		};
 
 		template <typename T, size_t N>
-		struct sbo_storage<T, N, false>
+		struct sbo_storage<T, N, sbo_alias<false>>
 		{
 			inline constexpr static size_t SBO = N;
 			constexpr size_t size() const noexcept { return ((N * sizeof(T)) - sizeof(T*)) / sizeof(T); }
@@ -100,7 +106,7 @@ namespace psl
 		};
 
 		template <typename T>
-		struct sbo_storage<T, 0, false>
+		struct sbo_storage<T, 0, sbo_alias<false>>
 		{
 			inline constexpr static size_t SBO = 0;
 			constexpr sbo_storage() noexcept {}
@@ -108,7 +114,7 @@ namespace psl
 		};
 
 		template <size_t N0, size_t N1>
-		struct min_val
+		struct sbo_storage_calculate
 		{
 			inline constexpr static size_t value{(N1 > N0) ? 0 : N0 - N1};
 		};
@@ -119,10 +125,10 @@ namespace psl
 	/**
 	 * \copydoc _priv::sbo_storage
 	 */
-	template <typename T, size_t N, sbo_alias Alias = sbo_alias::yes>
+	template <typename T, size_t N, IsSBOAlias Alias = sbo_alias<true>>
 	using sbo_storage = _priv::sbo_storage<
-		T, (Alias == sbo_alias::yes) ? N : _priv::min_val<N, align_to(sizeof(T*), sizeof(T)) / sizeof(T)>::value,
-		(Alias == sbo_alias::yes)>;
+		T, (SBOAlias<Alias>) ? N : _priv::sbo_storage_calculate<N, align_to(sizeof(T*), sizeof(T)) / sizeof(T)>::value,
+		Alias>;
 
 	/**
 	 * \brief Uses sbo_storage when available, otherwise will default to using an allocator.
@@ -134,11 +140,11 @@ namespace psl
 	 * \warning This type does not run destructors for its contained elements, it's up to whoever uses it to make
 	 * sure the memory is properly cleared before deallocation happens.
 	 */
-	template <typename T, size_t SBO_count, typename Allocator, sbo_alias Alias = sbo_alias::yes>
+	template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias = sbo_alias<true>>
 	struct dynamic_sbo_storage
 	{
 		using value_type = std::remove_cv_t<T>;
-		using storage_t  = sbo_storage<value_type, SBO_count, Alias>;
+		using storage_t	 = sbo_storage<value_type, SBO_count, Alias>;
 		static inline constexpr size_t SBO{storage_t::SBO};
 		using reference				 = value_type&;
 		using const_reference		 = const value_type&;
@@ -162,7 +168,7 @@ namespace psl
 		{
 			if constexpr(SBO == 0)
 				m_Storage.ext = nullptr;
-			else if constexpr(enum_false(Alias))
+			else if constexpr(!SBOAlias<Alias>)
 				m_Storage.ext = m_Storage.local.data();
 
 			if(size <= SBO)
@@ -175,7 +181,7 @@ namespace psl
 				PSL_EXCEPT_IF(!res, std::runtime_error, "could not allocate");
 
 				m_Storage.ext = res.data;
-				m_Capacity	= (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
+				m_Capacity	  = (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
 			}
 		}
 
@@ -202,10 +208,10 @@ namespace psl
 			if(!is_stored_inlined())
 			{
 				m_Storage.ext = nullptr;
-				if constexpr(enum_false(Alias)) m_Storage.ext = m_Storage.local.data();
+				if constexpr(!SBOAlias<Alias>) m_Storage.ext = m_Storage.local.data();
 			}
 			m_Capacity = SBO;
-			m_Size	 = 0;
+			m_Size	   = 0;
 		}
 
 		void deallocate()
@@ -215,7 +221,7 @@ namespace psl
 				m_Allocator.deallocate(m_Storage.ext);
 			}
 			m_Capacity = SBO;
-			m_Size	 = 0;
+			m_Size	   = 0;
 		}
 
 
@@ -230,7 +236,7 @@ namespace psl
 					m_Allocator.deallocate(m_Storage.ext);
 
 					m_Storage.ext = nullptr;
-					m_Capacity	= 0;
+					m_Capacity	  = 0;
 					return;
 				}
 				auto res = m_Allocator.template allocate_n<value_type>(size);
@@ -240,7 +246,7 @@ namespace psl
 				m_Allocator.deallocate(m_Storage.ext);
 
 				m_Storage.ext = res.data;
-				m_Capacity	= (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
+				m_Capacity	  = (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
 			}
 			else
 			{
@@ -258,7 +264,7 @@ namespace psl
 						move_fn(storage, m_Storage.local.data(), m_Size);
 						m_Allocator.deallocate(storage);
 						m_Capacity = SBO;
-						if constexpr(enum_false(Alias)) m_Storage.ext = m_Storage.local.data();
+						if constexpr(!SBOAlias<Alias>) m_Storage.ext = m_Storage.local.data();
 					}
 				}
 				else
@@ -279,7 +285,7 @@ namespace psl
 					}
 
 					m_Storage.ext = res.data;
-					m_Capacity	= (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
+					m_Capacity	  = (pointer)ralign_to((size_type)res.tail, sizeof(value_type)) - m_Storage.ext;
 				}
 			}
 		}
@@ -309,7 +315,7 @@ namespace psl
 	};
 
 
-	template <typename T, size_t SBO_count, typename Allocator, sbo_alias Alias>
+	template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias>
 	constexpr bool dynamic_sbo_storage<T, SBO_count, Allocator, Alias>::is_stored_inlined() const noexcept
 	{
 		if constexpr(SBO == 0)
@@ -318,10 +324,10 @@ namespace psl
 			return SBO == m_Capacity;
 	}
 
-	template <typename T, size_t SBO_count, typename Allocator, sbo_alias Alias>
+	template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias>
 	constexpr auto dynamic_sbo_storage<T, SBO_count, Allocator, Alias>::data() noexcept -> pointer
 	{
-		if constexpr(SBO == 0 || enum_false(Alias))
+		if constexpr(SBO == 0 || !SBOAlias<Alias>)
 			return m_Storage.ext;
 		else
 		{
@@ -333,10 +339,10 @@ namespace psl
 	}
 
 
-	template <typename T, size_t SBO_count, typename Allocator, sbo_alias Alias>
+	template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias>
 	constexpr auto dynamic_sbo_storage<T, SBO_count, Allocator, Alias>::data() const noexcept -> const_pointer
 	{
-		if constexpr(SBO == 0 || enum_false(Alias))
+		if constexpr(SBO == 0 || !SBOAlias<Alias>)
 			return m_Storage.ext;
 		else
 		{
@@ -347,10 +353,10 @@ namespace psl
 		}
 	}
 
-	template <typename T, size_t SBO_count, typename Allocator, sbo_alias Alias>
+	template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias>
 	constexpr auto dynamic_sbo_storage<T, SBO_count, Allocator, Alias>::cdata() const noexcept -> const_pointer
 	{
-		if constexpr(SBO == 0 || enum_false(Alias))
+		if constexpr(SBO == 0 || !SBOAlias<Alias>)
 			return m_Storage.ext;
 		else
 		{
