@@ -6,7 +6,7 @@
 namespace psl
 {
 
-	struct nullopt_t : public private_details::id_token<nullopt_t>
+	struct nullopt_t : public _priv::id_token<nullopt_t>
 	{
 		explicit constexpr nullopt_t(identifier) {}
 	};

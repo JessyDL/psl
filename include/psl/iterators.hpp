@@ -36,6 +36,10 @@ namespace psl
 		using iterator_category = std::random_access_iterator_tag;
 		using iterator_concept  = std::contiguous_iterator_tag;
 
+
+		friend class contiguous_range_iterator<value_type, Stride>;
+		friend class contiguous_range_iterator<const value_type, Stride>;
+
 		constexpr contiguous_range_iterator() noexcept = default;
 		constexpr contiguous_range_iterator(pointer data) noexcept : m_Data(data){};
 		constexpr contiguous_range_iterator(const_pointer data) noexcept requires std::is_const_v<T>
@@ -93,8 +97,7 @@ namespace psl
 			return *m_Data;
 		}
 
-		constexpr auto operator-> () const noexcept
-			-> std::conditional_t<std::is_const_v<T>, const_reference, reference>
+		constexpr auto operator-> () const noexcept -> std::conditional_t<std::is_const_v<T>, const_pointer, pointer>
 		{
 			return m_Data;
 		}

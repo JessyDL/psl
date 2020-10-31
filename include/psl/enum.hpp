@@ -130,6 +130,20 @@ constexpr bool operator&&(T const a, T const b) noexcept
 	return static_cast<T>(static_cast<I>(a) & static_cast<I>(b)) == b;
 }
 
+template <psl::HasEnumLogicalOps T>
+requires(std::is_same_v<bool, std::underlying_type_t<T>>) constexpr bool enum_true(T const& a) noexcept
+{
+	using I = std::underlying_type_t<T>;
+	return static_cast<I>(a);
+}
+
+template <psl::HasEnumLogicalOps T>
+requires(std::is_same_v<bool, std::underlying_type_t<T>>) constexpr bool enum_false(T const& a) noexcept
+{
+	using I = std::underlying_type_t<T>;
+	return !static_cast<I>(a);
+}
+
 template <psl::HasEnumBitOps T>
 [[nodiscard]] constexpr T operator~(T const a) noexcept
 {

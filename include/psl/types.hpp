@@ -20,7 +20,7 @@ namespace psl
 
 	inline constexpr std::size_t dynamic_extent = -1;
 
-	namespace private_details
+	namespace _priv
 	{
 		template <typename T>
 		struct id_token
@@ -30,14 +30,14 @@ namespace psl
 				token
 			};
 		};
-	} // namespace private_details
+	} // namespace _priv
 
 	/**
 	 * \brief value initalization tag. Used by constainers and wrappers to force specific construction behaviour of
 	 * contained types.
 	 *
 	 */
-	struct value_init_t : public private_details::id_token<value_init_t>
+	struct value_init_t : public _priv::id_token<value_init_t>
 	{
 		explicit constexpr value_init_t(identifier) {}
 	};
@@ -51,7 +51,7 @@ namespace psl
 	 * contained types.
 	 *
 	 */
-	struct default_init_t : public private_details::id_token<default_init_t>
+	struct default_init_t : public _priv::id_token<default_init_t>
 	{
 		explicit constexpr default_init_t(identifier) {}
 	};
@@ -65,7 +65,7 @@ namespace psl
 	 * contained types.
 	 *
 	 */
-	struct zero_init_t : public private_details::id_token<zero_init_t>
+	struct zero_init_t : public _priv::id_token<zero_init_t>
 	{
 		explicit constexpr zero_init_t(identifier) {}
 	};
@@ -84,7 +84,7 @@ namespace psl
 	 * undefined behaviour).
 	 *
 	 */
-	struct nop_init_t : public private_details::id_token<nop_init_t>
+	struct nop_init_t : public _priv::id_token<nop_init_t>
 	{
 		explicit constexpr nop_init_t(identifier) {}
 	};

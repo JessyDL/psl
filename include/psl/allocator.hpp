@@ -102,6 +102,14 @@ namespace psl
 		return res;
 	}
 
+	template <typename T, typename... Traits, typename... Args>
+	[[nodiscard]] alloc_results<T> construct_n(allocator<Traits...>& allocator, size_t count, Args&&... args)
+	{
+		auto res = allocator.template allocate_n<T>(count);
+		for(auto ptr = res.data, end = ptr + count; ptr != end; ++ptr) new(ptr) T{std::forward<Args>(args)...};
+		return res;
+	}
+
 	template <typename T, typename... Traits>
 	bool destroy(allocator<Traits...>& allocator, T& object)
 	{
@@ -129,4 +137,7 @@ namespace psl
 
 		bool do_deallocate(void* ptr, size_t size, size_t alignment) override;
 	};
+
+	static inline psl::config::default_memory_resource_t default_memory_resource{alignof(char)};
+	static inline psl::config::default_allocator_t default_allocator{&default_memory_resource};
 } // namespace psl

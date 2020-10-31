@@ -3,6 +3,11 @@
 #include <psl/exceptions.hpp>
 #include <psl/fwd/allocator.hpp>
 
+#pragma region forward
+
+#pragma endregion forward
+
+#pragma region definition
 namespace psl::traits
 {
 	template <typename T, typename Y>
@@ -112,18 +117,13 @@ namespace psl::traits
 	{
 	  public:
 		template <typename T>
-		alloc_results<T> allocate(size_t bytes = sizeof(T))
-		{
-			auto* memoryResource = ((Y*)(this))->resource();
-			return static_cast<alloc_results<T>>(memoryResource->allocate(bytes, alignof(T)));
-		}
+		alloc_results<T> allocate(size_t bytes = sizeof(T));
 
 		template <typename T>
-		bool deallocate(T* object, size_t bytes = sizeof(T))
-		{
-			auto* memoryResource = ((Y*)(this))->resource();
-			return memoryResource->deallocate(object, bytes, alignof(T));
-		}
+		alloc_results<T> allocate_n(size_t count, size_t bytes = sizeof(T));
+
+		template <typename T>
+		bool deallocate(T* object, size_t bytes = sizeof(T));
 	};
 
 	template <typename Y>
@@ -143,14 +143,7 @@ namespace psl::traits
 		 */
 		[[nodiscard(
 			"discarding this will lead to a memory leak as you won't know what to deallocate")]] alloc_results<void>
-		allocate(size_t size, size_t alignment) noexcept(!psl::config::implementation_exceptions)
-		{
-			PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
-			auto res = do_allocate(size, alignment);
-			PSL_CONTRACT_EXCEPT_IF(res && (std::uintptr_t)res.tail % ((const Y*)this)->alignment() != 0,
-								   "implementation of abstract region does not satisfy the requirements");
-			return res;
-		}
+		allocate(size_t size, size_t alignment) noexcept(!psl::config::implementation_exceptions);
 
 		/**
 		 * \brief Deallocates the given item, this is the '.data' member from alloc_results<T>
@@ -167,3 +160,45 @@ namespace psl::traits
 		virtual bool do_deallocate(void* ptr, size_t size, size_t alignment)   = 0;
 	};
 } // namespace psl::traits
+#pragma endregion definition
+
+#pragma region implementation
+namespace psl::traits
+{
+	template <typename Y>
+	template <typename T>
+	alloc_results<T> allocator_trait<basic_allocation, Y>::allocate(size_t bytes)
+	{
+		auto* memoryResource = ((Y*)(this))->resource();
+		return static_cast<alloc_results<T>>(memoryResource->allocate(bytes, alignof(T)));
+	}
+
+	template <typename Y>
+	template <typename T>
+	alloc_results<T> allocator_trait<basic_allocation, Y>::allocate_n(size_t count, size_t bytes)
+	{
+		auto* memoryResource = ((Y*)(this))->resource();
+		return static_cast<alloc_results<T>>(memoryResource->allocate(bytes * count, alignof(T)));
+	}
+
+	template <typename Y>
+	template <typename T>
+	bool allocator_trait<basic_allocation, Y>::deallocate(T* object, size_t bytes)
+	{
+		auto* memoryResource = ((Y*)(this))->resource();
+		return memoryResource->deallocate(object, bytes, alignof(T));
+	}
+
+	template <typename Y>
+	alloc_results<void> memory_resource_trait<basic_allocation, Y>::allocate(size_t size, size_t alignment)
+	{
+		PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
+		auto res = do_allocate(size, alignment);
+		PSL_CONTRACT_EXCEPT_IF(res && (std::uintptr_t)res.tail % ((const Y*)this)->alignment() != 0,
+							   "implementation of abstract region does not satisfy the requirements");
+		return res;
+	}
+
+} // namespace psl::traits
+
+#pragma endregion implementation
