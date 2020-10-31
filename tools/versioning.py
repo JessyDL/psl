@@ -52,7 +52,7 @@ def git_timestamp():
     return int(res)
 
 def git_log_since(major, minor, patch):
-    if major is 0 and minor is 0 and patch is 0:
+    if major == 0 and minor == 0 and patch == 0:
         logs = run_command(["git", "log", "--format=%B", "--no-merges"])
     else:
         logs = run_command(["git", "log",  f"{major}.{minor}.{patch}..HEAD", "--format=%B", "--no-merges"])

@@ -32,7 +32,7 @@ TYPED_TEST(expected, basic_success)
 		T seed{0};
 		{
 			int success_val = 0;
-			int error_val   = 0;
+			int error_val	= 0;
 			auto total		= test_fn<T>(seed, success_val, error_val, true);
 			EXPECT_TRUE(total);
 			if constexpr(is_complex_destruct_v<T>)
@@ -62,7 +62,7 @@ TYPED_TEST(expected, basic_error)
 	T seed{0};
 	{
 		int success_val = 0;
-		int error_val   = 0;
+		int error_val	= 0;
 		auto total		= test_fn<T>(seed, success_val, error_val, false);
 		if constexpr(is_complex_destruct_v<T>)
 		{
@@ -90,7 +90,7 @@ TYPED_TEST(expected, basic_continuation)
 	T seed{0};
 	{
 		int success_val = 0;
-		int error_val   = 0;
+		int error_val	= 0;
 		auto total		= test_fn<T>(seed, success_val, error_val, true)  // 1 : 0
 						 .then(test_fn<T>, success_val, error_val, true)  // 2 : 0
 						 .then(test_fn<T>, success_val, error_val, true); // 3 : 0
@@ -116,13 +116,13 @@ TYPED_TEST(expected, continuation_with_recover)
 	int recovery = -1;
 	T seed{0};
 	int success_val = 0;
-	int error_val   = 0;
-	auto error_fn   = [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
+	int error_val	= 0;
+	auto error_fn	= [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
 	psl::expected<T> total{test_fn<T>(seed, success_val, error_val, true)		// 1 : 0
-							   .then(test_fn<T>, success_val, error_val, true)  // 2 : 0
-							   .then(test_fn<T>, success_val, error_val, true)  // 3 : 0
+							   .then(test_fn<T>, success_val, error_val, true)	// 2 : 0
+							   .then(test_fn<T>, success_val, error_val, true)	// 3 : 0
 							   .then(test_fn<T>, success_val, error_val, false) // 3 : 1
-							   .then(test_fn<T>, success_val, error_val, true)  // did not run
+							   .then(test_fn<T>, success_val, error_val, true)	// did not run
 							   .on_error(error_fn)								// increments error_fn_runs to 1
 							   .recover(recovery)};								// recover
 
@@ -140,9 +140,9 @@ TYPED_TEST(expected, complex_continuation)
 	using T = TypeParam;
 	T seed{0};
 	int error_fn_runs = 0;
-	int success_val   = 0;
-	int error_val	 = 0;
-	auto error_fn	 = [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
+	int success_val	  = 0;
+	int error_val	  = 0;
+	auto error_fn	  = [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
 
 	auto total = test_fn<T>(seed, success_val, error_val, true)		  // 1 : 0
 					 .then(test_fn<T>, success_val, error_val, true)  // 2 : 0
