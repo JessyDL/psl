@@ -52,8 +52,9 @@ list(APPEND PSL_TESTS_INC
 list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
-	array
+	algorithms
 	allocator
+	array
 	expected
 	iterators
 	optional

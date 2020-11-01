@@ -1,4 +1,5 @@
 #pragma once
+#include <psl/types.hpp>
 
 namespace psl
 {
@@ -57,28 +58,6 @@ namespace psl
 	template <typename T>
 	concept NothrowMoveCopyConstructible = NothrowMoveConstructible<T> || NothrowCopyConstructible<T>;
 
-	struct no_type_t
-	{};
-
-	template <typename T>
-	struct get_template_type
-	{
-		using type = T;
-	};
-
-	template <size_t N, typename... Ts>
-	struct get_nth
-	{
-		using type = no_type_t;
-	};
-
-	template <size_t N, typename T, typename... Ts>
-	struct get_nth<N, T, Ts...> : public std::conditional_t<N == 0, get_template_type<T>, get_nth<N - 1, Ts...>>
-	{};
-
-	template <size_t N, typename... Ts>
-	using get_nth_t = typename get_nth<N, Ts...>::type;
-
 	/**
 	 * \brief helper utility to disable perfect forwarding when copy/move constructors should be used.
 	 *
@@ -88,7 +67,7 @@ namespace psl
 	template <typename Target, typename... Args>
 	struct disable_perfect_forward_illegal_type
 		: std::conditional_t<sizeof...(Args) != 1 ||
-								 !std::is_same_v<Target, get_nth_t<0, std::remove_cvref_t<Args>...>>,
+								 !std::is_same_v<Target, _priv::get_nth_t<0, std::remove_cvref_t<Args>...>>,
 							 std::true_type, std::false_type>
 	{};
 

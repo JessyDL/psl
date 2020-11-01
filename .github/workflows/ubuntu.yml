@@ -26,7 +26,7 @@ jobs:
         git submodule update --init --recursive
 
     - name: configure
-      run: cmake . -Bbuild -Ddocumentation=ON -Dtests=ON -Dcoverage=ON
+      run: cmake . -Bbuild -Ddocumentation=ON -Dtests=ON -Dcoverage=OFF
 
     - name: build-tests
       run: cmake --build build --target psl_tests --config Debug -j4
@@ -55,4 +55,4 @@ jobs:
 
       - name: test
         working-directory: build/tests
-        run: ctest .
+        run: ctest . || ctest . --rerun-failed -V

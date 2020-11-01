@@ -5,8 +5,8 @@ if(NOT CMAKE_COMPILER_IS_GNUCXX)
 	message(FATAL_ERROR "requires GNU compiler")
 endif()
 
-if ( NOT (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage"))
-  message( FATAL_ERROR "Code coverage should be run with non-optimized builds" )
+if(NOT coverage)
+  message(FATAL_ERROR "Including this file without enabling -Dcoverage is not supported")
 endif()
 
 function(code_coverage _name _runner _output)

@@ -92,4 +92,45 @@ namespace psl
 	 * \copydoc nop_init_t
 	 */
 	inline constexpr nop_init_t nop_init{nop_init_t::identifier::token};
+
+	template <typename T>
+	struct type_value
+	{
+		using type = T;
+	};
+
+	namespace _priv
+	{
+		struct no_type_t
+		{};
+
+		template <size_t N, typename... Ts>
+		struct get_nth
+		{
+			using type = no_type_t;
+		};
+
+		template <size_t N, typename T, typename... Ts>
+		struct get_nth<N, T, Ts...> : public std::conditional_t<N == 0, type_value<T>, get_nth<N - 1, Ts...>>
+		{};
+
+		template <size_t N, typename... Ts>
+		using get_nth_t = typename get_nth<N, Ts...>::type;
+	} // namespace _priv
+
+
+	template <typename... Ts>
+	struct type_pack
+	{};
+
+	template <size_t N, typename T>
+	struct type_pack_element
+	{};
+
+	template <size_t N, typename... Ts>
+	struct type_pack_element<N, type_pack<Ts...>> : _priv::get_nth<N, Ts...>
+	{};
+
+	template <size_t N, typename T>
+	using type_pack_element_t = typename type_pack_element<N, T>::type;
 } // namespace psl
