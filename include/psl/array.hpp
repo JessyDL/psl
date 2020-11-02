@@ -39,6 +39,29 @@ namespace psl
 
 	inline constexpr size_t default_sbo		 = -1;
 	inline constexpr size_t default_sbo_size = 64;
+
+	/**
+	 * \brief Encapsulates some of the more esoteric settings for array instances.
+	 *
+	 * \tparam Allocator
+	 * \tparam Stability Either keep_stability_t or allow_instability_t (default).
+	 * \tparam SBOExtent SBO max size (in bytes)
+	 * \tparam SBOAlias Should the SBO alias its internal storage with external storage (pointer)?
+	 */
+	template <typename Allocator, typename Stability, size_t SBOExtent = default_sbo,
+			  IsSBOAlias SBOAlias = sbo_alias<false>>
+	struct array_settings_t
+	{
+		static_assert(std::is_same_v<Stability, keep_stability_t> || std::is_same_v<Stability, allow_instability_t>,
+					  "Stability has to be of the type keep_stability_t or allow_instability_t");
+		using stability_type = Stability;
+		using allocator_type = Allocator;
+		using sbo_alias		 = SBOAlias;
+		static inline constexpr size_t sbo_extent{SBOExtent};
+		static inline constexpr bool keep_stable{std::is_same_v<Stability, keep_stability_t>};
+	};
+
+
 	/**
 	 * \brief Contiguous storage container type
 	 * \details This container specializes in storing items in contiguous memory. Optionally a max extent can be
@@ -51,8 +74,8 @@ namespace psl
 	 * \tparam Extent max extent of the storage device. defaults to `psl::dynamic_extent`
 	 * \tparam Allocator allocator to use internally.
 	 */
-	template <typename T, size_t Extent = dynamic_extent, typename Allocator = config::default_allocator_t,
-			  size_t SBO = default_sbo, psl::IsSBOAlias Alias = sbo_alias<false>>
+	template <typename T, size_t Extent = dynamic_extent,
+			  typename Settings = array_settings_t<config::default_allocator_t, allow_instability_t>>
 	class array
 	{
 	  public:
@@ -63,7 +86,7 @@ namespace psl
 		 */
 		using out_of_bounds			 = bad_access<array, "accessed the array outside of the valid range">;
 		using value_type			 = T;
-		using allocator_type		 = Allocator;
+		using allocator_type		 = Settings::allocator_type;
 		using size_type				 = size_t;
 		using difference_type		 = std::ptrdiff_t;
 		using reference				 = value_type&;
@@ -149,9 +172,11 @@ namespace psl
 	  private:
 		constexpr auto calculate_growth_for(size_type count) const noexcept -> size_type;
 		constexpr void grow_if_necessary(size_type newElements = 1);
-		dynamic_sbo_storage<
-			T, greatest_contained_count(sizeof(value_type), (SBO == default_sbo) ? default_sbo_size : SBO * sizeof(T)),
-			allocator_type, Alias>
+		dynamic_sbo_storage<T,
+							greatest_contained_count(sizeof(value_type), (Settings::sbo_extent == default_sbo)
+																			 ? default_sbo_size
+																			 : Settings::sbo_extent * sizeof(T)),
+							allocator_type, typename Settings::sbo_alias>
 			m_Storage{};
 	};
 } // namespace psl
@@ -168,8 +193,8 @@ namespace psl
 		struct is_array : std::false_type
 		{};
 
-		template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-		struct is_array<array<T, Extent, Allocator, SBO, Alias>> : std::true_type
+		template <typename T, size_t Extent, typename Settings>
+		struct is_array<array<T, Extent, Settings>> : std::true_type
 		{};
 	} // namespace _priv
 
@@ -184,9 +209,8 @@ namespace psl
 	inline constexpr auto is_array_v = is_array<T>::value;
 } // namespace psl
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::calculate_growth_for(size_type count) const noexcept
-	-> size_type
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::calculate_growth_for(size_type count) const noexcept -> size_type
 {
 	auto cap = (capacity() * 3 + 1) / 2;
 	if(cap >= count) return cap;
@@ -195,9 +219,8 @@ constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::calculate_growth_fo
 	return count;
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void
-psl::array<T, Extent, Allocator, SBO, Alias>::resize(size_type count) requires std::is_constructible_v<value_type>
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::resize(size_type count) requires std::is_constructible_v<value_type>
 {
 	m_Storage.reallocate(count, [newSize = count](pointer oldData, pointer newData, size_type oldSize) {
 		auto size = std::min(oldSize, newSize);
@@ -224,8 +247,8 @@ psl::array<T, Extent, Allocator, SBO, Alias>::resize(size_type count) requires s
 }
 
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::resize(size_type count, const value_type& value)
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::resize(size_type count, const value_type& value)
 {
 	m_Storage.reallocate(count, [newSize = count](pointer oldData, pointer newData, size_type oldSize) {
 		auto size = std::min(oldSize, newSize);
@@ -252,8 +275,8 @@ constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::resize(size_type co
 }
 
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::reserve(size_type count) noexcept(false)
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::reserve(size_type count) noexcept(false)
 {
 	if(count <= capacity()) return;
 
@@ -274,8 +297,8 @@ constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::reserve(size_type c
 	});
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::grow_if_necessary(size_type newElements)
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::grow_if_necessary(size_type newElements)
 {
 	if(m_Storage.size() + newElements > m_Storage.capacity())
 	{
@@ -283,9 +306,9 @@ constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::grow_if_necessary(s
 	}
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
+template <typename T, size_t Extent, typename Settings>
 template <typename... Args>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::emplace_back(Args&&... args) -> reference
+constexpr auto psl::array<T, Extent, Settings>::emplace_back(Args&&... args) -> reference
 {
 	grow_if_necessary();
 	pointer ptr = m_Storage.data() + m_Storage.size();
@@ -295,38 +318,37 @@ constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::emplace_back(Args&&
 }
 
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::shrink_to_fit()
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::shrink_to_fit()
 {
 	if(size() != capacity()) resize(size());
 }
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::trim_excess()
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::trim_excess()
 {
 	shrink_to_fit();
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr void psl::array<T, Extent, Allocator, SBO, Alias>::clear()
+template <typename T, size_t Extent, typename Settings>
+constexpr void psl::array<T, Extent, Settings>::clear()
 {
 	for(auto& value : m_Storage) value.~T();
 	m_Storage.m_Size = 0;
 }
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(const_iterator pos) -> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(const_iterator pos) -> iterator
 {
 	return erase(allow_instability, pos);
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(const_iterator first, const_iterator last)
-	-> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(const_iterator first, const_iterator last) -> iterator
 {
 	return erase(allow_instability, first, last);
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(allow_instability_t, const_iterator pos) -> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(allow_instability_t, const_iterator pos) -> iterator
 {
 	using std::move;
 	PSL_EXCEPT_IF(pos >= cend() || pos < cbegin(), out_of_bounds);
@@ -340,9 +362,9 @@ constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(allow_instabi
 	return it;
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(allow_instability_t, const_iterator first,
-																   const_iterator last) -> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(allow_instability_t, const_iterator first, const_iterator last)
+	-> iterator
 {
 	using std::move, std::next, std::prev, std::min;
 	PSL_EXCEPT_IF(first > last || first > cend() || last > cend() || first < cbegin() || last < cbegin(),
@@ -362,8 +384,8 @@ constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(allow_instabi
 }
 
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(keep_stability_t, const_iterator pos) -> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(keep_stability_t, const_iterator pos) -> iterator
 {
 	using std::move, std::next;
 	PSL_EXCEPT_IF(pos >= cend() || pos < cbegin(), out_of_bounds);
@@ -379,11 +401,11 @@ constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(keep_stabilit
 	return it;
 }
 
-template <typename T, size_t Extent, typename Allocator, size_t SBO, psl::IsSBOAlias Alias>
-constexpr auto psl::array<T, Extent, Allocator, SBO, Alias>::erase(keep_stability_t, const_iterator first,
-																   const_iterator last) -> iterator
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::erase(keep_stability_t, const_iterator first, const_iterator last)
+	-> iterator
 {
-	using std::move, std::next, std::prev;
+	using std::move, std::next, std::prev, std::min;
 	PSL_EXCEPT_IF(first > last || first > cend() || last > cend() || first < cbegin() || last < cbegin(),
 				  out_of_bounds);
 

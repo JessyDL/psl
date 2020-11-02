@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <psl/array.hpp>
 #include <tests/types.hpp>
 
@@ -28,50 +29,133 @@ TEST_CASE("internal storage constraints", "[psl::sbo_storage]")
 	REQUIRE(results[11] == 0);
 }
 
-// TYPED_TEST_CASE(array_t, array_test_types);
+TEMPLATE_TEST_CASE("array suite", "[psl::array][containers]", int)
+{
+	using std::next, std::prev;
+	psl::array<TestType> arr{};
+	REQUIRE(arr.size() == 0);
+	REQUIRE((arr.size() <= arr.capacity()));
+	REQUIRE((arr.is_stored_inlined() || arr.sbo_size() == 0));
+	STATIC_REQUIRE(is_array_v<const array<TestType>>);
+	STATIC_REQUIRE(IsArray<array<TestType>>);
 
-// TYPED_TEST(array_t, expectations)
-// {
-// 	EXPECT_TRUE(is_array_v<const array<TypeParam>>);
-// 	EXPECT_TRUE(IsArray<array<TypeParam>>);
-// }
+	SECTION("emplace")
+	{
+		for(int i = 0; i < (int)arr.sbo_size(); ++i)
+		{
+			arr.emplace_back(i);
+		}
+		REQUIRE((arr.is_stored_inlined() || arr.sbo_size() == 0));
+		REQUIRE(arr.size() == arr.sbo_size());
+		SECTION("force external storage")
+		{
+			arr.emplace_back(arr.size());
+			REQUIRE_FALSE(arr.is_stored_inlined());
+			REQUIRE((arr.size() > arr.sbo_size()));
+		}
 
-// TYPED_TEST(array_t, emplace)
-// {
-// 	psl::array<TypeParam> arr{};
-// 	EXPECT_TRUE(arr.is_stored_inlined() || arr.sbo_size() == 0);
-// 	EXPECT_EQ(arr.size(), 0);
-// 	int count = arr.sbo_size();
-// 	for(int i = 0; i < count; ++i)
-// 	{
-// 		arr.emplace_back(i);
-// 	}
-// 	EXPECT_TRUE(arr.is_stored_inlined() || arr.sbo_size() == 0);
-// 	EXPECT_EQ(arr.size(), count);
-// 	arr.emplace_back(arr.size());
-// 	EXPECT_FALSE(arr.is_stored_inlined());
-// 	EXPECT_EQ(arr.size(), count + 1);
-// 	for(int i = 0; i < count + 1; ++i)
-// 	{
-// 		EXPECT_EQ(static_cast<int>(arr[i]), i);
-// 	}
-// 	arr.erase(arr.begin());
-// 	count = arr.size();
-// 	for(int i = 0; i < count; ++i)
-// 	{
-// 		int value = i;
-// 		if(i == 0) value = count;
-// 		auto res = static_cast<int>(arr[i]);
-// 		EXPECT_EQ(res, value);
-// 	}
-// 	arr.erase(arr.begin() + 1);
-// 	count = arr.size();
-// 	for(int i = 0; i < count; ++i)
-// 	{
-// 		int value = i;
-// 		if(i == 0) value = count + 1;
-// 		if(i == 1) value = count;
-// 		auto res = static_cast<int>(arr[i]);
-// 		EXPECT_EQ(res, value);
-// 	}
-// }
+		for(int i = 0; i < (int)arr.size(); ++i)
+		{
+			REQUIRE(i == arr[i]);
+		}
+	}
+
+	SECTION("erase")
+	{
+		while(arr.size() < 15) arr.emplace_back(arr.size());
+
+		SECTION("remove one element at the start")
+		{
+			auto original_size = arr.size();
+			SECTION("allow_instability_t")
+			{
+				arr.erase(allow_instability, arr.begin());
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i > 0) ? i : arr.size();
+					REQUIRE((value == arr[i]));
+				}
+			}
+			SECTION("keep_stability_t")
+			{
+				arr.erase(keep_stability, arr.begin());
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					REQUIRE(i + 1 == arr[i]);
+				}
+			}
+			REQUIRE(original_size == arr.size() + 1);
+		}
+
+		SECTION("remove several elements at the start")
+		{
+			auto original_size = arr.size();
+			SECTION("allow_instability_t")
+			{
+				arr.erase(allow_instability, arr.begin(), next(arr.begin(), 2));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i > 1) ? i : arr.size() + i;
+					REQUIRE((value == (int)arr[i]));
+				}
+			}
+			SECTION("keep_stability_t")
+			{
+				arr.erase(keep_stability, arr.begin(), next(arr.begin(), 2));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					REQUIRE(i + 2 == arr[i]);
+				}
+			}
+			REQUIRE(original_size == arr.size() + 2);
+		}
+
+		SECTION("remove one element in the middle")
+		{
+			auto original_size = arr.size();
+			SECTION("allow_instability_t")
+			{
+				arr.erase(next(arr.begin()));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i != 1) ? i : arr.size() + i - 1;
+					REQUIRE((value == arr[i]));
+				}
+			}
+			SECTION("keep_stability_t")
+			{
+				arr.erase(keep_stability, next(arr.begin()));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i >= 1) ? i + 1 : i;
+					REQUIRE(value == arr[i]);
+				}
+			}
+			REQUIRE(original_size == arr.size() + 1);
+		}
+
+		SECTION("remove several elements in the middle")
+		{
+			auto original_size = arr.size();
+			SECTION("allow_instability_t")
+			{
+				arr.erase(allow_instability, next(arr.begin()), next(arr.begin(), 3));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i == 0 || i > 2) ? i : arr.size() + i - 1;
+					REQUIRE((value == arr[i]));
+				}
+			}
+			SECTION("keep_stability_t")
+			{
+				arr.erase(keep_stability, next(arr.begin()), next(arr.begin(), 3));
+				for(int i = 0; i < (int)arr.size(); ++i)
+				{
+					TestType value = (i > 0) ? i + 2 : i;
+					REQUIRE((value == arr[i]));
+				}
+			}
+			REQUIRE(original_size == arr.size() + 2);
+		}
+	}
+}
