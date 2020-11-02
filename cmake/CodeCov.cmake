@@ -31,7 +31,7 @@ function(code_coverage _name _runner _output)
 	add_custom_target(${_name}
 		${LCOV_PATH} --directory . --zerocounters
 		COMMAND ${runner_command}
-		COMMAND ${LCOV_PATH} --directory . --base-directory ${LCOV_BASE_DIR} --no-external --capture --output-file ${coverage_info} -rc lcov_branch_coverage=1
+		COMMAND ${LCOV_PATH} --directory ${LCOV_BASE_DIR} --base-directory ${LCOV_BASE_DIR}/build --no-external --capture --output-file ${coverage_info} -rc lcov_branch_coverage=1
 		COMMAND ${LCOV_PATH} --remove ${coverage_info} "'${CMAKE_BINARY_DIR}/*'" ${LCOV_REMOVE_EXTRA} --output-file ${coverage_filtered}
 		COMMAND ${GENHTML_PATH} --prefix ${LCOV_BASE_DIR} -o ${_output} ${coverage_filtered} --branch-coverage --highlight --legend --keep-descriptions
 		COMMAND ${CMAKE_COMMAND} -E remove ${coverage_info} ${coverage_filtered}

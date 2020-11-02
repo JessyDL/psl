@@ -40,7 +40,7 @@ jobs:
         name: test-artifacts
         path: test-artifacts.tar
   test:
-    name: Test
+    name: Unit Tests
     needs: compile
     runs-on: ubuntu-latest
 
