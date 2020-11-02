@@ -127,12 +127,13 @@ namespace psl
 		constexpr iterator erase(keep_stability_t, const_iterator first, const_iterator last);
 		constexpr iterator erase(allow_instability_t, const_iterator pos);
 		constexpr iterator erase(allow_instability_t, const_iterator first, const_iterator last);
-		// constexpr void push_back( T&& value );
+		constexpr void push_back(T&& value);
+		constexpr void push_back(const T& value);
 
 		template <typename... Args>
 		constexpr auto emplace_back(Args&&... args) -> reference;
 
-		// constexpr void pop_back();
+		constexpr void pop_back();
 		constexpr void resize(size_type count) requires std::is_constructible_v<value_type>;
 		constexpr void resize(size_type count, const value_type& value);
 		constexpr void swap(array& other) noexcept(/* see below */ false);
@@ -420,6 +421,27 @@ constexpr auto psl::array<T, Extent, Settings>::erase(keep_stability_t, const_it
 	}
 	m_Storage.m_Size -= count;
 	return begin() + first_i;
+}
+
+
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::push_back(T&& value) -> void
+{
+	emplace_back(std::move(value));
+}
+
+
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::push_back(const T& value) -> void
+{
+	emplace_back(value);
+}
+
+template <typename T, size_t Extent, typename Settings>
+constexpr auto psl::array<T, Extent, Settings>::pop_back() -> void
+{
+	PSL_EXCEPT_IF(size() == 0, psl::exception, "tried erasing an element on an empty array");
+	erase(end() - 1);
 }
 
 #pragma endregion implementation

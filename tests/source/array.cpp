@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_template_test_macros.hpp>
+#include <catch2/generators/catch_generators_range.hpp>
 #include <psl/array.hpp>
 #include <tests/types.hpp>
 
@@ -59,6 +60,9 @@ TEMPLATE_TEST_CASE("array suite", "[psl::array][containers]", int)
 			REQUIRE(i == arr[i]);
 		}
 	}
+
+	size_t start_elements = GENERATE(0, 8, 128);
+	while(arr.size() < start_elements) arr.emplace_back(arr.size());
 
 	SECTION("erase")
 	{
@@ -157,5 +161,60 @@ TEMPLATE_TEST_CASE("array suite", "[psl::array][containers]", int)
 			}
 			REQUIRE(original_size == arr.size() + 2);
 		}
+	}
+
+	SECTION("clear removes all elements")
+	{
+		while(arr.size() < 15) arr.emplace_back(arr.size());
+		REQUIRE(15 <= arr.size());
+		arr.clear();
+		REQUIRE(0 == arr.size());
+	}
+
+	SECTION("reserve increases capacity")
+	{
+		auto start_size = arr.size();
+		auto start_cap	= arr.capacity();
+
+		SECTION("larger capacity increases")
+		{
+			arr.reserve(start_cap * 2);
+			REQUIRE(start_cap * 2 == arr.capacity());
+			REQUIRE(arr.size() == start_size);
+
+			auto new_cap = arr.capacity();
+
+			SECTION("shrinking changes nothing")
+			{
+				arr.reserve(start_cap);
+				REQUIRE(new_cap == arr.capacity());
+			}
+		}
+
+		SECTION("smaller capacity is a no-op")
+		{
+			arr.reserve(start_cap - 1);
+			REQUIRE(start_cap == arr.capacity());
+			REQUIRE(arr.size() == start_size);
+		}
+	}
+
+	SECTION("trim excess equalizes size and capacity (or sets capacity to sbo_size, if larger than size)")
+	{
+		auto start_size		 = arr.size();
+		auto lower_bound_cap = std::max(arr.size(), arr.sbo_size());
+		auto upper_bound_cap = arr.size() + 100;
+		arr.reserve(upper_bound_cap);
+		REQUIRE(arr.size() < arr.capacity());
+		REQUIRE(arr.size() == start_size);
+		arr.trim_excess();
+		REQUIRE(lower_bound_cap == arr.capacity());
+		REQUIRE(arr.size() == start_size);
+		arr.reserve(upper_bound_cap);
+		REQUIRE(arr.size() < arr.capacity());
+		REQUIRE(arr.size() == start_size);
+		arr.shrink_to_fit();
+		REQUIRE(lower_bound_cap == arr.capacity());
+		REQUIRE(arr.size() == start_size);
 	}
 }
