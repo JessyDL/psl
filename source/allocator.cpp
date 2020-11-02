@@ -25,7 +25,7 @@ alloc_results<void> new_resource::do_allocate(size_t size, size_t alignment)
 	return result;
 }
 
-bool new_resource::do_deallocate(void* ptr, size_t size, size_t alignment)
+bool new_resource::do_deallocate(void* ptr, [[maybe_unused]] size_t size, size_t alignment)
 {
 	auto align = std::lcm(alignment, this->alignment());
 	operator delete(ptr, std::align_val_t{align});

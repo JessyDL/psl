@@ -15,7 +15,7 @@ SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 option(tests "build tests" TRUE)
 option(documentation "build documentation" TRUE)
@@ -135,7 +135,6 @@ target_link_options(${LOCAL_PROJECT} PUBLIC
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE $<BOOL:${coverage}>)
 
 if(tests)
-	include(CTest)
 	add_subdirectory(tests)
 endif()
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <psl/types.hpp>
+#include <cstdint>
 #include <string_view>
 
 namespace psl
@@ -45,6 +45,6 @@ namespace psl
 			}
 		};
 		template <unsigned N>
-		fixed_ascii_string(char const (&)[N])->fixed_ascii_string<N - 1>;
+		fixed_ascii_string(char const (&)[N]) -> fixed_ascii_string<N - 1>;
 	} // namespace details
 } // namespace psl

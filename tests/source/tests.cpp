@@ -1,15 +1,21 @@
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/internal/catch_compiler_capabilities.hpp>
+#include <catch2/internal/catch_leak_detector.hpp>
+#include <catch2/internal/catch_platform.hpp>
 
-TEST(QuickTest, Add)
+namespace Catch
 {
-	ASSERT_EQ(2, 1 + 1);
-	ASSERT_EQ(5, 3 + 2);
-	ASSERT_EQ(10, 7 + 3);
-}
+	CATCH_INTERNAL_START_WARNINGS_SUPPRESSION
+	CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS
+	LeakDetector leakDetector;
+	CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION
+} // namespace Catch
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
-	::testing::InitGoogleTest(&argc, argv);
-	::testing::FLAGS_gtest_death_test_style = "fast";
-	return RUN_ALL_TESTS();
+	// We want to force the linker not to discard the global variable
+	// and its constructor, as it (optionally) registers leak detector
+	(void)&Catch::leakDetector;
+
+	return Catch::Session().run(argc, argv);
 }

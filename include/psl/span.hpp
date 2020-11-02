@@ -66,7 +66,8 @@ namespace psl
 		constexpr size_type size() const noexcept { return Extent; }
 		constexpr size_type size_bytes() const noexcept { return Extent * sizeof(T); }
 		constexpr bool empty() const noexcept { return Extent == 0; }
-		constexpr size_type stride() const noexcept { return Stride; }
+		static constexpr i64 stride() noexcept { return Stride; }
+		static constexpr size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
 
 		template <size_t Count>
 		constexpr span<T, Count, Stride> subspan(size_type offset) const noexcept
@@ -142,7 +143,8 @@ namespace psl
 		constexpr size_type size() const noexcept { return (m_End - m_Begin) / Stride; }
 		constexpr size_type size_bytes() const noexcept { return size() * sizeof(T); }
 		constexpr bool empty() const noexcept { return m_Begin == m_End; }
-		constexpr size_type stride() const noexcept { return Stride; }
+		static constexpr i64 stride() noexcept { return Stride; }
+		static constexpr size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
 
 		constexpr span<T, dynamic_extent, -Stride> reverse() const noexcept
 		{
@@ -153,4 +155,44 @@ namespace psl
 		T* m_Begin;
 		T* m_End;
 	};
+
+	namespace _priv
+	{
+		template <typename T>
+		struct is_span : std::false_type
+		{};
+		template <typename T, size_t Extent, i64 Stride>
+		struct is_span<span<T, Extent, Stride>> : std::true_type
+		{
+			static inline constexpr bool is_static	= Extent != dynamic_extent;
+			static inline constexpr bool is_forward = Stride > 0;
+			static inline constexpr bool is_reverse = Stride < 0;
+		};
+	} // namespace _priv
+
+	template <typename T>
+	struct is_span : _priv::is_span<std::remove_cvref_t<T>>
+	{};
+
+	template <typename T>
+	inline constexpr auto is_span_v = is_span<T>::value;
+
+	template <typename T>
+	concept IsSpan = is_span_v<T>;
+
+	template <IsSpan T>
+	struct is_static_span
+		: std::conditional_t<_priv::is_span<std::remove_cvref_t<T>>::is_static, std::true_type, std::false_type>
+	{};
+
+	template <typename T>
+	inline constexpr auto is_static_span_v = is_static_span<T>::value;
+
+	template <IsSpan T>
+	struct is_dynamic_span
+		: std::conditional_t<_priv::is_span<std::remove_cvref_t<T>>::is_static, std::false_type, std::true_type>
+	{};
+
+	template <typename T>
+	inline constexpr auto is_dynamic_span_v = is_dynamic_span<T>::value;
 } // namespace psl

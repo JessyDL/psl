@@ -23,7 +23,7 @@ jobs:
         git submodule update --init --recursive
 
     - name: configure
-      run: cmake . -Bbuild -Dopt_make_documentation=ON -Dopt_make_tests=OFF
+      run: cmake . -Bbuild -Ddocumentation=ON -Dtests=OFF -Dcoverage=OFF
 
     - name: build
       run: cmake --build build --target Documentation --config Release -j4

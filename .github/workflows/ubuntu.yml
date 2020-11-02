@@ -1,0 +1,58 @@
+name: Ubuntu
+
+on:
+  push:
+    branches:
+      - develop    
+  pull_request:
+    branches:
+      - develop
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CC:   gcc-10
+  CXX:  g++-10
+
+jobs:
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: prepare
+      run: | 
+        git submodule foreach 'git config -f .gitmodules submodule.$sm_path.shallow true'
+        git submodule update --init --recursive
+
+    - name: configure
+      run: cmake . -Bbuild -Ddocumentation=ON -Dtests=ON -Dcoverage=OFF
+
+    - name: build-tests
+      run: cmake --build build --target psl_tests --config Debug -j4
+
+    - name: pack artifacts
+      run: tar --exclude='_deps' --exclude='.cmake' --exclude='CMakeFiles' --exclude='tests/CMakeFiles' -cvf test-artifacts.tar build/
+
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-artifacts
+        path: test-artifacts.tar
+  test:
+    name: Unit Tests
+    needs: compile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: test-artifacts
+
+      - name: unpack artifacts
+        run: tar -xvf test-artifacts.tar
+
+      - name: test
+        working-directory: build/tests
+        run: ctest . || ctest . --rerun-failed -V

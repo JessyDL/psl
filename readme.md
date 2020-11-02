@@ -1,3 +1,5 @@
+![Ubuntu](https://github.com/JessyDL/psl/workflows/Ubuntu/badge.svg)
+
 # Paradigm Standard Library (PSL)
 
 ## Introduction
