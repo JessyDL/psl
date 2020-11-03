@@ -87,10 +87,19 @@ Library</a>
     			<a href="structpsl_1_1__priv_1_1is__array.html">is_array</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__array__settings__t.html">is_array_settings_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__dynamic__array.html">is_dynamic_array</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1is__nth.html">is_nth</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1is__span.html">is_span</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__static__array.html">is_static_array</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1no__type__t.html">no_type_t</a>
@@ -140,6 +149,23 @@ Library</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1source__location.html">source_location</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1settings.html">settings</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1array.html">array</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1default__t.html">default_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1in__bytes.html">in_bytes</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1override__or__default.html">override_or_default</a>
     			</li>
   				</ul>
   			</li>
@@ -203,9 +229,6 @@ Library</a>
   			<a href="classpsl_1_1array.html">array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
-  			<a href="structpsl_1_1array__settings__t.html">array_settings_t</a>
-  			</li>
-  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1bad__access.html">bad_access</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -233,10 +256,16 @@ Library</a>
   			<a href="structpsl_1_1is__array.html">is_array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1is__dynamic__array.html">is_dynamic_array</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__dynamic__span.html">is_dynamic_span</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__span.html">is_span</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1is__static__array.html">is_static_array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__static__span.html">is_static_span</a>
@@ -303,7 +332,7 @@ Library</a>
 <h1>
 	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
 			href="array_8hpp.html">&lt;array.hpp&gt;</a></div>
-	<div class="m-doc-template">template&lt;typename		T, size_t		Extent = <a href="namespacepsl.html#a28c13d5f73c51bc65918ab5c5165adea" class="m-doc">dynamic_<wbr />extent</a>, typename		Settings = <a href="structpsl_1_1array__settings__t.html" class="m-doc">array_<wbr />settings_<wbr />t</a>&lt;<a href="namespacepsl_1_1config.html#a0af0a46a82acfdee7a01780573cac791" class="m-doc">config::<wbr />default_allocator_t</a>, <a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a>&gt;&gt;</div>
+	<div class="m-doc-template">template&lt;typename		T, size_t		Extent = <a href="namespacepsl.html#a28c13d5f73c51bc65918ab5c5165adea" class="m-doc">dynamic_<wbr />extent</a>, <a href="namespacepsl.html#a154015105cb2b4f51b18f60ed7563c80" class="m-doc">IsArraySettings</a>		Settings = <a href="structpsl_1_1settings_1_1array.html" class="m-doc">settings::<wbr />array</a>&lt;&gt;&gt;</div>
 	<span class="m-breadcrumb"><a
 			href="namespacepsl.html">psl</a>::<wbr/></span>array <span
 		class="m-thin">class</span>
@@ -351,6 +380,12 @@ Library</a>
 using <a href="#aed326e484638d529150cb32f5d6d853e" class="m-doc-self">out_of_bounds</a> = <a href="classpsl_1_1bad__access.html" class="m-doc">bad_<wbr />access</a>&lt;<a href="classpsl_1_1array.html" class="m-doc">array</a>, &quot;accessed the <a href="classpsl_1_1array.html" class="m-doc">array</a> outside of the valid range&quot;&gt;
             </td>
             <td>Exception type for when an array index is accessed that falls outside the range of actual constructed elements.</td>
+		</tr>
+		<tr>
+			            <td id="a2ecaaec49a9ebf76d07c1e9793bdab94">
+using <a href="#a2ecaaec49a9ebf76d07c1e9793bdab94" class="m-doc-self">overallocation</a> = <a href="classpsl_1_1static__exception.html" class="m-doc">static_<wbr />exception</a>&lt;&quot;allocated beyond the max extent of the <a href="classpsl_1_1array.html" class="m-doc">array</a>&quot;&gt;
+            </td>
+            <td><span></span></td>
 		</tr>
 		<tr>
 			            <td id="a7cfd1f5ed808617c730f224e06bd9151">
@@ -477,94 +512,94 @@ using <a href="#a2fb6b0ca64fd470fc209f164df007c27" class="m-doc-self">const_reve
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a0faf064f0674cef705b57a5a5810343e">
-              <span class="m-doc-wrap-bumper">void <a href="#a0faf064f0674cef705b57a5a5810343e" class="m-doc-self">reserve</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#a6d6c3f78747339f5f201f9e1f8311065" class="m-doc">size_<wbr />type</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+	            <td id="a2c5d44a3e48777dbf821ba5700d6e8b7">
+              <span class="m-doc-wrap-bumper">void <a href="#a2c5d44a3e48777dbf821ba5700d6e8b7" class="m-doc-self">reserve</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#a6d6c3f78747339f5f201f9e1f8311065" class="m-doc">size_<wbr />type</a> count) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a9024a08805be0f09bde7cdd5de6f4c2a">
-              <span class="m-doc-wrap-bumper">void <a href="#a9024a08805be0f09bde7cdd5de6f4c2a" class="m-doc-self">shrink_to_fit</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a59bce3d33afbbc6bafb35eb2c1f8ba42">
+              <span class="m-doc-wrap-bumper">void <a href="#a59bce3d33afbbc6bafb35eb2c1f8ba42" class="m-doc-self">shrink_to_fit</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a5bc9dd578861d670be379ba0c5741223">
-              <span class="m-doc-wrap-bumper">void <a href="#a5bc9dd578861d670be379ba0c5741223" class="m-doc-self">trim_excess</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a59b91d4590a8f156790f8a5776716f42">
+              <span class="m-doc-wrap-bumper">void <a href="#a59b91d4590a8f156790f8a5776716f42" class="m-doc-self">trim_excess</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a732e84cec1e4fe6610c0bcc0e13d9a9a">
-              <span class="m-doc-wrap-bumper">void <a href="#a732e84cec1e4fe6610c0bcc0e13d9a9a" class="m-doc-self">clear</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a5b962296acd122c670c39b1de742dff8">
+              <span class="m-doc-wrap-bumper">void <a href="#a5b962296acd122c670c39b1de742dff8" class="m-doc-self">clear</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a1d719af591b826d883cd8fd50489efd9">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1d719af591b826d883cd8fd50489efd9" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> pos) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a45f070ce062f6bc0f75fb9e477f2544d">
+              <span class="m-doc-wrap-bumper">auto <a href="#a45f070ce062f6bc0f75fb9e477f2544d" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> pos) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="ae95acbd095ca50c642822289b63b417f">
-              <span class="m-doc-wrap-bumper">auto <a href="#ae95acbd095ca50c642822289b63b417f" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> first,
+	            <td id="ac9d5e114d89222f5c0c2737423d3354a">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac9d5e114d89222f5c0c2737423d3354a" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> first,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> last) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a11edfa7f9e0fc8f4ac7103fda5ed3b55">
-              <span class="m-doc-wrap-bumper">auto <a href="#a11edfa7f9e0fc8f4ac7103fda5ed3b55" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1keep__stability__t.html" class="m-doc">keep_<wbr />stability_<wbr />t</a>,
+	            <td id="af76e0d9ceb6a640133d06d629066706f">
+              <span class="m-doc-wrap-bumper">auto <a href="#af76e0d9ceb6a640133d06d629066706f" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1keep__stability__t.html" class="m-doc">keep_<wbr />stability_<wbr />t</a>,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> pos) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="aa4c15f90d2c65693b03b5ae0479ecd76">
-              <span class="m-doc-wrap-bumper">auto <a href="#aa4c15f90d2c65693b03b5ae0479ecd76" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1keep__stability__t.html" class="m-doc">keep_<wbr />stability_<wbr />t</a>,
+	            <td id="ac31985fd6f5d56ea89ff0b631b03527f">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac31985fd6f5d56ea89ff0b631b03527f" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1keep__stability__t.html" class="m-doc">keep_<wbr />stability_<wbr />t</a>,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> first,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> last) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="afb4244b53b2dfa6265ae3943bcb9d267">
-              <span class="m-doc-wrap-bumper">auto <a href="#afb4244b53b2dfa6265ae3943bcb9d267" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a>,
+	            <td id="abb00add31322057a8f3cb44b76eb6b02">
+              <span class="m-doc-wrap-bumper">auto <a href="#abb00add31322057a8f3cb44b76eb6b02" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a>,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> pos) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a9df5a19d67ddcb3b23b462549ce04cc2">
-              <span class="m-doc-wrap-bumper">auto <a href="#a9df5a19d67ddcb3b23b462549ce04cc2" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a>,
+	            <td id="a0e72aea6fafcd108535af37860472bae">
+              <span class="m-doc-wrap-bumper">auto <a href="#a0e72aea6fafcd108535af37860472bae" class="m-doc-self">erase</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a>,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> first,
               <a href="classpsl_1_1array.html#aed6f8728789ccc57e1d51407025b473a" class="m-doc">const_<wbr />iterator</a> last) -&gt; <a href="classpsl_1_1array.html#a7c9078820facecb3d3182350f1d44443" class="m-doc">iterator</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a2efeaf92b37e5bba12b220620b93dd7e">
-              <span class="m-doc-wrap-bumper">void <a href="#a2efeaf92b37e5bba12b220620b93dd7e" class="m-doc-self">push_back</a>(</span><span class="m-doc-wrap">T&amp;&amp; value) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a6ad292a7c4ce373f11e5b5126186a323">
+              <span class="m-doc-wrap-bumper">void <a href="#a6ad292a7c4ce373f11e5b5126186a323" class="m-doc-self">push_back</a>(</span><span class="m-doc-wrap">T&amp;&amp; value) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a3a1f9da66e086b4605bdde8e910200c0">
-              <span class="m-doc-wrap-bumper">void <a href="#a3a1f9da66e086b4605bdde8e910200c0" class="m-doc-self">push_back</a>(</span><span class="m-doc-wrap">const T&amp; value) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="acf0505686124c3cdf419912afab8d067">
+              <span class="m-doc-wrap-bumper">void <a href="#acf0505686124c3cdf419912afab8d067" class="m-doc-self">push_back</a>(</span><span class="m-doc-wrap">const T&amp; value) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a74386f0247fe9df2a76be62fd39bed07">
+	            <td id="ac21cd81517d3f068230c834e0face386">
               <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a74386f0247fe9df2a76be62fd39bed07" class="m-doc-self">emplace_back</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; reference -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac21cd81517d3f068230c834e0face386" class="m-doc-self">emplace_back</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; reference -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>
 	<tr>
-	            <td id="a8dc2400319a2b9794027741c8fc23645">
-              <span class="m-doc-wrap-bumper">void <a href="#a8dc2400319a2b9794027741c8fc23645" class="m-doc-self">pop_back</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
+	            <td id="a145c6cb75e3be2209a623cfb70cf2ba6">
+              <span class="m-doc-wrap-bumper">void <a href="#a145c6cb75e3be2209a623cfb70cf2ba6" class="m-doc-self">pop_back</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span></span>
             </td>
             <td><span></span></td>
 	</tr>

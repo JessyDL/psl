@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>psl::array_settings_tstruct | Paradigm
+	<title>psl::_priv::is_array_settings_tstruct | Paradigm
 Standard
 Library	</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
@@ -87,10 +87,19 @@ Library</a>
     			<a href="structpsl_1_1__priv_1_1is__array.html">is_array</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__array__settings__t.html">is_array_settings_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__dynamic__array.html">is_dynamic_array</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1is__nth.html">is_nth</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1is__span.html">is_span</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1__priv_1_1is__static__array.html">is_static_array</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1__priv_1_1no__type__t.html">no_type_t</a>
@@ -140,6 +149,23 @@ Library</a>
     			</li>
     			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
     			<a href="structpsl_1_1details_1_1source__location.html">source_location</a>
+    			</li>
+  				</ul>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="namespacepsl_1_1settings.html">settings</a>
+  <ul style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;" >
+  					  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1array.html">array</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1default__t.html">default_t</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1in__bytes.html">in_bytes</a>
+    			</li>
+    			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+    			<a href="structpsl_1_1settings_1_1override__or__default.html">override_or_default</a>
     			</li>
   				</ul>
   			</li>
@@ -203,9 +229,6 @@ Library</a>
   			<a href="classpsl_1_1array.html">array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
-  			<a href="structpsl_1_1array__settings__t.html">array_settings_t</a>
-  			</li>
-  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1bad__access.html">bad_access</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -233,10 +256,16 @@ Library</a>
   			<a href="structpsl_1_1is__array.html">is_array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1is__dynamic__array.html">is_dynamic_array</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__dynamic__span.html">is_dynamic_span</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__span.html">is_span</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1is__static__array.html">is_static_array</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1is__static__span.html">is_static_span</a>
@@ -303,102 +332,14 @@ Library</a>
 <h1>
 	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
 			href="array_8hpp.html">&lt;array.hpp&gt;</a></div>
-	<div class="m-doc-template">template&lt;typename		Allocator, typename		Stability, size_t		SBOExtent = <a href="namespacepsl.html#a40a2a3269ad97aa5ba74d862c78182d2" class="m-doc">default_<wbr />sbo</a>, <a href="namespacepsl.html#a986f0c9f58d723edc0978b80ee92a1be" class="m-doc">IsSBOAlias</a>		SBOAlias = <a href="structpsl_1_1array__settings__t.html#aca534b30f42aecf3f84eb77e071cea93" class="m-doc">sbo_<wbr />alias</a>&lt;false&gt;&gt;</div>
+	<div class="m-doc-template">template&lt;typename		T&gt;</div>
 	<span class="m-breadcrumb"><a
-			href="namespacepsl.html">psl</a>::<wbr/></span>array_settings_t <span
+			href="namespacepsl.html">psl</a>::<wbr/></span><span class="m-breadcrumb"><a
+			href="namespacepsl_1_1__priv.html">_priv</a>::<wbr/></span>is_array_settings_t <span
 		class="m-thin">struct</span>
 </h1>
-<p>Encapsulates some of the more esoteric settings for array instances.</p>
-<table class="m-table m-fullwidth m-flat">
-	<thead>
-		<tr>
-			<th colspan="2">Template parameters</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td style="width: 1%" >Allocator</td>
-				<td></td>
-		</tr>
-		<tr>
-			<td>Stability</td>
-				<td>Either <a href="structpsl_1_1keep__stability__t.html" class="m-doc">keep_<wbr />stability_<wbr />t</a> or <a href="structpsl_1_1allow__instability__t.html" class="m-doc">allow_<wbr />instability_<wbr />t</a> (default).</td>
-		</tr>
-		<tr>
-			<td>SBOExtent</td>
-				<td>SBO max size (in bytes)</td>
-		</tr>
-		<tr>
-			<td>SBOAlias</td>
-				<td>Should the SBO alias its internal storage with external storage (pointer)?</td>
-		</tr>
-	</tbody>
-</table>
+<p><span></span></p>
 
-<div class="m-block m-default">
-	<h3>Contents</h3>
-	<ul>
-
-		<li><a href="#pub-types">Public types</a></li>
-		<li><a href="#pub-static-attribs">Public static variables</a></li>
-
-	</ul>
-</div>
-<section id="pub-types">
-	<h2><a href="#pub-types">Public types</a></h2>
-	<dl class="m-doc">
-			<h3>Typedefs</h3>
-	<table style="width:100%">
-		<tr>
-			            <td id="ab1d6f439a9dfb5b7ce4634d1bd0cd722">
-using <a href="#ab1d6f439a9dfb5b7ce4634d1bd0cd722" class="m-doc-self">stability_type</a> = Stability
-            </td>
-            <td><span></span></td>
-		</tr>
-		<tr>
-			            <td id="a571fa121abc275aeb7b49e2bc5375c01">
-using <a href="#a571fa121abc275aeb7b49e2bc5375c01" class="m-doc-self">allocator_type</a> = Allocator
-            </td>
-            <td><span></span></td>
-		</tr>
-		<tr>
-			            <td id="aca534b30f42aecf3f84eb77e071cea93">
-using <a href="#aca534b30f42aecf3f84eb77e071cea93" class="m-doc-self">sbo_alias</a> = <a href="namespacepsl.html#a03bddb310aaf3a1d4da93222e9943fb4" class="m-doc">SBOAlias</a>
-            </td>
-            <td><span></span></td>
-		</tr>
-	</table>
-
-		
-		
-	</dl>
-</section>
-<section id="pub-static-attribs">
-	<h2><a href="#pub-static-attribs">Public static variables</a></h2>
-	<dl class="m-doc">
-			<table style="width:100%">
-	<tr>
-	            <td id="a30f5f3916900389c782823563c81e341">
-
-<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span><span class="m-attr-block m-attr-static"></span></td><td>
-              size_t <a href="#a30f5f3916900389c782823563c81e341" class="m-doc-self">sbo_extent</a>
-            </td>
-            <td><span></span></td>
-
-	</tr>
-	<tr>
-	            <td id="a23235af8eb0f286bfa1791b7e42d71ae">
-
-<span class="m-attr-block m-attr-constexpr"><span class="tooltip">constexpr</span></span><span class="m-attr-block m-attr-static"></span></td><td>
-              bool <a href="#a23235af8eb0f286bfa1791b7e42d71ae" class="m-doc-self">keep_stable</a>
-            </td>
-            <td><span></span></td>
-
-	</tr>
-	</table>
-
-	</dl>
-</section>
 					</div>
 				</div>
 			</div>
