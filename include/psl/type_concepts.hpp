@@ -77,4 +77,7 @@ namespace psl
 	template <typename Target, typename... Args>
 	inline constexpr auto disable_perfect_forward_illegal_type_v =
 		disable_perfect_forward_illegal_type<Target, Args...>::value;
+
+	template <bool Condition, typename True = std::true_type, typename False = std::false_type>
+	using conditional_t = std::conditional_t<Condition, True, False>;
 } // namespace psl
