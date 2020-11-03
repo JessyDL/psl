@@ -91,6 +91,8 @@ namespace psl
 		struct sbo_storage<T, 0, sbo_alias<true>>
 		{
 			inline constexpr static size_t SBO = 0;
+			constexpr sbo_storage() noexcept {}
+			T* ext{nullptr};
 		};
 
 		template <typename T, size_t N>
