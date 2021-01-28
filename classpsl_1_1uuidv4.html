@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>psl::_priv::is_dynamic_arraystruct | Paradigm
+	<title>psl::uuidv4class | Paradigm
 Standard
 Library	</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600"/>
@@ -339,16 +339,145 @@ Library</a>
 				<div class="m-row">
 					<div class="m-col-l-10 m-push-l-1">
 <h1>
-	<div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf"
-			href="array_8hpp.html">&lt;array.hpp&gt;</a></div>
-	<div class="m-doc-template">template&lt;typename		T&gt;</div>
 	<span class="m-breadcrumb"><a
-			href="namespacepsl.html">psl</a>::<wbr/></span><span class="m-breadcrumb"><a
-			href="namespacepsl_1_1__priv.html">_priv</a>::<wbr/></span>is_dynamic_array <span
-		class="m-thin">struct</span>
+			href="namespacepsl.html">psl</a>::<wbr/></span>uuidv4 <span
+		class="m-thin">class</span> <span
+		class="m-label m-flat m-warning">final</span>
+	<div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf"
+			href="uid_8hpp.html">&lt;uid.hpp&gt;</a></div>
 </h1>
 <p><span></span></p>
 
+<div class="m-block m-default">
+	<h3>Contents</h3>
+	<ul>
+
+		<li><a href="#pub-static-methods">Public static functions</a></li>
+		<li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+		<li><a href="#pub-methods">Public functions</a></li>
+
+	</ul>
+</div>
+<section id="pub-static-methods">
+	<h2><a href="#pub-static-methods">Public static functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="a6f6e19f67f991d77765861207a55b959">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a6f6e19f67f991d77765861207a55b959" class="m-doc-self">generate</a>(</span><span class="m-doc-wrap">std::mt19937_64&amp; rng) -&gt; auto</span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="typeless-methods">
+	<h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="af6a390ef3d2ae73945450a7f565a1e04">
+              <span class="m-doc-wrap-bumper"><a href="#af6a390ef3d2ae73945450a7f565a1e04" class="m-doc-self">uuidv4</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a03aa5bd36db0850048022b87fefb8d03">
+              <span class="m-doc-wrap-bumper"><a href="#a03aa5bd36db0850048022b87fefb8d03" class="m-doc-self">~uuidv4</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ab74c9b63475c484b1c4ca7e44e618a2b">
+              <span class="m-doc-wrap-bumper"><a href="#ab74c9b63475c484b1c4ca7e44e618a2b" class="m-doc-self">uuidv4</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a1ae763d0c0c3f08f05f85a02a76ba9c2">
+              <span class="m-doc-wrap-bumper"><a href="#a1ae763d0c0c3f08f05f85a02a76ba9c2" class="m-doc-self">uuidv4</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp;&amp; other) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ac2ba05e0b9d51bc28e9eeb4b408ca89f">
+              <span class="m-doc-wrap-bumper"><a href="#ac2ba05e0b9d51bc28e9eeb4b408ca89f" class="m-doc-self">uuidv4</a>(</span><span class="m-doc-wrap"><a href="structpsl_1_1generate__t.html" class="m-doc">generate_<wbr />t</a>) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a1a8bb20471202524a7303497b21251f8">
+              <span class="m-doc-wrap-bumper"><a href="#a1a8bb20471202524a7303497b21251f8" class="m-doc-self">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
+<section id="pub-methods">
+	<h2><a href="#pub-methods">Public functions</a></h2>
+	<dl class="m-doc">
+			<table style="width:100%">
+	<tr>
+	            <td id="a26148fbf35eb780c4df93ea2bd0dda71">
+              <span class="m-doc-wrap-bumper">auto <a href="#a26148fbf35eb780c4df93ea2bd0dda71" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; other) -&gt; <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a28aeb469b5aaaa2f16cddc986b15cd21">
+              <span class="m-doc-wrap-bumper">auto <a href="#a28aeb469b5aaaa2f16cddc986b15cd21" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp;&amp; other) -&gt; <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a4b3d6b8308d99b753e0286d954f01250">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4b3d6b8308d99b753e0286d954f01250" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a48e7fd155ba56893c379718f6f2fe57f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a48e7fd155ba56893c379718f6f2fe57f" class="m-doc-self">operator!=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a9d21f4e487cd1914344475b6c2ed6e8b">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9d21f4e487cd1914344475b6c2ed6e8b" class="m-doc-self">operator&lt;</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a8494ee1507d5a40391eeada66df9f0e8">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8494ee1507d5a40391eeada66df9f0e8" class="m-doc-self">operator&lt;=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="a63c67f2041f5e5eaa28c3e4a8ba21e22">
+              <span class="m-doc-wrap-bumper">auto <a href="#a63c67f2041f5e5eaa28c3e4a8ba21e22" class="m-doc-self">operator&gt;</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="ac8ecf5468367b412cbfb0905fe22fa98">
+              <span class="m-doc-wrap-bumper">auto <a href="#ac8ecf5468367b412cbfb0905fe22fa98" class="m-doc-self">operator&gt;=</a>(</span><span class="m-doc-wrap">const <a href="classpsl_1_1uuidv4.html" class="m-doc">uuidv4</a>&amp; rhs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	<tr>
+	            <td id="aefc8ff888ca1212a6a3fec316981a100">
+              <span class="m-doc-wrap-bumper">auto <a href="#aefc8ff888ca1212a6a3fec316981a100" class="m-doc-self">to_string</a>(</span><span class="m-doc-wrap">) const -&gt; std::string <span class="m-label m-flat m-success">noexcept</span></span>
+            </td>
+            <td><span></span></td>
+	</tr>
+	</table>
+
+	</dl>
+</section>
 					</div>
 				</div>
 			</div>

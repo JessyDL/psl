@@ -250,6 +250,9 @@ Library</a>
   			<a href="classpsl_1_1expected.html">expected</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1generate__t.html">generate_t</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1implementation__error.html">implementation_error</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
@@ -272,6 +275,9 @@ Library</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1keep__stability__t.html">keep_stability_t</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="structpsl_1_1monostate.html">monostate</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="classpsl_1_1new__resource.html">new_resource</a>
@@ -311,6 +317,9 @@ Library</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1type__value.html">type_value</a>
+  			</li>
+  			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
+  			<a href="classpsl_1_1uuidv4.html">uuidv4</a>
   			</li>
   			<li style="list-style-type:none; list-style-position: inside; padding-left: 0.5rem;">
   			<a href="structpsl_1_1value__init__t.html">value_init_t</a>
@@ -366,7 +375,7 @@ Library</a>
 
 	</ul>
 </div>
-<p>Models an object that can either contain the result of an operation, or an error in case the operation failed. It cannot be re-assigned, meaning that the value or error is set at construction time. After this it supports continuation behaviours <code><a href="classpsl_1_1expected.html#a211058b277f1ab21f93515b29434f59c" class="m-doc">then()</a></code> and <code><a href="classpsl_1_1expected.html#a750ba19a924de445f8b2ebe00bdbf400" class="m-doc">on_<wbr />error()</a></code>.</p><aside class="m-note m-dim"><h4><a href="todo.html#_todo000002" class="m-doc">Todo</a></h4><p>should references and pointers be supported in this type, or fall under a distinct type such as expected_ref?</p></aside>
+<p>Models an object that can either contain the result of an operation, or an error in case the operation failed. It cannot be re-assigned, meaning that the value or error is set at construction time. After this it supports continuation behaviours <code><a href="classpsl_1_1expected.html#a211058b277f1ab21f93515b29434f59c" class="m-doc">then()</a></code> and <code><a href="classpsl_1_1expected.html#acf91353f704daacdaa06223822c18744" class="m-doc">on_<wbr />error()</a></code>.</p><aside class="m-note m-dim"><h4><a href="todo.html#_todo000002" class="m-doc">Todo</a></h4><p>should references and pointers be supported in this type, or fall under a distinct type such as expected_ref?</p></aside>
 <section id="pub-types">
 	<h2><a href="#pub-types">Public types</a></h2>
 	<dl class="m-doc">
@@ -502,8 +511,8 @@ using <a href="#a5117c1ba39158f7db452ca87ad4f3b51" class="m-doc-self">error_type
 	<tr>
 	            <td>
               <div class="m-doc-template">template&lt;typename FN, typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a750ba19a924de445f8b2ebe00bdbf400" class="m-doc">on_error</a>(</span><span class="m-doc-wrap">FN&amp;&amp; fn,
-              Args &amp;&amp; ... args) -&gt; <a href="classpsl_1_1expected.html" class="m-doc">expected</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#acf91353f704daacdaa06223822c18744" class="m-doc">on_error</a>(</span><span class="m-doc-wrap">FN&amp;&amp; fn,
+              Args &amp;&amp; ... args) -&gt; <a href="classpsl_1_1expected.html" class="m-doc">expected</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </td>
             <td>runs the given function when the expected is in an error condition. The first argument will be the Error object.</td>
 	</tr>
@@ -531,14 +540,14 @@ using <a href="#a5117c1ba39158f7db452ca87ad4f3b51" class="m-doc-self">error_type
 	</tr>
 	<tr>
 	            <td>
-              <span class="m-doc-wrap-bumper">auto <a href="#a7612da87a880cea40aa03fe031d950e8" class="m-doc">consume_error</a>(</span><span class="m-doc-wrap">) noexcept -&gt; error_type -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4cf56e4f8d3165282ff2830777413148" class="m-doc">consume_error</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </td>
             <td></td>
 	</tr>
 	<tr>
 	            <td>
               <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a51aabb3e8bb77723c6d97c7803f55636" class="m-doc">recover</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; <a href="classpsl_1_1expected.html" class="m-doc">expected</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a995fbec99098fdbad2c0e59e7fb5c444" class="m-doc">recover</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; <a href="classpsl_1_1expected.html" class="m-doc">expected</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </td>
             <td>Recovers from an error state if in an error state, otherwise equivalent to a <code>NOP</code></td>
 	</tr>
@@ -556,13 +565,13 @@ using <a href="#a5117c1ba39158f7db452ca87ad4f3b51" class="m-doc-self">error_type
 	<h2>Function documentation</h2>
 	
 	
-				          <section class="m-doc-details" id="a750ba19a924de445f8b2ebe00bdbf400"><div>
+				          <section class="m-doc-details" id="acf91353f704daacdaa06223822c18744"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Error&gt;
                 template&lt;typename FN, typename... Args&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a href="classpsl_1_1expected.html" class="m-doc">expected</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a750ba19a924de445f8b2ebe00bdbf400" class="m-doc-self">on_error</a>(</span><span class="m-doc-wrap">FN&amp;&amp; fn,
+              <span class="m-doc-wrap-bumper"><a href="classpsl_1_1expected.html" class="m-doc">expected</a>&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acf91353f704daacdaa06223822c18744" class="m-doc-self">on_error</a>(</span><span class="m-doc-wrap">FN&amp;&amp; fn,
               Args &amp;&amp; ... args) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>runs the given function when the expected is in an error condition. The first argument will be the Error object.</p>
@@ -634,12 +643,12 @@ using <a href="#a5117c1ba39158f7db452ca87ad4f3b51" class="m-doc-self">error_type
               </tbody>
             </table>
           </div></section>
-			          <section class="m-doc-details" id="a7612da87a880cea40aa03fe031d950e8"><div>
+			          <section class="m-doc-details" id="a4cf56e4f8d3165282ff2830777413148"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Error&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7612da87a880cea40aa03fe031d950e8" class="m-doc-self">consume_error</a>(</span><span class="m-doc-wrap">) noexcept -&gt; error_type <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4cf56e4f8d3165282ff2830777413148" class="m-doc-self">consume_error</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <table class="m-table m-fullwidth m-flat">
               <thead>
@@ -659,13 +668,13 @@ using <a href="#a5117c1ba39158f7db452ca87ad4f3b51" class="m-doc-self">error_type
               </tbody>
             </table>
           </div></section>
-			          <section class="m-doc-details" id="a51aabb3e8bb77723c6d97c7803f55636"><div>
+			          <section class="m-doc-details" id="a995fbec99098fdbad2c0e59e7fb5c444"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Error&gt;
                 template&lt;typename... Args&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a href="classpsl_1_1expected.html" class="m-doc">expected</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a51aabb3e8bb77723c6d97c7803f55636" class="m-doc-self">recover</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
+              <span class="m-doc-wrap-bumper"><a href="classpsl_1_1expected.html" class="m-doc">expected</a>&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a995fbec99098fdbad2c0e59e7fb5c444" class="m-doc-self">recover</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
             <p>Recovers from an error state if in an error state, otherwise equivalent to a <code>NOP</code></p>
             <table class="m-table m-fullwidth m-flat">
