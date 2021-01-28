@@ -19,8 +19,6 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   )
 endif()
 
-message("building tests...")
-
 #######################################################################################################################
 ### Externals 																										###
 #######################################################################################################################
@@ -28,15 +26,14 @@ message("building tests...")
 include(FetchContent)
 
 FetchContent_Declare(
-	catch2
+	litmus
 	GIT_REPOSITORY
-	https://github.com/catchorg/Catch2.git
-	GIT_TAG
-	devel
-	GIT_SHALLOW 1
+	https://github.com/JessyDL/litmus.git
+	GIT_TAG develop
 )
 
-FetchContent_MakeAvailable(catch2)
+FetchContent_MakeAvailable(litmus)
+#message(FATAL_ERROR ${litmus_test_SOURCE_DIR})
 
 #######################################################################################################################
 ### Includes 																										###
@@ -53,12 +50,13 @@ list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
 	algorithms
-	allocator
-	array
-	expected
-	iterators
-	optional
-	span
+	#allocator
+	#array
+	#expected
+	#iterators
+	#optional
+	#span
+	#uid
 	)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND include/tests/)
@@ -91,12 +89,7 @@ target_link_options(${LOCAL_PROJECT} PUBLIC
 	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage>
 )
 
-target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} Catch2)
-
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras/)
-
-include(Catch)
-catch_discover_tests(${LOCAL_PROJECT})
+target_link_libraries(${LOCAL_PROJECT} ${PSL_PROJECT} litmus)
 
 if(coverage)
 	include(CodeCov)

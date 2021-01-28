@@ -296,4 +296,7 @@ namespace psl
 
 	template <typename T, typename Y>
 	using type_pack_index_of_v = typename type_pack_index_of<T, Y>::value;
+
+	struct monostate
+	{};
 } // namespace psl

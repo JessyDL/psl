@@ -17,6 +17,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+option(avx2 "support avx2" TRUE)
 option(tests "build tests" TRUE)
 option(documentation "build documentation" TRUE)
 cmake_dependent_option(coverage "show the code coverage of the tests" FALSE "tests" FALSE)
@@ -81,6 +82,7 @@ list(APPEND PSL_INC
 	span
 	type_concepts
 	types
+	uid
 
 	details/optional_value_storage
 	details/source_location
@@ -126,6 +128,7 @@ target_compile_options(${LOCAL_PROJECT} PUBLIC
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
+	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${avx2}>>:-mavx2>
 	)
 
 target_link_options(${LOCAL_PROJECT} PUBLIC

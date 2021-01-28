@@ -1,73 +1,57 @@
-#include <catch2/catch_template_test_macros.hpp>
-#include <catch2/generators/catch_generators_range.hpp>
 #include <psl/algorithms.hpp>
 #include <tests/types.hpp>
-#include <fmt/format.h>
+
+#include <litmus/suite.hpp>
+#include <litmus/section.hpp>
+#include <litmus/expect.hpp>
+
+#include <litmus/generator/range.hpp>
 
 using namespace psl;
 
-TEMPLATE_TEST_CASE("align_to", "[psl::algorithms]", i8, i16, i32, i64, ui8, ui16, ui32, ui64)
-{
-	using T = TestType;
-	T value{};
-	T alignment{};
-	if constexpr(IsSignedIntegral<T>)
-	{
-		value	  = static_cast<T>(GENERATE(-6, -2, -3, 1, 0, 1, 2, 4, 6, 8, 9));
-		alignment = static_cast<T>(GENERATE(-2, -4, 2, 4, 6, 3));
-	}
-	else
-	{
-		value	  = static_cast<T>(GENERATE(0, 1, 2, 4, 6, 8, 9));
-		alignment = static_cast<T>(GENERATE(2, 4, 6, 3));
-	}
+using namespace litmus;
+using namespace litmus::generator;
 
+auto align_to_test_fn = []<typename T>(T value, T alignment)
+{
 	auto res = align_to(value, alignment);
 
-	STATIC_REQUIRE(std::is_same_v<decltype(res), T>);
-	INFO(fmt::format("value = {} alignment = {} result = {}", value, alignment, res));
-	CHECK((res % alignment == 0));
-	CHECK((res >= value));
-	CHECK((value % alignment != 0 || res == value));
-}
+	static_assert(std::is_same_v<decltype(res), T>);
+	expect(res % alignment) == T{0};
+	expect(res) >= value;
+	expect((value % alignment != 0 || res == value)) == true;
+};
 
-TEMPLATE_TEST_CASE("ralign_to", "[psl::algorithms]", i8, i16, i32, i64, ui8, ui16, ui32, ui64)
+auto ralign_to_test_fn = []<typename T>(T value, T alignment)
 {
-	using T = TestType;
-	T value{};
-	T alignment{};
-	if constexpr(IsSignedIntegral<T>)
-	{
-		value	  = static_cast<T>(GENERATE(-6, -2, -3, 1, 0, 1, 2, 4, 6, 8, 9));
-		alignment = static_cast<T>(GENERATE(-2, -4, 2, 4, 6, 3));
-	}
-	else
-	{
-		value	  = static_cast<T>(GENERATE(0, 1, 2, 4, 6, 8, 9));
-		alignment = static_cast<T>(GENERATE(2, 4, 6, 3));
-	}
-
 	auto res = ralign_to(value, alignment);
-	STATIC_REQUIRE(std::is_same_v<decltype(res), T>);
-	INFO(fmt::format("value = {} alignment = {} result = {}", value, alignment, res));
+	static_assert(std::is_same_v<decltype(res), T>);
 
-	CHECK((res % alignment == 0));
-	CHECK((res <= value));
-	CHECK((value % alignment != 0 || res == value));
-}
+	expect(res % alignment) == T{0};
+	expect(res) <= value;
+	expect((value % alignment != 0 || res == value)) == true;
+};
 
-TEMPLATE_TEST_CASE("greatest_contained_count", "[psl::algorithms]", ui8, ui16, ui32, ui64)
+
+auto test0 = suite<"align_to", "psl", "psl::algorithms">(array<-6, -5, -3, 1, 0, 1, 2, 4, 6, 8, 9>{},
+														 array<-2, -4, 2, 4, 6, 3>{})
+				 .templates<tpack<i8, i16, i32, i64>>() = align_to_test_fn;
+
+auto test1 = suite<"align_to", "psl", "psl::algorithms">(array<0, 1, 2, 4, 6, 8, 9>{}, array<2, 4, 6, 3>{})
+				 .templates<tpack<ui8, ui16, ui32, ui64>>() = align_to_test_fn;
+
+auto test2 = suite<"ralign_to", "psl", "psl::algorithms">(array<-6, -5, -3, 1, 0, 1, 2, 4, 6, 8, 9>{},
+														  array<-2, -4, 2, 4, 6, 3>{})
+				 .templates<tpack<i8, i16, i32, i64>>() = ralign_to_test_fn;
+
+auto test3 = suite<"ralign_to", "psl", "psl::algorithms">(array<0, 1, 2, 4, 6, 8, 9>{}, array<2, 4, 6, 3>{})
+				 .templates<tpack<ui8, ui16, ui32, ui64>>() = ralign_to_test_fn;
+
+auto test4 =
+	suite<"greatest_contained_count", "psl", "psl::algorithms">(array<1, 2, 4, 6, 8, 9>{}, array<2, 4, 6, 3, 12>{})
+		.templates<tpack<ui8, ui16, ui32, ui64>>() = []<typename T>(T value, T size)
 {
-	using T = TestType;
-	T value{};
-	T size{};
-	value = static_cast<T>(GENERATE(1, 2, 4, 6, 8, 9));
-	size  = static_cast<T>(GENERATE(2, 4, 6, 3, 12));
-
 	auto res = greatest_contained_count(value, size);
-	STATIC_REQUIRE(std::is_same_v<decltype(res), T>);
-	INFO(fmt::format("value = {} size = {} result = {}", value, size, res));
-
-	CHECK((res * value <= size));
-	CHECK((size - res * value < value));
-}
+	expect(res * value) <= size;
+	expect(size - res * value) < value;
+};

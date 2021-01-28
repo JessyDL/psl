@@ -73,9 +73,10 @@ namespace psl
 				if(this != &rhs) [[likely]]
 					{
 						engaged = rhs.engaged;
+						// rhs.engaged = false;
 						if(engaged)
 						{
-							value = std::move(rhs.value);
+							value = rhs.value;
 						}
 					}
 				return *this;
@@ -93,7 +94,11 @@ namespace psl
 
 			constexpr void reset() noexcept(std::is_nothrow_destructible_v<T>)
 			{
-				if(engaged) [[likely]] value.~T();
+				if(engaged) [[likely]]
+					{
+						value.~T();
+						empty_marker = {};
+					}
 				engaged = false;
 			}
 

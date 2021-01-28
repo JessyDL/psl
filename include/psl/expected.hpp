@@ -123,14 +123,14 @@ namespace psl
 		 * \tparam Args arguments to forward to the function object
 		 */
 		template <typename FN, typename... Args>
-		constexpr expected on_error(FN&& fn, Args&&... args) noexcept(
+		constexpr expected& on_error(FN&& fn, Args&&... args) noexcept(
 			std::is_nothrow_invocable_v<FN, Error, Args...>) requires(std::is_invocable_v<FN, Error, Args...>)
 		{
 			if(!m_ValueStorage) [[unlikely]]
 				{
 					fn(m_Error, std::forward<Args>(args)...);
 				}
-			return std::move(*this);
+			return *this;
 		}
 
 		/**
@@ -177,7 +177,7 @@ namespace psl
 		 * \return `Error` if in an error state.
 		 * \throw in case of not being in an error state.
 		 */
-		constexpr auto consume_error() noexcept -> error_type
+		constexpr auto consume_error() noexcept(!config::exceptions) -> error_type
 		{
 			PSL_EXCEPT_IF(m_ValueStorage.has_value(), bad_exceptional_error_access);
 			return m_Error;
@@ -189,7 +189,7 @@ namespace psl
 		 * \tparam Args arguments to construct a valid `T` object with in case of error state.
 		 */
 		template <typename... Args>
-		constexpr expected recover(Args&&... args) noexcept(
+		constexpr expected& recover(Args&&... args) noexcept(
 			NothrowMoveCopyAssignable<T>&& std::is_nothrow_constructible_v<
 				T, Args...>) requires(MoveCopyAssignable<T>&& std::is_constructible_v<T, Args...>)
 		{
@@ -198,7 +198,7 @@ namespace psl
 					m_Error = {};
 					m_ValueStorage.set(std::forward<Args>(args)...);
 				}
-			return std::move(*this);
+			return *this;
 		}
 
 		constexpr bool has_value() const noexcept { return m_ValueStorage.has_value(); }
