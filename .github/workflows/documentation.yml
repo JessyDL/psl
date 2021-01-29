@@ -3,7 +3,7 @@ name: Documentation
 on:
   push:
     branches:
-      - develop
+      - release
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
