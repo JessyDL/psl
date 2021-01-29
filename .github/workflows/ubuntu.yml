@@ -54,5 +54,4 @@ jobs:
         run: tar -xvf test-artifacts.tar
 
       - name: test
-        working-directory: build/tests
-        run: ./psl_tests --source ../ --source-size-limit 100
+        run: ./build/tests/psl_tests --source build/ --source-size-limit 100
