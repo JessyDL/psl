@@ -3,6 +3,10 @@
 #include <psl/type_concepts.hpp>
 #include <psl/types.hpp>
 
+// issue: GCC incorrectly evaluates the end ptr location in static arrays resulting in an OOB warning.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 namespace psl
 {
 	/**
@@ -164,7 +168,7 @@ namespace psl
 		template <typename T, size_t Extent, i64 Stride>
 		struct is_span<span<T, Extent, Stride>> : std::true_type
 		{
-			static inline constexpr bool is_static	= Extent != dynamic_extent;
+			static inline constexpr bool is_static  = Extent != dynamic_extent;
 			static inline constexpr bool is_forward = Stride > 0;
 			static inline constexpr bool is_reverse = Stride < 0;
 		};
@@ -196,3 +200,4 @@ namespace psl
 	template <typename T>
 	inline constexpr auto is_dynamic_span_v = is_dynamic_span<T>::value;
 } // namespace psl
+#pragma GCC diagnostic pop
