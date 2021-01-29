@@ -48,7 +48,7 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 		expect(arr.size()) == arr.sbo_size();
 		section<"force external storage">() = [&] {
 			arr.emplace_back(arr.size());
-			expect(arr.is_stored_inlined()) == true;
+			expect(arr.is_stored_inlined()) == false;
 			expect(arr.size()) > arr.sbo_size();
 		};
 
