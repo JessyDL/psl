@@ -45,7 +45,7 @@ class copy_only_object
 		return *this;
 	};
 
-	operator int() { return m_Value; }
+	constexpr operator int() const noexcept { return m_Value; }
 
 	copy_only_object& operator++()
 	{

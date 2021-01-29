@@ -50,12 +50,12 @@ list(APPEND PSL_TESTS_SRC
 	${PSL_TESTS_INC_SRC}
 	tests
 	algorithms
-	#allocator
-	#array
-	#expected
-	#iterators
-	#optional
-	#span
+	allocator
+	array
+	expected
+	iterators
+	optional
+	span
 	#uid
 	)
 
