@@ -34,8 +34,8 @@ jobs:
     - name: pack artifacts
       run: |
         tar --exclude='.git' --exclude='.cmake' --exclude='CMakeFiles' --exclude='tests/CMakeFiles' -cvf test-artifacts.tar include/ source/ tests/
-        tar --file=test-artifacts.tar --append build/tests/psl_tests
-        tar --file=test-artifacts.tar  --exclude='.git' --append build/_deps/litmus-src/
+        tar -v --file=test-artifacts.tar --append build/tests/psl_tests
+        tar -v --file=test-artifacts.tar  --exclude='.git' --append build/_deps/litmus-src/
 
 
     - name: upload artifacts
@@ -58,4 +58,5 @@ jobs:
         run: tar -xvf test-artifacts.tar
 
       - name: test
-        run: ./build/tests/psl_tests --source build/ --source-size-limit 100
+        working-directory: build
+        run: ./tests/psl_tests --source-size-limit 100
