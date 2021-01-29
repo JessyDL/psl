@@ -216,13 +216,13 @@ auto array_test2 =
 		expect(array.capacity() == max_size);
 
 		section<"overallocate">() = [&] {
-			expect(throws_t<>{}(&array_t::resize, array, max_size + 1)) == true;
-			// expect(throws_t<>{}([&]() { array.emplace_back(); })) == true;
+			expect([&] { array.resize(max_size + 1); }) == throws<>();
+			expect([&] { array.emplace_back(); }) == throws<>();
 		};
 
 		section<"erase add 2 (overallocate)">() = [&] {
 			array.erase(array.begin());
-			expect(throws_t<>{}(&array_t::resize, array, array.size() + 2)) == true;
+			expect([&] { array.resize(array.size() + 2); }) == throws<>();
 			section<"fill again">() = [&] {
 				array.emplace_back();
 				expect(array.size()) == max_size;

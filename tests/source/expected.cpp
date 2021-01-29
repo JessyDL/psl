@@ -42,7 +42,7 @@ auto expected_test0 =
 				expect(seed.references()) == 2;
 			}
 			expect(static_cast<int>(total.consume())) == success_val;
-			expect(throws_t<>{}(&decltype(total)::consume, total)) == true;
+			expect([&] { total.consume(); }) == throws<>();
 			if constexpr(is_complex_destruct_v<T>)
 			{
 				expect(seed.references()) == 1;
@@ -67,7 +67,7 @@ auto expected_test0 =
 				expect(seed.references()) == 1;
 			}
 			expect(total.has_value()) == false;
-			expect(throws_t<>{}(&decltype(total)::consume, total)) == true;
+			expect([&] { total.consume(); }) == throws<>();
 			if constexpr(is_complex_destruct_v<T>)
 			{
 				expect(seed.references()) == 1;
@@ -97,7 +97,7 @@ auto expected_test0 =
 			}
 
 			expect(static_cast<int>(total.consume()) == success_val);
-			expect(throws_t<>{}(&decltype(total)::consume, total)) == true;
+			expect([&] { total.consume(); }) == throws<>();
 			expect(total.has_value()) == false;
 			expect(error_val) == 0;
 		}
@@ -121,7 +121,7 @@ auto expected_test0 =
 		expect(total.has_value()) == true;
 		expect(total.consume()) == recovery;
 		expect(total.has_value()) == false;
-		expect(throws_t<>{}(&decltype(total)::consume, total)) == true;
+		expect([&] { total.consume(); }) == throws<>();
 		expect(error_val) == 1;
 		expect(error_fn_runs) == 1;
 		expect(success_val) == 3;
@@ -148,7 +148,7 @@ auto expected_test0 =
 						 .on_error(error_fn)							  // increments error_fn_runs to 2
 						 .on_error(error_fn);							  // increments error_fn_runs to 3
 		expect(total.has_value()) == false;
-		expect(throws_t<>{}(&decltype(total)::consume, total)) == true;
+		expect([&] { total.consume(); }) == throws<>();
 
 		if constexpr(is_complex_destruct_v<T>)
 		{
