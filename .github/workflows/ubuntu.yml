@@ -32,7 +32,7 @@ jobs:
       run: cmake --build build --target psl_tests --config Debug -j4
 
     - name: pack artifacts
-      run: tar --exclude='_deps' --exclude='.cmake' --exclude='CMakeFiles' --exclude='tests/CMakeFiles' -cvf test-artifacts.tar build/
+      run: tar --exclude='_deps' --exclude='.cmake' --exclude='CMakeFiles' --exclude='tests/CMakeFiles' -cvf test-artifacts.tar build/ include/ source/ tests/
 
     - name: upload artifacts
       uses: actions/upload-artifact@v2
