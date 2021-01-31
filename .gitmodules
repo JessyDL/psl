@@ -1,3 +1,6 @@
 [submodule "documentation/externals/mcss"]
 	path = documentation/externals/mcss
 	url = https://github.com/JessyDL/m.css.git
+[submodule "tests/externals/litmus"]
+	path = tests/externals/litmus
+	url = https://github.com/JessyDL/litmus.git

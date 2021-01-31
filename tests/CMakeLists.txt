@@ -23,17 +23,7 @@ endif()
 ### Externals 																										###
 #######################################################################################################################
 
-include(FetchContent)
-
-FetchContent_Declare(
-	litmus
-	GIT_REPOSITORY
-	https://github.com/JessyDL/litmus.git
-	GIT_TAG develop
-)
-
-FetchContent_MakeAvailable(litmus)
-#message(FATAL_ERROR ${litmus_test_SOURCE_DIR})
+add_subdirectory(externals/litmus)
 
 #######################################################################################################################
 ### Includes 																										###
