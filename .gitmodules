@@ -4,3 +4,6 @@
 [submodule "tests/externals/litmus"]
 	path = tests/externals/litmus
 	url = https://github.com/JessyDL/litmus.git
+[submodule "externals/fmt"]
+	path = externals/fmt
+	url = https://github.com/fmtlib/fmt.git

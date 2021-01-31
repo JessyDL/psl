@@ -37,23 +37,7 @@ endif()
 SET(Python_ADDITIONAL_VERSIONS 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
 find_package(PythonInterp REQUIRED)
 
-include(FetchContent)
-
-FetchContent_Declare(
-	fmt
-	GIT_REPOSITORY
-	https://github.com/fmtlib/fmt.git
-	GIT_TAG
-	6.2.0
-)
-
-FetchContent_GetProperties(fmt)
-if(NOT fmt_POPULATED)
-	FetchContent_Populate(fmt)
-	set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE BOOL "")
-	add_subdirectory(${fmt_SOURCE_DIR} ${fmt_BINARY_DIR})
-	unset(CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
-endif()
+add_subdirectory(externals/fmt)
 
 #######################################################################################################################
 ### Includes 																										###
