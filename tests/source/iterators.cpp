@@ -1,12 +1,24 @@
 #include <psl/iterators.hpp>
 #include <psl/types.hpp>
 
+#include <litmus/expect.hpp>
 #include <litmus/suite.hpp>
 #include <litmus/section.hpp>
-#include <litmus/expect.hpp>
+
+namespace litmus
+{
+	template <typename T, auto Value>
+	struct value_to_string_t<psl::contiguous_range_iterator<T, Value>>
+	{
+		using type = psl::contiguous_range_iterator<T, Value>;
+		constexpr std::string operator()(const type& value) const noexcept { return std::to_string(*value); };
+	};
+} // namespace litmus
+
 
 using namespace psl;
 using namespace litmus;
+
 
 void test(auto begin, auto end)
 {

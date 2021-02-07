@@ -12,7 +12,7 @@ class move_only_object
 	move_only_object(move_only_object&&) noexcept = default;
 	move_only_object& operator=(move_only_object&&) noexcept = default;
 
-	operator int() { return m_Value; }
+	operator int() const noexcept { return m_Value; }
 
 	move_only_object& operator++()
 	{
@@ -74,7 +74,7 @@ class requires_init
 	requires_init& operator=(const requires_init&) = default;
 	requires_init& operator=(requires_init&&) = default;
 
-	operator int() { return m_Value; }
+	operator int() const noexcept { return m_Value; }
 
 	requires_init& operator++()
 	{
@@ -151,7 +151,7 @@ class complex_destruct
 		}
 	}
 
-	operator int() { return m_Value; }
+	operator int() const noexcept { return m_Value; }
 
 	complex_destruct& operator++()
 	{
