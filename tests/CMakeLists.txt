@@ -48,6 +48,8 @@ list(APPEND PSL_TESTS_SRC
 	span
 	random
 	#uid
+
+	serialization/property
 	)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND include/tests/)

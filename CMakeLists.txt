@@ -69,6 +69,9 @@ list(APPEND PSL_INC
 	types
 	uid
 
+	serialization/property
+	serialization/serializer
+
 	details/optional_value_storage
 	details/source_location
 	details/fixed_ascii_string
