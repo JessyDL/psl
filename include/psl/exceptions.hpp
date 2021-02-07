@@ -93,33 +93,47 @@ namespace psl
 		bad_access(const source_location& location = source_location::current()) : exception(Message, location){};
 		virtual ~bad_access() = default;
 	};
+
+	namespace _priv
+	{
+		template <typename Exception, typename... Ts>
+		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, void> constexpr void
+		throw_if_needed(bool condition, Ts&&... args) noexcept(false)
+		{
+			throw_exception<Exception>(condition, std::forward<Ts>(args)...);
+		}
+
+		template <typename Exception, typename... Ts>
+		constexpr void throw_exception(bool condition, Ts&&... args) noexcept(false)
+		{
+			if(condition)
+			{
+				throw Exception{std::forward<Ts>(args)...};
+			}
+		}
+
+		template <typename Exception, typename... Ts>
+		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, int> constexpr void
+		throw_if_needed(bool condition, Ts&&... args) noexcept(true)
+		{
+			if(std::is_constant_evaluated()) throw_exception<Exception>(condition, std::forward<Ts>(args)...);
+
+			if constexpr(config::exceptions_as_asserts || psl::config::asserts)
+			{
+				assert(condition && (args && ...));
+			}
+		}
+	} // namespace _priv
 } // namespace psl
 
 #define PSL_ASSERT(expr, ...)                                                                                          \
 	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!!(expr)__VA_OPT__(&&) __VA_ARGS__)
 
-#define PSL_EXCEPT(exception_type, ...)                                                                                \
-	if constexpr(psl::config::exceptions)                                                                              \
-	{                                                                                                                  \
-		throw exception_type(__VA_ARGS__);                                                                             \
-	}                                                                                                                  \
-	else                                                                                                               \
-	{                                                                                                                  \
-		if(std::is_constant_evaluated()) throw exception_type(__VA_ARGS__);                                            \
-	}                                                                                                                  \
-	PSL_ASSERT(false, __VA_ARGS__)
+#define PSL_EXCEPT(exception_type, ...) psl::_priv::throw_if_needed<exception_type>(true __VA_OPT__(, ) __VA_ARGS__)
 
 
 #define PSL_EXCEPT_IF(expr, exception_type, ...)                                                                       \
-	if constexpr(psl::config::exceptions)                                                                              \
-	{                                                                                                                  \
-		if(!!(expr)) throw exception_type(__VA_ARGS__);                                                                \
-	}                                                                                                                  \
-	else                                                                                                               \
-	{                                                                                                                  \
-		if(std::is_constant_evaluated() && !!(expr)) throw exception_type(__VA_ARGS__);                                \
-	}                                                                                                                  \
-	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!(expr)__VA_OPT__(&&) __VA_ARGS__)
+	psl::_priv::throw_if_needed<exception_type>(expr __VA_OPT__(, ) __VA_ARGS__)
 
 #define PSL_CONTRACT_EXCEPT_IF(expr, ...)                                                                              \
 	if constexpr(psl::config::implementation_exceptions)                                                               \
