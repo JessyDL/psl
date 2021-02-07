@@ -46,6 +46,7 @@ list(APPEND PSL_TESTS_SRC
 	iterators
 	optional
 	span
+	random
 	#uid
 	)
 

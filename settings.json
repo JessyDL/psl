@@ -1,8 +1,9 @@
 {
-  "includes":  ["psl/fwd/allocator.hpp"],
+  "includes":  ["psl/fwd/allocator.hpp", "psl/fwd/random.hpp"],
   "errors_strategy": "exceptions",
   "implementation_errors_strategy": "exceptions",
   "asserts": "is_debug",
   "default_memory_resource": "psl::new_resource",
-  "default_allocator": "psl::allocator<psl::traits::shareable_t<true>, psl::traits::basic_allocation>"
+  "default_allocator": "psl::allocator<psl::traits::shareable_t<true>, psl::traits::basic_allocation>",
+  "default_rng_generator": "psl::xorshift128plus"
 }

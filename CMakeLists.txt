@@ -63,6 +63,7 @@ list(APPEND PSL_INC
 	expected
 	iterators
 	optional
+	random
 	span
 	type_concepts
 	types

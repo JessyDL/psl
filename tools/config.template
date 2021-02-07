@@ -66,4 +66,9 @@ namespace psl::config
 	 * out there.
 	 */
 	using default_allocator_t = $DEFAULT_ALLOCATOR;
+
+	/**
+	 * \brief Default random number generator
+	 */
+	using default_rng_generator_t = $DEFAULT_RNG_GENERATOR;
 } // namespace psl::config
