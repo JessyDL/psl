@@ -58,4 +58,4 @@ jobs:
 
       - name: test
         working-directory: build
-        run: ./tests/psl_tests --source-size-limit 100 --no-source
+        run: ./tests/psl_tests --source-size-limit 100 --no-source --formatter compact
