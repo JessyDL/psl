@@ -45,6 +45,8 @@ add_subdirectory(externals/fmt)
 
 list(APPEND INC_IMPL
 	allocator
+	
+	serialization/format
 	)
 
 list(APPEND PSL_GENERATED_INC
@@ -69,6 +71,9 @@ list(APPEND PSL_INC
 	types
 	uid
 
+	containers/variant.hpp
+	containers/string_view
+	
 	serialization/property
 	serialization/serializer
 

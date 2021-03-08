@@ -1,0 +1,19 @@
+template unit
+{
+    string name;
+    int health;
+    bool friendly = false;          // default values imply "optional"
+    array<object> equipment = {};   // empty brace initialize it with code defaults
+};
+
+unit hero
+{
+    name      = Dushi;
+    health    = 100;
+    friendly  = true;
+    equipment =
+    {
+        { string name = healingwand; int heal = 10; },
+        { string name = obliterator; int damage = 25; },
+    };
+};

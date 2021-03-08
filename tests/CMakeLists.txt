@@ -49,7 +49,10 @@ list(APPEND PSL_TESTS_SRC
 	random
 	#uid
 
+	containers/string_view
+	
 	serialization/property
+	serialization/format
 	)
 
 list(TRANSFORM PSL_TESTS_INC PREPEND include/tests/)

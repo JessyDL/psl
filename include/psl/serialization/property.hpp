@@ -6,28 +6,66 @@ namespace psl::serialization
 	template <typename T>
 	class anonymous_property;
 
-	template <fixed_ascii_string Name, typename T, size_t Version>
+	template <fixed_ascii_string Name, typename T>
 	class property;
 
-	template <typename T>
-	struct is_property : public std::false_type
-	{};
-
-	// workaround for fixed_ascii_string deduction issues on GCC
-	template <typename T>
-	requires requires(T t)
+	inline namespace details
 	{
-		typename T::underlying_t;
-	}
-	&&std::is_base_of_v<anonymous_property<typename T::underlying_t>, T> struct is_property<T> : public std::true_type
-	{};
+		template <typename T>
+		struct is_anonymous_property : public std::false_type
+		{};
 
-	template <typename T>
-	struct is_property<anonymous_property<T>> : public std::true_type
-	{};
+		template <typename T>
+		struct is_anonymous_property<anonymous_property<T>> : public std::true_type
+		{};
+
+		template <typename T>
+		struct is_named_property : public std::false_type
+		{};
+
+		// workaround for fixed_ascii_string deduction issues on GCC
+		template <typename T>
+		requires requires(T t)
+		{
+			typename T::underlying_t;
+		}
+		&&std::is_base_of_v<anonymous_property<typename T::underlying_t>, T> struct is_named_property<T>
+			: public std::true_type
+		{};
+
+
+		template <typename T>
+		struct is_named_property<anonymous_property<T>> : public std::false_type
+		{};
+
+		template <typename T>
+		struct is_property : public std::conditional_t<is_named_property<T>::value || is_anonymous_property<T>::value,
+													   std::true_type, std::false_type>
+		{};
+	} // namespace details
 
 	template <typename T>
 	concept IsProperty = is_property<std::remove_cvref_t<T>>::value;
+
+	template <typename T>
+	concept IsNamedProperty = is_named_property<std::remove_cvref_t<T>>::value;
+
+	template <typename T>
+	concept IsAnonymousProperty = is_anonymous_property<std::remove_cvref_t<T>>::value;
+
+	template <typename T>
+	concept SupportsRangeOperations = requires(T t)
+	{
+		t.begin();
+		t.end();
+	}
+	&&!std::is_same_v<std::remove_cvref_t<T>, std::string>;
+
+	template <typename T>
+	concept SupportsSizeOperation = requires(T t)
+	{
+		t.size();
+	};
 
 	template <typename T>
 	class anonymous_property
@@ -48,7 +86,7 @@ namespace psl::serialization
 		{}
 
 		template <typename Y>
-		constexpr auto operator=(const anonymous_property<Y>& other) noexcept -> anonymous_property
+		constexpr auto operator=(const anonymous_property<Y>& other) noexcept -> anonymous_property&
 		{
 			if(this != &other)
 			{
@@ -58,7 +96,7 @@ namespace psl::serialization
 		}
 
 		template <typename Y>
-		constexpr auto operator=(anonymous_property<Y>&& other) noexcept -> anonymous_property
+		constexpr auto operator=(anonymous_property<Y>&& other) noexcept -> anonymous_property&
 		{
 			if(this != &other)
 			{
@@ -68,8 +106,8 @@ namespace psl::serialization
 		}
 
 		template <typename Y>
-		constexpr auto operator=(Y&& other) noexcept -> anonymous_property
-			requires(std::is_assignable_v<underlying_t, Y>)
+		constexpr auto operator=(Y&& other) noexcept
+			-> anonymous_property& requires(std::is_assignable_v<underlying_t, Y>)
 		{
 			m_Value = std::move(other);
 			return *this;
@@ -165,12 +203,6 @@ namespace psl::serialization
 
 		/// ASSIGNMENTS
 
-		constexpr auto& operator=(const auto& rhs) noexcept
-		{
-			m_Value = rhs;
-			return *this;
-		}
-
 		constexpr auto& operator+=(const auto& rhs) noexcept
 		{
 			m_Value += rhs;
@@ -249,6 +281,44 @@ namespace psl::serialization
 			return m_Value[index];
 		}
 
+		constexpr auto begin() noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::begin;
+			return begin(m_Value);
+		}
+
+		constexpr auto begin() const noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::begin;
+			return begin(m_Value);
+		}
+
+		constexpr auto cbegin() const noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::cbegin;
+			return cbegin(m_Value);
+		}
+
+		constexpr auto end() noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::end;
+			return end(m_Value);
+		}
+
+		constexpr auto end() const noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::end;
+			return end(m_Value);
+		}
+
+		constexpr auto cend() const noexcept requires(SupportsRangeOperations<underlying_t>)
+		{
+			using std::cend;
+			return cend(m_Value);
+		}
+
+		constexpr auto size() const noexcept requires(SupportsSizeOperation<underlying_t>) { return m_Value.size(); }
+
 	  protected:
 		underlying_t m_Value;
 	};
@@ -256,7 +326,7 @@ namespace psl::serialization
 	template <typename T>
 	anonymous_property(T)->anonymous_property<T>;
 
-	template <fixed_ascii_string Name, typename T, size_t Version = 0>
+	template <fixed_ascii_string Name, typename T>
 	class property final : public anonymous_property<T>
 	{
 		using base_t = anonymous_property<T>;
@@ -270,12 +340,31 @@ namespace psl::serialization
 		using base_t::operator>=;
 		using base_t::operator<;
 		using base_t::operator>;
-		using base_t::operator=;
-
 		using anonymous_property<T>::anonymous_property;
 
 		constexpr property() = default;
 		constexpr property(const base_t& other) noexcept : base_t(other) {}
 		constexpr property(base_t&& other) noexcept : base_t(std::move(other)) {}
+
+		constexpr auto operator=(IsProperty auto& other) noexcept -> property&
+		{
+			base_t::operator=(other.value());
+			return *this;
+		}
+
+		constexpr auto operator=(IsProperty auto&& other) noexcept -> property&
+		{
+			base_t::operator=(std::move(other.value()));
+			return *this;
+		}
+
+		template <typename Y>
+		constexpr auto operator=(Y&& other) noexcept -> property&
+		{
+			base_t::operator=(std::forward<Y>(other));
+			return *this;
+		}
+
+		static constexpr std::string_view name() noexcept { return Name; }
 	};
 } // namespace psl::serialization
