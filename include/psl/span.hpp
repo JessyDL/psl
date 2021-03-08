@@ -37,8 +37,9 @@ namespace psl
 		using reverse_iterator		 = contiguous_range_iterator<value_type, -Stride>;
 		using const_reverse_iterator = contiguous_range_iterator<const value_type, -Stride>;
 
+		constexpr span() noexcept = default;
 		constexpr span(IsIterator auto begin) noexcept : m_Begin(&*begin){};
-		constexpr span(T* begin) noexcept : m_Begin(begin) {}
+		constexpr span(const T* begin) noexcept : m_Begin(const_cast<T*>(begin)) {}
 
 		template <size_t OtherExtent, i64 OtherStride>
 		constexpr span(const span<T, OtherExtent, OtherStride>& other) noexcept : m_Begin(other.data())
@@ -91,7 +92,7 @@ namespace psl
 		}
 
 	  private:
-		T* m_Begin;
+		T* m_Begin{nullptr};
 	};
 
 	template <typename T, i64 Stride>
@@ -111,10 +112,11 @@ namespace psl
 		using const_iterator		 = contiguous_range_iterator<const value_type, Stride>;
 		using reverse_iterator		 = contiguous_range_iterator<value_type, -Stride>;
 		using const_reverse_iterator = contiguous_range_iterator<const value_type, -Stride>;
-
+		constexpr span() noexcept	= default;
 		constexpr span(IsIterator auto begin, size_type count) noexcept
 			: m_Begin(&*begin), m_End(m_Begin + (count * Stride)){};
-		constexpr span(T* begin, size_type count) noexcept : m_Begin(begin), m_End(m_Begin + (count * Stride)){};
+		constexpr span(const T* begin, size_type count) noexcept
+			: m_Begin(const_cast<T*>(begin)), m_End(m_Begin + (count * Stride)){};
 
 		template <size_t OtherExtent, i64 OtherStride>
 		constexpr span(const span<T, OtherExtent, OtherStride>& other) noexcept
@@ -156,8 +158,8 @@ namespace psl
 		}
 
 	  private:
-		T* m_Begin;
-		T* m_End;
+		T* m_Begin{nullptr};
+		T* m_End{nullptr};
 	};
 
 	namespace _priv
