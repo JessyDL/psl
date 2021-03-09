@@ -9,6 +9,7 @@ namespace psl
 	template <typename... Ts>
 	using variant = std::variant<Ts...>;
 
+#if(__GNUC__ >= 9)
 	// based on https://mpark.github.io/programming/2019/01/22/variant-visitation-v2/
 	// technically not needed on anything but GCC. (CLang has a performant implementation /w libc++)
 	inline namespace details
@@ -51,28 +52,23 @@ namespace psl
 				constexpr size_t size = std::variant_size_v<std::remove_cvref_t<V>>;
 				switch(v.index())
 				{
-				case B + 0:
-				{
+				case B + 0: {
 					return dispatcher<B + 0 < size, R>::template variant_invoke<B + 0>(std::forward<F>(f),
 																					   std::forward<V>(v));
 				}
-				case B + 1:
-				{
+				case B + 1: {
 					return dispatcher<B + 1 < size, R>::template variant_invoke<B + 1>(std::forward<F>(f),
 																					   std::forward<V>(v));
 				}
-				case B + 2:
-				{
+				case B + 2: {
 					return dispatcher<B + 2 < size, R>::template variant_invoke<B + 2>(std::forward<F>(f),
 																					   std::forward<V>(v));
 				}
-				case B + 3:
-				{
+				case B + 3: {
 					return dispatcher<B + 3 < size, R>::template variant_invoke<B + 3>(std::forward<F>(f),
 																					   std::forward<V>(v));
 				}
-				default:
-				{
+				default: {
 					return dispatcher<B + 4 < size, R>::template variant_switch<B + 4>(std::forward<F>(f),
 																					   std::forward<V>(v));
 				}
@@ -88,6 +84,13 @@ namespace psl
 		using R = decltype(std::invoke(std::forward<F>(f), std::get<0>(std::forward<V>(v))));
 		return dispatcher<true, R>::template variant_switch<0>(std::forward<F>(v), +std::forward<V>(v));
 	}
+#else
+	template <typename F, typename V>
+	constexpr decltype(auto) visit(F &&f, V &&v)
+	{
+		return std::visit(std::forward<F>(f), std::forward<V>(v));
+	}
+#endif
 
 	template <class... Ts>
 	struct overload : Ts...

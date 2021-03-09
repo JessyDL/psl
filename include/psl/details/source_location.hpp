@@ -28,7 +28,8 @@ namespace psl
 			{}
 #endif
 		  public:
-			[[nodiscard]] static consteval source_location current(
+			constexpr source_location() noexcept = default;
+			[[nodiscard]] static constexpr source_location current(
 #if(__GNUC__ >= 9)
 				const char* file = __builtin_FILE(), const char* function = __builtin_FUNCTION(),
 				std::uint_least32_t line = __builtin_LINE()
@@ -41,14 +42,20 @@ namespace psl
 				return source_location{};
 #endif
 			};
+#if(__GNUC__ >= 9)
 			constexpr const char* function_name() const noexcept { return m_Function; }
 			constexpr const char* file_name() const noexcept { return m_Filename; }
 			constexpr std::uint_least32_t column() const noexcept { return 0; }
 			constexpr std::uint_least32_t line() const noexcept { return m_Line; }
-#if(__GNUC__ >= 9)
+
 			const char* m_Filename{};
 			const char* m_Function{};
 			std::uint_least32_t m_Line{};
+#else
+			constexpr const char* function_name() const noexcept { return ""; }
+			constexpr const char* file_name() const noexcept { return ""; }
+			constexpr std::uint_least32_t column() const noexcept { return 0; }
+			constexpr std::uint_least32_t line() const noexcept { return 0; }
 #endif
 		};
 #endif

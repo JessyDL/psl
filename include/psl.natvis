@@ -1,3 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="psl::details::dynamic_span&lt;*,*&gt;">
+    <DisplayString>{{ size={m_End - m_Begin} stride={STRIDE} dynamic_extent }}"</DisplayString>
+    <Expand>
+      <Item Name="[size]">m_End - m_Begin</Item>
+      <Item Name="[stride]">STRIDE</Item>
+      <ArrayItems Condition="STRIDE == 1">
+        <Size>m_End - m_Begin</Size>
+        <ValuePointer>($T1*) m_Begin</ValuePointer>
+      </ArrayItems>
+      <CustomListItems MaxItemsPerView="5000" Condition="STRIDE != 1">
+        <Variable Name="increment" InitialValue="0" />
+        <Variable Name="item" InitialValue="m_Begin" />
+        <Loop>
+          <If Condition="increment &lt; (m_End - m_Begin)">
+            <Item>*item</Item>
+            <Exec>item += STRIDE</Exec>
+            <Exec>++increment</Exec>
+            <Break Condition="increment == (m_End - m_Begin)" />
+          </If>
+        </Loop>
+      </CustomListItems>
+    </Expand>
+  </Type>
+  <Type Name="psl::details::static_span&lt;*,*,*&gt;">
+    <DisplayString>{{ size={EXTENT} stride={STRIDE} static_extent }}"</DisplayString>
+    <Expand>
+      <Item Name="[size]">EXTENT</Item>
+      <Item Name="[stride]">STRIDE</Item>
+      <ArrayItems Condition="STRIDE == 1">
+        <Size>EXTENT</Size>
+        <ValuePointer>($T1*) m_Begin</ValuePointer>
+      </ArrayItems>
+      <CustomListItems MaxItemsPerView="5000" Condition="STRIDE != 1">
+        <Variable Name="increment" InitialValue="0" />
+        <Variable Name="item" InitialValue="m_Begin" />
+        <Loop>
+          <If Condition="increment &lt; EXTENT">
+            <Item>*item</Item>
+            <Exec>item += STRIDE</Exec>
+            <Exec>++increment</Exec>
+            <Break Condition="increment == EXTENT" />
+          </If>
+        </Loop>
+      </CustomListItems>
+    </Expand>
+  </Type>
+  <Type Name="psl::details::string_view_impl&lt;*&gt;">
+    <DisplayString Condition="$T1 == 0">{{ size={m_Data.m_End - m_Data.m_Begin} encoding=ASCII content={m_Data.m_Begin, [m_Data.m_End - m_Data.m_Begin]s}}}</DisplayString>
+    <DisplayString Condition="$T1 == 1">{{ size={m_Data.m_End - m_Data.m_Begin} encoding=UTF8 content={m_Data.m_Begin, [m_Data.m_End - m_Data.m_Begin]s}}}</DisplayString>
+    <StringView>m_Data.m_Begin, [m_Data.m_End - m_Data.m_Begin]s</StringView>
+    <Expand>
+      <Synthetic Name="[encoding]">
+        <DisplayString Condition="$T1 == 0">ASCII</DisplayString>
+        <DisplayString Condition="$T1 == 1">UTF8</DisplayString>
+      </Synthetic>
+      <ExpandedItem>m_Data</ExpandedItem>
+    </Expand>
+  </Type>
 </AutoVisualizer>

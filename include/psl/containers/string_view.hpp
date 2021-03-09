@@ -76,15 +76,6 @@ namespace psl
 
 	inline namespace details
 	{
-
-		constexpr bool sv_compare(auto lhs, auto rhs, auto size) noexcept
-		{
-			for(auto i = 0u; i < size; ++i)
-			{
-				if(lhs[i] != rhs[i]) return false;
-			}
-			return true;
-		}
 		template <string_encoding Encoding>
 		class string_view_impl
 		{
@@ -150,11 +141,11 @@ namespace psl
 				// todo this is not utf8 safe.
 				auto remaining_size = m_Data.size() - (offset - this->begin());
 				auto csize			= end();
-				using std::begin, std::end;
+				using std::begin, std::end, std::next;
 				for(auto i = offset; i != csize; ++i)
 				{
 					if(std::none_of(begin(values), end(values), [i, remaining_size](string_view_impl v) {
-						   return v.size() <= remaining_size && sv_compare(i, v, v.size());
+						   return v.size() <= remaining_size && std::equal(i, next(i, v.size()), begin(v));
 					   }))
 						return i;
 					--remaining_size;
@@ -185,11 +176,11 @@ namespace psl
 			{
 				auto remaining_size = m_Data.size() - (offset - this->begin());
 				auto csize			= end();
-				using std::begin, std::end;
+				using std::begin, std::end, std::next;
 				for(auto i = offset; i != csize; ++i)
 				{
 					if(std::any_of(begin(values), end(values), [i, remaining_size](string_view_impl v) {
-						   return v.size() <= remaining_size && sv_compare(i, v, v.size());
+						   return v.size() <= remaining_size && std::equal(i, next(i, v.size()), begin(v));
 					   }))
 						return i;
 					--remaining_size;
@@ -256,12 +247,14 @@ namespace psl
 
 			constexpr bool operator==(string_view_impl rhs) const noexcept
 			{
-				return size() == rhs.size() && sv_compare(m_Data, rhs, size());
+				using std::begin, std::next;
+				return size() == rhs.size() && std::equal(begin(m_Data), next(begin(m_Data),size()), begin(rhs));
 			}
 
 			constexpr bool operator!=(string_view_impl rhs) const noexcept
 			{
-				return size() != rhs.size() || !sv_compare(m_Data, rhs, size());
+				using std::begin, std::next;
+				return size() != rhs.size() || !std::equal(begin(m_Data), next(begin(m_Data), size()), begin(rhs));
 			}
 
 			constexpr size_t occurrence(string_view_impl value) const noexcept

@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 
 #include <psl/exceptions.hpp>
 #include <psl/config.hpp>
@@ -18,7 +18,7 @@ namespace psl
 		{
 			uint64_t t		 = m_State.first;
 			uint64_t const s = m_State.second;
-			m_State.first	= s;
+			m_State.first	 = s;
 			t ^= t << 23;
 			t ^= t >> 17;
 			t ^= s ^ (s >> 26);

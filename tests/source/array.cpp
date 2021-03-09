@@ -40,14 +40,14 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 	static_assert(IsArray<array_t>);
 
 	section<"emplace">() = [&] {
-		for(int i = 0; i < (int)arr.sbo_size(); ++i)
+		for(value_t i = 0; i < (value_t)arr.sbo_size(); ++i)
 		{
 			arr.emplace_back(i);
 		}
 		expect((arr.is_stored_inlined() || arr.sbo_size() == 0)) == true;
 		expect(arr.size()) == arr.sbo_size();
 		section<"force external storage">() = [&] {
-			arr.emplace_back(arr.size());
+			arr.emplace_back((value_t)arr.size());
 			expect(arr.is_stored_inlined()) == false;
 			expect(arr.size()) > arr.sbo_size();
 		};
@@ -58,18 +58,18 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 		}
 	};
 
-	while(arr.size() < start_elements) arr.emplace_back(arr.size());
+	while(arr.size() < start_elements) arr.emplace_back((value_t)arr.size());
 
 	section<"erase">() = [&] {
-		while(arr.size() < 15) arr.emplace_back(arr.size());
+		while(arr.size() < 15) arr.emplace_back((value_t)arr.size());
 
 		section<"remove one element at the start">() = [&] {
 			auto original_size				 = arr.size();
 			section<"allow_instability_t">() = [&] {
 				arr.erase(allow_instability, arr.begin());
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
-					value_t value = (i > 0) ? i : arr.size();
+					value_t value = (i > 0) ? i : (value_t)arr.size();
 					expect(value) == arr[i];
 				}
 			};
@@ -87,10 +87,10 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 			auto original_size				 = arr.size();
 			section<"allow_instability_t">() = [&] {
 				arr.erase(allow_instability, arr.begin(), next(arr.begin(), 2));
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
-					value_t value = (i > 1) ? i : arr.size() + i;
-					expect(value) == (int)arr[i];
+					value_t value = (i > 1) ? i : (value_t)arr.size() + i;
+					expect(value) == arr[i];
 				}
 			};
 			section<"keep_stability_t">() = [&] {
@@ -107,15 +107,15 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 			auto original_size				 = arr.size();
 			section<"allow_instability_t">() = [&] {
 				arr.erase(next(arr.begin()));
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
-					value_t value = (i != 1) ? i : arr.size() + i - 1;
+					value_t value = (i != 1) ? i : (value_t)arr.size() + i - 1;
 					expect(value) == arr[i];
 				}
 			};
 			section<"keep_stability_t">() = [&] {
 				arr.erase(keep_stability, next(arr.begin()));
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
 					value_t value = (i >= 1) ? i + 1 : i;
 					expect(value) == arr[i];
@@ -128,15 +128,15 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 			auto original_size				 = arr.size();
 			section<"allow_instability_t">() = [&] {
 				arr.erase(allow_instability, next(arr.begin()), next(arr.begin(), 3));
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
-					value_t value = (i == 0 || i > 2) ? i : arr.size() + i - 1;
+					value_t value = (i == 0 || i > 2) ? i : (value_t)arr.size() + i - 1;
 					expect(value) == arr[i];
 				}
 			};
 			section<"keep_stability_t">() = [&] {
 				arr.erase(keep_stability, next(arr.begin()), next(arr.begin(), 3));
-				for(int i = 0; i < (int)arr.size(); ++i)
+				for(value_t i = 0; i < (value_t)arr.size(); ++i)
 				{
 					expect value = (i > 0) ? i + 2 : i;
 					expect(value) == arr[i];
@@ -147,7 +147,7 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 	};
 
 	section<"clear removes all elements">() = [&] {
-		while(arr.size() < 15) arr.emplace_back(arr.size());
+		while(arr.size() < 15) arr.emplace_back((value_t)arr.size());
 		expect(15u) <= arr.size();
 		arr.clear();
 		expect(0u) == arr.size();
@@ -155,7 +155,7 @@ auto array_test1 = suite<"array", "psl", "psl::array", "containers">(generator::
 
 	section<"reserve increases capacity">() = [&] {
 		auto start_size = arr.size();
-		auto start_cap  = arr.capacity();
+		auto start_cap	= arr.capacity();
 
 		section<"larger capacity increases">() = [&] {
 			arr.reserve(start_cap * 2);
@@ -204,7 +204,7 @@ auto array_test2 =
 
 	static_assert(IsStaticArray<array_t>);
 	array_t array{};
-	constexpr auto max_size = array.max_size();
+	auto max_size = array.max_size();
 	// auto sbo_size			= array.sbo_size();
 
 	expect(array.size()) < max_size;

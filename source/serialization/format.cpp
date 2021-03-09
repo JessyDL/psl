@@ -1,13 +1,17 @@
 #include <psl/serialization/format.hpp>
 
+#include <array>
+
+#include <psl/containers/string_view.hpp>
+
 using namespace psl;
 using namespace psl::serialization;
 
-static constexpr std::array EMPTY_SPACE{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv};
-static constexpr std::array EMPTY_SPACE_OR_TERMINATOR{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv, ";"_sv};
+static constexpr std::array<string_view, 4> EMPTY_SPACE{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv};
+static constexpr std::array<string_view, 5> EMPTY_SPACE_OR_TERMINATOR{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv, ";"_sv};
 static constexpr std::array EMPTY_SPACE_OR_SCOPE{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv, "{"_sv};
 static constexpr string_view ASSIGNMENT{"="_sv};
-static constexpr std::array ASSIGNMENT_OR_EMPTY_SPACE{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv, "="_sv};
+static constexpr std::array<string_view, 5> ASSIGNMENT_OR_EMPTY_SPACE{" "_sv, "\n"_sv, "\t"_sv, "\r"_sv, "="_sv};
 
 
 string_view::const_iterator format::parse_field(string_view data)
@@ -28,7 +32,7 @@ string_view::const_iterator format::parse_field(string_view data)
 
 	if(temp.find("<"_sv) != std::end(temp) || *next_token == '<')
 	{
-		token_end	 = data.find("<"_sv, token_begin) + 1;
+		token_end	  = data.find("<"_sv, token_begin) + 1;
 		complex_type  = data.substr(token_begin, token_end);
 		auto cut_data = data.substr(token_end);
 		size_t depth  = 1u;
@@ -108,7 +112,7 @@ string_view::const_iterator format::parse_field(string_view data)
 			token_begin += 1;
 			token_end = data.find_first_of(EMPTY_SPACE_OR_TERMINATOR, token_begin);
 		}
-		value	 = data.substr(token_begin, token_end);
+		value	  = data.substr(token_begin, token_end);
 		token_end = data.find(";"_sv, token_end) + 1;
 
 		m_Nodes.emplace_back(format::value{value});
@@ -144,14 +148,14 @@ format::format([[maybe_unused]] psl::string_view_impl<string_encoding::UTF8> dat
 	std::vector<string_view> templates{};
 
 	auto token_begin = data.find_first_not_of(EMPTY_SPACE);
-	auto token_end   = data.find_first_of(EMPTY_SPACE, token_begin);
+	auto token_end	 = data.find_first_of(EMPTY_SPACE, token_begin);
 
 	auto word = data.substr(token_begin, token_end);
 
 	if(word == "object"_sv)
 	{
 		token_begin = data.find_first_not_of(EMPTY_SPACE, token_end);
-		token_end   = data.find_first_of(EMPTY_SPACE_OR_SCOPE, token_begin);
+		token_end	= data.find_first_of(EMPTY_SPACE_OR_SCOPE, token_begin);
 
 		auto name = data.substr(token_begin, token_end);
 		parse_generic_object(data.substr(data.find_first_of("{"_sv, token_end) + 1));

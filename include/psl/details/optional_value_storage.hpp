@@ -5,7 +5,6 @@
 
 namespace psl
 {
-
 	struct nullopt_t : public _priv::id_token<nullopt_t>
 	{
 		explicit constexpr nullopt_t(identifier) {}
@@ -89,7 +88,7 @@ namespace psl
 			{
 				reset();
 				engaged = true;
-				value   = std::move(T{std::forward<Args>(args)...});
+				value	= std::move(T{std::forward<Args>(args)...});
 			}
 
 			constexpr void reset() noexcept(std::is_nothrow_destructible_v<T>)

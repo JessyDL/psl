@@ -63,7 +63,7 @@ namespace psl::traits
 		always_synced = 0, /* no effort needs to be done to access the data. */
 		flush		  = 1, /* requires a flush (or flush-like) interaction before the data can be accessed. */
 		async		  = 2, /* accessing the data is an async operation. */
-		unreachable   = 3  /* the data can never be reached. */
+		unreachable	  = 3  /* the data can never be reached. */
 	};
 
 	struct alignment_override
@@ -190,7 +190,8 @@ namespace psl::traits
 	}
 
 	template <typename Y>
-	alloc_results<void> memory_resource_trait<basic_allocation, Y>::allocate(size_t size, size_t alignment)
+	alloc_results<void> memory_resource_trait<basic_allocation, Y>::allocate(size_t size, size_t alignment) noexcept(
+		!psl::config::implementation_exceptions)
 	{
 		PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
 		auto res = do_allocate(size, alignment);

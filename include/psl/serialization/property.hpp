@@ -346,20 +346,20 @@ namespace psl::serialization
 		constexpr property(const base_t& other) noexcept : base_t(other) {}
 		constexpr property(base_t&& other) noexcept : base_t(std::move(other)) {}
 
-		constexpr auto operator=(IsProperty auto& other) noexcept -> property&
+		constexpr auto& operator=(IsProperty auto& other) noexcept
 		{
 			base_t::operator=(other.value());
 			return *this;
 		}
 
-		constexpr auto operator=(IsProperty auto&& other) noexcept -> property&
+		constexpr auto& operator=(IsProperty auto&& other) noexcept
 		{
 			base_t::operator=(std::move(other.value()));
 			return *this;
 		}
 
 		template <typename Y>
-		constexpr auto operator=(Y&& other) noexcept -> property&
+		constexpr auto& operator=(Y&& other) noexcept
 		{
 			base_t::operator=(std::forward<Y>(other));
 			return *this;

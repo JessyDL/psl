@@ -17,7 +17,6 @@ auto allocator_test0 =
 	MemoryResource* memory_resource = new MemoryResource(alignof(int));
 	Allocator allocator{memory_resource};
 
-	expect(sizeof(Allocator)) == sizeof(MemoryResource*);
 	auto intAlloc = construct<T>(allocator, 5);
 
 	expect(*intAlloc.data) == T{5};

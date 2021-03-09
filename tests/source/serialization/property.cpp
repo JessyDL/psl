@@ -17,7 +17,7 @@ auto sproperty_test0 = suite<"property", "psl", "psl::serialization">()
 									  tpack<int, anonymous_property<int>, property<"Y", int>>>() =
 	[]<typename T, typename Y>()
 {
-	constexpr Y initial_value{10};
+	Y initial_value{10};
 	T prop{initial_value};
 
 	section<"operators">() = [&] {
@@ -90,7 +90,7 @@ auto sproperty_test0 = suite<"property", "psl", "psl::serialization">()
 		Y prop_b{};
 
 		auto result = prop_a = prop_b;
-		expect_true(std::is_same_v<std::remove_cvref_t<decltype(result)>, T>);
+		expect(std::is_same_v<std::remove_cvref_t<decltype(result)>, T>) == true;
 	};
 
 	static_assert(std::is_same_v<decltype(static_cast<int>(prop)), int>, "expected it to be castable to int");

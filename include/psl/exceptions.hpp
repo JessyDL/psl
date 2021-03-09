@@ -22,7 +22,7 @@ namespace psl
 		}
 
 		exception(const exception& other) noexcept = default;
-		exception(exception&& other) noexcept	  = default;
+		exception(exception&& other) noexcept	   = default;
 		exception& operator=(const exception& other) noexcept = default;
 		exception& operator=(exception&& other) noexcept = default;
 		virtual ~exception()							 = default;
@@ -74,7 +74,7 @@ namespace psl
 			: exception("https://github.com/JessyDL/psl/issues/" + std::to_string(issue), location)
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
-		not_implemented(not_implemented&& other) noexcept	  = default;
+		not_implemented(not_implemented&& other) noexcept	   = default;
 		not_implemented& operator=(const not_implemented& other) noexcept = default;
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
 		virtual ~not_implemented()									 = default;
@@ -123,11 +123,21 @@ namespace psl
 				assert(condition && (args && ...));
 			}
 		}
+
+		inline constexpr void custom_assert(bool expression, const char* message = nullptr,
+											const source_location& loc = source_location::current()) noexcept(false)
+		{
+			if(expression)
+			{
+				throw exception(message, loc);
+			}
+		}
 	} // namespace _priv
 } // namespace psl
 
 #define PSL_ASSERT(expr, ...)                                                                                          \
-	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts) assert(!!(expr)__VA_OPT__(&&) __VA_ARGS__)
+	if constexpr(psl::config::exceptions_as_asserts || psl::config::asserts)                                           \
+	psl::_priv::custom_assert(!!(expr)__VA_OPT__(, ) __VA_ARGS__)
 
 #define PSL_EXCEPT(exception_type, ...) psl::_priv::throw_if_needed<exception_type>(true __VA_OPT__(, ) __VA_ARGS__)
 
@@ -144,7 +154,11 @@ namespace psl
 	{                                                                                                                  \
 		if(std::is_constant_evaluated() && !!(expr)) throw psl::implementation_error(__VA_ARGS__);                     \
 	}                                                                                                                  \
-	if constexpr(psl::config::implementation_asserts) assert(!(expr)__VA_OPT__(&&) __VA_ARGS__)
+	if constexpr(psl::config::implementation_asserts)                                                                  \
+	{                                                                                                                  \
+		psl::_priv::custom_assert(!!(expr)__VA_OPT__(, ) __VA_ARGS__);                                                 \
+	}                                                                                                                  \
+	void(0)
 
 #define __STRINGIFY(TEXT) #TEXT
 #define __WARNING(TEXT) __STRINGIFY(GCC warning TEXT)

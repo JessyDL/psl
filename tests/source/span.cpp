@@ -9,9 +9,10 @@
 using namespace psl;
 using namespace litmus;
 
+#if defined(__GNUC__) || defined(__GNUG__)
 // issue: GCC incorrectly detects out-of-bounds access of the _end_ iterator in a range-for for the reverse(span)
 #pragma GCC diagnostic ignored "-Warray-bounds"
-
+#endif
 template <typename T>
 constexpr auto init(auto* data, [[maybe_unused]] auto max_elements)
 {
@@ -34,7 +35,8 @@ auto span_test0 =
 	T span						= init<T>(const_cast<T0*>(data<T0>), max_elements);
 
 	section<"for-loop">() = [&] {
-		for(auto data_i = 0u, span_i = 0u; span_i < span.size(); data_i += span.stride(), ++span_i)
+		i64 data_i = 0;
+		for(auto span_i = 0u; span_i < span.size(); data_i += span.stride(), ++span_i)
 		{
 			expect(data_i) >= 0u;
 			expect(data_i) < 15u;
@@ -42,11 +44,11 @@ auto span_test0 =
 		}
 	};
 	section<"range-for-loop">() = [&] {
-		for(auto i = 0u; auto value : span)
+		for(i64 i = 0; auto value : span)
 		{
-			expect(i) >= 0u;
-			expect(i) < 15u;
-			expect(data<T0>[i]) == value; // << "failed forwards iterator at index: " << i;
+			expect(i) >= 0;
+			expect(i) < 15;
+			expect(data<T0>[(size_t)i]) == value; // << "failed forwards iterator at index: " << i;
 			i += span.stride();
 		}
 	};

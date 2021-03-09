@@ -67,14 +67,11 @@ list(TRANSFORM PSL_TESTS_SRC APPEND .cpp)
 
 add_executable(${LOCAL_PROJECT} ${PSL_TESTS_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC include)
+target_compile_features(${LOCAL_PROJECT} PUBLIC cxx_std_20)
 
-target_compile_options(${LOCAL_PROJECT} PUBLIC
-	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/MT>
-	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Debug>>:/MTd>
-	)
 	
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
-	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
+	$<$<CXX_COMPILER_ID:MSVC>:/permissive->
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>

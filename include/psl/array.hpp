@@ -220,7 +220,7 @@ namespace psl
 		}
 
 	  private:
-		constexpr auto calculate_growth_for(size_type count) const noexcept(!config::exceptions) -> size_type;
+		constexpr auto calculate_growth_for(size_type count) const noexcept(!psl::config::exceptions) -> size_type;
 		constexpr void grow_if_necessary(size_type newElements = 1);
 		dynamic_sbo_storage<T, Settings::template sbo_extent<T, Extent>, allocator_type,
 							typename Settings::template sbo_alias<T, Extent>>
@@ -323,7 +323,7 @@ namespace psl
 		}
 
 	  private:
-		constexpr auto calculate_growth_for(size_type count) const noexcept -> size_type;
+		constexpr auto calculate_growth_for(size_type count) const noexcept(!psl::config::exceptions) -> size_type;
 		constexpr void grow_if_necessary(size_type newElements = 1);
 		dynamic_sbo_storage<T, Settings::template sbo_extent<T, dynamic_extent>, allocator_type,
 							typename Settings::template sbo_alias<T, dynamic_extent>>
@@ -547,7 +547,7 @@ namespace psl
 		if(index + 1 != m_Storage.m_Size)
 			*it = move(back());
 		else
-			it->~T();
+			(*it).~T();
 		--m_Storage.m_Size;
 		return it;
 	}
@@ -567,7 +567,7 @@ namespace psl
 		move(prev(end(), remainder), end(), begin() + first_i);
 		for(auto it = next(begin(), first_i + remainder), end_it = next(begin(), last_i); it != end_it; it = next(it))
 		{
-			it->~T();
+			(*it).~T();
 		}
 		m_Storage.m_Size -= count;
 		return begin() + first_i;
@@ -586,7 +586,7 @@ namespace psl
 			move(next(it), end(), it);
 		}
 		else
-			it->~T();
+			(*it).~T();
 		--m_Storage.m_Size;
 		return it;
 	}
@@ -606,7 +606,7 @@ namespace psl
 		move(next(begin(), last_i), end(), begin() + first_i);
 		for(auto it = next(begin(), first_i + remainder), end_it = next(begin(), last_i); it != end_it; it = next(it))
 		{
-			it->~T();
+			(*it).~T();
 		}
 		m_Storage.m_Size -= count;
 		return begin() + first_i;
@@ -636,8 +636,8 @@ namespace psl
 #pragma region dynamic_extent
 
 	template <typename T, IsArraySettings Settings>
-	constexpr auto psl::array<T, psl::dynamic_extent, Settings>::calculate_growth_for(size_type count) const noexcept
-		-> size_type
+	constexpr auto psl::array<T, psl::dynamic_extent, Settings>::calculate_growth_for(size_type count) const
+		noexcept(!psl::config::exceptions) -> size_type
 	{
 		auto cap = (capacity() * 3 + 1) / 2;
 		if(cap >= count) return cap;
@@ -787,7 +787,7 @@ namespace psl
 		if(index + 1 != m_Storage.m_Size)
 			*it = move(back());
 		else
-			it->~T();
+			(*it).~T();
 		--m_Storage.m_Size;
 		return it;
 	}
@@ -807,7 +807,7 @@ namespace psl
 		move(prev(end(), remainder), end(), begin() + first_i);
 		for(auto it = next(begin(), first_i + remainder), end_it = next(begin(), last_i); it != end_it; it = next(it))
 		{
-			it->~T();
+			(*it).~T();
 		}
 		m_Storage.m_Size -= count;
 		return begin() + first_i;
@@ -826,7 +826,7 @@ namespace psl
 			move(next(it), end(), it);
 		}
 		else
-			it->~T();
+			(*it).~T();
 		--m_Storage.m_Size;
 		return it;
 	}
@@ -846,7 +846,7 @@ namespace psl
 		move(next(begin(), last_i), end(), begin() + first_i);
 		for(auto it = next(begin(), first_i + remainder), end_it = next(begin(), last_i); it != end_it; it = next(it))
 		{
-			it->~T();
+			(*it).~T();
 		}
 		m_Storage.m_Size -= count;
 		return begin() + first_i;

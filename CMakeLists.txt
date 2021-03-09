@@ -109,14 +109,17 @@ add_custom_target(${LOCAL_PROJECT}_generator ALL DEPENDS ${PSL_GENERATED_INC})
 
 add_library(${LOCAL_PROJECT} ${PSL_SRC})
 target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${fmt_INCLUDE_DIRS})
+target_compile_features(${LOCAL_PROJECT} PUBLIC cxx_std_20)
 target_link_libraries(${LOCAL_PROJECT} fmt)
+
 add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 
 # -Wno-error=terminate is silenced globally due to constent expressions not figuring out that they are not runtime, and 
 # so warn of throws in noexcept marked functions.
 
+
 target_compile_options(${LOCAL_PROJECT} PUBLIC 
-	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
+	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W3 /Zc:preprocessor /wd4146 /wd4308>
 	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
 	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
 	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>

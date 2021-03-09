@@ -6,7 +6,14 @@
 
 namespace psl::serialization
 {
-	constexpr auto make_properties(IsProperty auto&... props) noexcept { return std::tuple{std::ref(props)...}; }
+	template <IsProperty... Ts>
+	constexpr auto make_properties(Ts&... props) noexcept
+	{
+		if constexpr(sizeof...(Ts) > 0)
+			return std::tuple{std::ref(props)...};
+		else
+			return std::tuple{};
+	}
 
 	inline namespace details
 	{
