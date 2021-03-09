@@ -23,7 +23,7 @@ using namespace litmus;
 void test(auto begin, auto end)
 {
 	expect(begin.is_valid_pair(end)) == true;
-	auto stride  = begin.stride();
+	auto stride	 = begin.stride();
 	auto data_it = begin.ptr();
 	for(auto it = begin; it != end; ++it, data_it += stride)
 	{
@@ -32,7 +32,7 @@ void test(auto begin, auto end)
 	data_it = begin.ptr();
 	for(auto i = 0u; begin + i != end; ++i, data_it += stride)
 	{
-		expect(begin[i]) == *data_it; // << "data is invalid";
+		expect(begin[i]) == (*data_it); // << "data is invalid";
 	}
 
 	// comparison operators
@@ -49,7 +49,7 @@ void test(auto begin, auto end)
 
 	// arithmetic
 	{
-		auto it  = begin++;
+		auto it	 = begin++;
 		auto it2 = begin;
 		expect(it) == ++it2;
 		expect(begin) == --it2;
@@ -68,24 +68,27 @@ auto iterators_test0 = suite<"contiguous_range_iterator", "psl">().templates<tpa
 	[]<typename T, typename V0>()
 {
 	constexpr size_t data_size = sizeof(data<T>) / sizeof(data<T>[0]);
-	using iterator			   = psl::contiguous_range_iterator<T, V0::value>;
+	using iterator_t		   = psl::contiguous_range_iterator<T, V0::value>;
 
-	constexpr auto max_elements = (data_size - (data_size % iterator::abs_stride())) / iterator::abs_stride();
-	bool forwards				= iterator::stride() > 0;
+	constexpr auto abs_stride = iterator_t::abs_stride();
+	constexpr auto stride	  = iterator_t::stride();
 
-	iterator begin{const_cast<T*>((forwards) ? &data<T>[0] : &data<T>[0] + iterator::abs_stride() * max_elements)};
-	iterator end{const_cast<T*>((!forwards) ? &data<T>[0] : &data<T>[0] + iterator::abs_stride() * max_elements)};
+	constexpr auto max_elements = (data_size - (data_size % abs_stride));
+	bool forwards				= stride > 0;
+
+	iterator_t begin{const_cast<T*>((forwards) ? &data<T>[0] : &data<T>[0] + abs_stride * max_elements)};
+	iterator_t end{const_cast<T*>((!forwards) ? &data<T>[0] : &data<T>[0] + abs_stride * max_elements)};
 	test(begin, end);
 
 	expect(begin + max_elements) == end;
-	expect(end - begin) == (ssize_t)max_elements;
+	expect(end - begin) == max_elements;
 
-	if(iterator::abs_stride() > 1)
+	if(abs_stride > 1)
 	{
-		expect(iterator{const_cast<T*>(&data<T>[1])}.is_valid_pair(end)) == false;
+		expect(iterator_t{const_cast<T*>(&data<T>[1])}.is_valid_pair(end)) == false;
 	}
 	else
 	{
-		expect(iterator{const_cast<T*>(&data<T>[1])}.is_valid_pair(end)) == true;
+		expect(iterator_t{const_cast<T*>(&data<T>[1])}.is_valid_pair(end)) == true;
 	}
 };

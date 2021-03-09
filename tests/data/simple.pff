@@ -1,0 +1,47 @@
+#pragma once
+#include <psl/containers/string_view.hpp>
+
+static constexpr psl::string_view SIMPLE =
+	R"LIT(
+object named_object =
+{
+    string value0 = blah0;
+    string value1 = "    extra whitespace";
+    string value2 = "now I can have ; and not end things";
+    string value3 = '''literal value as I also want to use " and ' in my text''';
+    string value4 = another;
+};
+)LIT";
+
+/*
+ * Only root object can be left unnamed, as a special case.
+ */
+static constexpr psl::string_view SIMPLE_UNNAMED_ROOT =
+	R"LIT(
+object
+{
+    string value0 = blah1;
+    string value1 = "    extra whitespace";
+    string value2 = "now I can have ; and not end things";
+    string value3 = '''literal value as I also want to use " and ' in my text''';
+    object sub_object = 
+    {
+
+    };
+};
+)LIT";
+
+static constexpr psl::string_view SIMPLE_WITH_SUB_OBJECT =
+	R"LIT(
+object
+{
+    string value0 = blah2;
+    string value1 = "    extra whitespace";
+    string value2 = "now I can have ; and not end things";
+    object sub_object = 
+    {
+        string value0 = ohaiyoo;
+    };
+    string value3 = '''literal value as I also want to use " and ' in my text''';
+};
+)LIT";

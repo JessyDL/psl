@@ -167,7 +167,8 @@ namespace psl
 			return (m_Data - other.ptr()) / Stride;
 		}
 
-		constexpr auto operator[](IsIntegral auto index) const noexcept
+		template <IsIntegral Y>
+		constexpr auto operator[](Y index) const noexcept
 			-> std::conditional_t<std::is_const_v<T>, const_reference, reference>
 		{
 			return *(m_Data + (index * Stride));

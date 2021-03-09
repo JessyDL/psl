@@ -21,13 +21,14 @@ namespace psl
 
 	using byte = std::byte;
 
-	inline constexpr std::size_t dynamic_extent = -1;
+	inline constexpr std::size_t dynamic_extent = -1u;
 
 	namespace _priv
 	{
 		template <typename T>
 		struct id_token
 		{
+			constexpr id_token() noexcept = default;
 			enum class identifier
 			{
 				token
