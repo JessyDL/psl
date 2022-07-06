@@ -97,19 +97,19 @@ namespace psl
 	namespace _priv
 	{
 		template <typename Exception, typename... Ts>
-		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, void> constexpr void
-		throw_if_needed(bool condition, Ts&&... args) noexcept(false)
-		{
-			throw_exception<Exception>(condition, std::forward<Ts>(args)...);
-		}
-
-		template <typename Exception, typename... Ts>
 		constexpr void throw_exception(bool condition, Ts&&... args) noexcept(false)
 		{
 			if(condition)
 			{
 				throw Exception{std::forward<Ts>(args)...};
 			}
+		}
+
+		template <typename Exception, typename... Ts>
+		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, void> constexpr void
+		throw_if_needed(bool condition, Ts&&... args) noexcept(false)
+		{
+			throw_exception<Exception, Ts...>(condition, std::forward<Ts>(args)...);
 		}
 
 		template <typename Exception, typename... Ts>
