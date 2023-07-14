@@ -3,7 +3,7 @@
 # Paradigm Standard Library (PSL)
 
 ## Introduction
-This library is written to supplement the standard library with functionality that is either missing, or functionality that is better suited for use in game development. As an example, the library contains facilities to handle serialization in as much zero-overhead that is possible. It has a custom allocator mechanism implementeted that allows it to represent various different types of memory resources (such as memory resources that might be writeable, but not readable, like certain parts of the GPU memory).
+This library is written to supplement the standard library with functionality that is either missing, or functionality that is better suited for use in game development. As an example, the library contains facilities to handle serialization in as much zero-overhead that is possible. It has a custom allocator mechanism implemented that allows it to represent various different types of memory resources (such as memory resources that might be writeable, but not readable, like certain parts of the GPU memory).
 
 #### What this library isn't
 It's not a replacement standard library. The standard library is high quality, well tested, performant, and used extensively within this library, and this library will not supply replacements for well implemented functionality that is present in the standard library (such as the algorithms, etc...). This library supplements the standard library.
@@ -11,7 +11,7 @@ It's not a replacement standard library. The standard library is high quality, w
 It might provide wrapping facilities to standard library functionality, either to facilitate future expansion of this library, or to unify usage.
 
 ## Customization
-The library has a user tweakable configuration point, this is all present in the `psl::config` namespace. All configurations are templated and use the `default_setting_t` as the template type, so when you provide a specialization for that type for the given config, you can change the behaviour throughout the application from the original default behaviour.
+The library has a user tweak-able configuration point, this is all present in the `psl::config` namespace. All configurations are templated and use the `default_setting_t` as the template type, so when you provide a specialization for that type for the given config, you can change the behaviour throughout the application from the original default behaviour.
 
 ## Error Handling strategy
 
@@ -23,13 +23,13 @@ These should be clear from the API, when calling into a method this will commonl
 ### Unexpected Errors
 These come in the variation of either `exception`, `asserts`, or `std::exit/abort` (depending on your configuration settings). These happen when an invariant has been violated (like accessing an array out of bounds, or doing a division by zero). These are considered "unrecoverable unless you write code to handle it".
 
-These can be configurated to be "never-recoverable" by turning off exceptions, and can be ignored (at your own danger) in release builds, i.e. making the assumption this error category never triggers during a well-behaved release version of your product (as it should, but that's not always possible).
+These can be configured to be "never-recoverable" by turning off exceptions, and can be ignored (at your own danger) in release builds, i.e. making the assumption this error category never triggers during a well-behaved release version of your product (as it should, but that's not always possible).
 
 ### Warnings
 Sometimes errors don't cause stability related consequences, but they are still an incorrect usage. Like unexpected errors, these aren't always clear from the API. They will however warn you in the logs (if allowed, check your settings for this). These warnings could range from performance related impact (such as expensive conversions), to warnings of things that might change down the road.
 
 ### Constraint Errors
-This last category is a bit different than the previous ones. Although this category can overlap with `Unexpected Errors`, it is different enough to warrent a seperate category. Constraint errors indicate that you have extended the library in an unsafe manner by extending it with code that does not satisfy required constraints. As an example, the allocator makes assumptions on alignments passed to it, if your custom memory resource does not satisfy its own alignment requirements, then this is considered a constraint error and should be resolved.
+This last category is a bit different than the previous ones. Although this category can overlap with `Unexpected Errors`, it is different enough to warrant a separate category. Constraint errors indicate that you have extended the library in an unsafe manner by extending it with code that does not satisfy required constraints. As an example, the allocator makes assumptions on alignments passed to it, if your custom memory resource does not satisfy its own alignment requirements, then this is considered a constraint error and should be resolved.
 
 Like `Unexpected Errors`, these can be turned off in release builds, but not for debug, as this category indicates points where an error could cause hard to debug errors down the road (such as memory corruption). It's a big red alarm yelling "please consult the documentation".
 
