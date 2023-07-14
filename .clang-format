@@ -69,4 +69,6 @@ CommentPragmas:  '.* \\(param|tparam|brief|detail|details|return|returns|note|wa
 # IndentRequires: true
 # BreakBeforeConceptDeclarations: true
 IndentPPDirectives: BeforeHash
+QualifierAlignment: Custom
+QualifierOrder: ['friend', 'inline', 'constexpr', 'volatile', 'restrict', 'static', 'type', 'const']
 ...

@@ -75,7 +75,7 @@ namespace settings {
 		using sbo_alias = std::conditional_t<Extent <= _priv::get_sbo_size<T, SBOExtent>(), sbo_alias<true>, SBOAlias>;
 
 		template <typename T, size_t Extent>
-		static inline constexpr size_t sbo_extent =
+		inline constexpr static size_t sbo_extent =
 		  (Extent <= _priv::get_sbo_size<T, SBOExtent>()) ? Extent : _priv::get_sbo_size<T, SBOExtent>();
 	};
 }	 // namespace settings
@@ -117,13 +117,13 @@ class array {
 	using size_type				 = size_t;
 	using difference_type		 = std::ptrdiff_t;
 	using reference				 = value_type&;
-	using const_reference		 = const value_type&;
+	using const_reference		 = value_type const&;
 	using pointer				 = T*;
 	using const_pointer			 = T* const;
 	using iterator				 = psl::contiguous_range_iterator<value_type>;
-	using const_iterator		 = psl::contiguous_range_iterator<const value_type>;
+	using const_iterator		 = psl::contiguous_range_iterator<value_type const>;
 	using reverse_iterator		 = psl::contiguous_range_iterator<value_type, -1>;
-	using const_reverse_iterator = psl::contiguous_range_iterator<const value_type, -1>;
+	using const_reverse_iterator = psl::contiguous_range_iterator<value_type const, -1>;
 
 	constexpr auto operator[](size_type index) noexcept -> reference { return m_Storage[index]; }
 	constexpr auto operator[](size_type index) const noexcept -> const_reference { return m_Storage[index]; }
@@ -168,7 +168,7 @@ class array {
 	constexpr auto erase(allow_instability_t, const_iterator pos) -> iterator;
 	constexpr auto erase(allow_instability_t, const_iterator first, const_iterator last) -> iterator;
 	constexpr auto push_back(T&& value) -> void;
-	constexpr auto push_back(const T& value) -> void;
+	constexpr auto push_back(T const& value) -> void;
 
 	template <typename... Args>
 	constexpr auto emplace_back(Args&&... args) -> reference;
@@ -176,7 +176,7 @@ class array {
 	constexpr auto pop_back() -> void;
 	constexpr auto resize(size_type count) -> void
 		requires std::is_constructible_v<value_type>;
-	constexpr auto resize(size_type count, const value_type& value) -> void;
+	constexpr auto resize(size_type count, value_type const& value) -> void;
 	constexpr auto swap(array& other) noexcept(/* see below */ false) -> void;
 
 	constexpr auto sbo_size() const noexcept -> size_type { return m_Storage.sbo_size(); }
@@ -233,13 +233,13 @@ class array<T, dynamic_extent, Settings> {
 	using size_type				 = size_t;
 	using difference_type		 = std::ptrdiff_t;
 	using reference				 = value_type&;
-	using const_reference		 = const value_type&;
+	using const_reference		 = value_type const&;
 	using pointer				 = T*;
 	using const_pointer			 = T* const;
 	using iterator				 = psl::contiguous_range_iterator<value_type>;
-	using const_iterator		 = psl::contiguous_range_iterator<const value_type>;
+	using const_iterator		 = psl::contiguous_range_iterator<value_type const>;
 	using reverse_iterator		 = psl::contiguous_range_iterator<value_type, -1>;
-	using const_reverse_iterator = psl::contiguous_range_iterator<const value_type, -1>;
+	using const_reverse_iterator = psl::contiguous_range_iterator<value_type const, -1>;
 
 	constexpr auto operator[](size_type index) noexcept -> reference { return m_Storage[index]; }
 	constexpr auto operator[](size_type index) const noexcept -> const_reference { return m_Storage[index]; }
@@ -271,7 +271,7 @@ class array<T, dynamic_extent, Settings> {
 	constexpr auto erase(allow_instability_t, const_iterator pos) -> iterator;
 	constexpr auto erase(allow_instability_t, const_iterator first, const_iterator last) -> iterator;
 	constexpr auto push_back(T&& value) -> void;
-	constexpr auto push_back(const T& value) -> void;
+	constexpr auto push_back(T const& value) -> void;
 
 	template <typename... Args>
 	constexpr auto emplace_back(Args&&... args) -> reference;
@@ -279,7 +279,7 @@ class array<T, dynamic_extent, Settings> {
 	constexpr auto pop_back() -> void;
 	constexpr auto resize(size_type count) -> void
 		requires std::is_constructible_v<value_type>;
-	constexpr auto resize(size_type count, const value_type& value) -> void;
+	constexpr auto resize(size_type count, value_type const& value) -> void;
 	constexpr auto swap(array& other) noexcept(/* see below */ false) -> void;
 
 	constexpr auto sbo_size() const noexcept -> size_type { return m_Storage.sbo_size(); }
@@ -416,7 +416,7 @@ constexpr void psl::array<T, Extent, Settings>::resize(size_type count)
 
 
 template <typename T, size_t Extent, IsArraySettings Settings>
-constexpr void psl::array<T, Extent, Settings>::resize(size_type count, const value_type& value) {
+constexpr void psl::array<T, Extent, Settings>::resize(size_type count, value_type const& value) {
 	PSL_EXCEPT_IF(count > max_size(), overallocation);
 	m_Storage.reallocate(count, [newSize = count](pointer oldData, pointer newData, size_type oldSize) {
 		auto size = std::min(oldSize, newSize);
@@ -581,7 +581,7 @@ constexpr auto psl::array<T, Extent, Settings>::push_back(T&& value) -> void {
 
 
 template <typename T, size_t Extent, IsArraySettings Settings>
-constexpr auto psl::array<T, Extent, Settings>::push_back(const T& value) -> void {
+constexpr auto psl::array<T, Extent, Settings>::push_back(T const& value) -> void {
 	emplace_back(value);
 }
 
@@ -632,7 +632,7 @@ constexpr void psl::array<T, psl::dynamic_extent, Settings>::resize(size_type co
 
 
 template <typename T, IsArraySettings Settings>
-constexpr void psl::array<T, psl::dynamic_extent, Settings>::resize(size_type count, const value_type& value) {
+constexpr void psl::array<T, psl::dynamic_extent, Settings>::resize(size_type count, value_type const& value) {
 	m_Storage.reallocate(count, [newSize = count](pointer oldData, pointer newData, size_type oldSize) {
 		auto size = std::min(oldSize, newSize);
 		if(oldData != newData) {
@@ -799,7 +799,7 @@ constexpr auto psl::array<T, psl::dynamic_extent, Settings>::push_back(T&& value
 
 
 template <typename T, IsArraySettings Settings>
-constexpr auto psl::array<T, psl::dynamic_extent, Settings>::push_back(const T& value) -> void {
+constexpr auto psl::array<T, psl::dynamic_extent, Settings>::push_back(T const& value) -> void {
 	emplace_back(value);
 }
 

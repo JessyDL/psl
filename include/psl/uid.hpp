@@ -17,19 +17,19 @@ class uuidv4 final {
   public:
 	constexpr uuidv4() noexcept								  = default;
 	constexpr ~uuidv4()										  = default;
-	constexpr uuidv4(const uuidv4& other) noexcept			  = default;
+	constexpr uuidv4(uuidv4 const& other) noexcept			  = default;
 	constexpr uuidv4(uuidv4&& other) noexcept				  = default;
-	constexpr uuidv4& operator=(const uuidv4& other) noexcept = default;
+	constexpr uuidv4& operator=(uuidv4 const& other) noexcept = default;
 	constexpr uuidv4& operator=(uuidv4&& other) noexcept	  = default;
 
 	explicit uuidv4(generate_t) noexcept;
 
-	inline constexpr bool operator==(const uuidv4& rhs) const noexcept { return m_Data == rhs.m_Data; }
-	inline constexpr bool operator!=(const uuidv4& rhs) const noexcept { return m_Data != rhs.m_Data; }
-	inline constexpr bool operator<(const uuidv4& rhs) const noexcept { return m_Data < rhs.m_Data; }
-	inline constexpr bool operator<=(const uuidv4& rhs) const noexcept { return m_Data <= rhs.m_Data; }
-	inline constexpr bool operator>(const uuidv4& rhs) const noexcept { return m_Data > rhs.m_Data; }
-	inline constexpr bool operator>=(const uuidv4& rhs) const noexcept { return m_Data >= rhs.m_Data; }
+	inline constexpr bool operator==(uuidv4 const& rhs) const noexcept { return m_Data == rhs.m_Data; }
+	inline constexpr bool operator!=(uuidv4 const& rhs) const noexcept { return m_Data != rhs.m_Data; }
+	inline constexpr bool operator<(uuidv4 const& rhs) const noexcept { return m_Data < rhs.m_Data; }
+	inline constexpr bool operator<=(uuidv4 const& rhs) const noexcept { return m_Data <= rhs.m_Data; }
+	inline constexpr bool operator>(uuidv4 const& rhs) const noexcept { return m_Data > rhs.m_Data; }
+	inline constexpr bool operator>=(uuidv4 const& rhs) const noexcept { return m_Data >= rhs.m_Data; }
 
 	explicit constexpr operator bool() const noexcept { return *this != uuidv4 {}; }
 

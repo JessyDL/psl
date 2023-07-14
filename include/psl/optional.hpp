@@ -77,14 +77,14 @@ class optional {
 	constexpr optional(Args&&... args) noexcept(std::is_nothrow_constructible_v<T, Args...>)
 		: m_ValueStorage(std::forward<Args>(args)...) {}
 
-	constexpr optional(const optional& other) noexcept(std::is_nothrow_copy_constructible_v<T>)
+	constexpr optional(optional const& other) noexcept(std::is_nothrow_copy_constructible_v<T>)
 		requires(std::is_copy_constructible_v<T>)
 		: m_ValueStorage(other.m_ValueStorage) {}
 	constexpr optional(optional&& other) noexcept(std::is_nothrow_move_constructible_v<T>)
 		requires(std::is_move_constructible_v<T>)
 		: m_ValueStorage(std::move(other.m_ValueStorage)) {}
 
-	constexpr optional& operator=(const optional& other) noexcept(std::is_nothrow_copy_assignable_v<T>)
+	constexpr optional& operator=(optional const& other) noexcept(std::is_nothrow_copy_assignable_v<T>)
 		requires(std::is_copy_assignable_v<T>)
 	{
 		if(this != &other) [[likely]] {
@@ -167,7 +167,7 @@ class optional {
 		PSL_EXCEPT_IF(!m_ValueStorage.has_value(), bad_optional_access);
 		return m_ValueStorage.get();
 	}
-	constexpr const T& value() const noexcept(!config::exceptions) {
+	constexpr T const& value() const noexcept(!config::exceptions) {
 		PSL_EXCEPT_IF(!m_ValueStorage.has_value(), bad_optional_access);
 		return m_ValueStorage.get();
 	}

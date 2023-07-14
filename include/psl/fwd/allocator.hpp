@@ -30,7 +30,9 @@ struct alloc_results {
 	using type = T;
 
 	template <typename Y>
-	explicit operator alloc_results<Y>() noexcept requires std::is_same_v<T, void> {
+	explicit operator alloc_results<Y>() noexcept
+		requires std::is_same_v<T, void>
+	{
 		return alloc_results<Y> {(Y*)data, head, tail, stride};
 	}
 

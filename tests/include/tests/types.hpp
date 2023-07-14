@@ -5,8 +5,8 @@ class move_only_object {
   public:
 	move_only_object() = default;
 	move_only_object(int value) : m_Value(value) {};
-	move_only_object(const move_only_object&)			 = delete;
-	move_only_object& operator=(const move_only_object&) = delete;
+	move_only_object(move_only_object const&)			 = delete;
+	move_only_object& operator=(move_only_object const&) = delete;
 
 	move_only_object(move_only_object&&) noexcept			 = default;
 	move_only_object& operator=(move_only_object&&) noexcept = default;
@@ -34,8 +34,8 @@ class copy_only_object {
   public:
 	copy_only_object() noexcept = default;
 	copy_only_object(int value) noexcept : m_Value(value) {}
-	copy_only_object(const copy_only_object& other) : m_Value(other.m_Value) {};
-	copy_only_object& operator=(const copy_only_object& other) noexcept {
+	copy_only_object(copy_only_object const& other) : m_Value(other.m_Value) {};
+	copy_only_object& operator=(copy_only_object const& other) noexcept {
 		if(this != &other)
 			m_Value = other.m_Value;
 		return *this;
@@ -62,9 +62,9 @@ class requires_init {
   public:
 	requires_init() = delete;
 	requires_init(int value) noexcept : m_Value(value) {}
-	requires_init(const requires_init&)			   = default;
+	requires_init(requires_init const&)			   = default;
 	requires_init(requires_init&&)				   = default;
-	requires_init& operator=(const requires_init&) = default;
+	requires_init& operator=(requires_init const&) = default;
 	requires_init& operator=(requires_init&&)	   = default;
 
 	operator int() const noexcept { return m_Value; }
@@ -98,11 +98,11 @@ class complex_destruct {
   public:
 	complex_destruct() = delete;
 	complex_destruct(int value) noexcept : m_Value(value), m_References(new int(1)) {}
-	complex_destruct(const complex_destruct& other) : m_Value(other.m_Value), m_References(other.m_References) {
+	complex_destruct(complex_destruct const& other) : m_Value(other.m_Value), m_References(other.m_References) {
 		if(m_References)
 			++(*m_References);
 	}
-	complex_destruct& operator=(const complex_destruct& other) {
+	complex_destruct& operator=(complex_destruct const& other) {
 		if(this != &other) {
 			m_Value		 = other.m_Value;
 			m_References = other.m_References;

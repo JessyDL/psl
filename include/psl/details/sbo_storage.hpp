@@ -8,7 +8,7 @@
 namespace psl {
 template <bool Value>
 struct sbo_alias {
-	static inline constexpr bool value = Value;
+	inline constexpr static bool value = Value;
 };
 
 template <bool Value>
@@ -27,15 +27,15 @@ concept SBOAlias = std::is_same_v<T, sbo_alias<true>>;
 template <typename T, size_t N>
 struct aligned_storage_static_array {
 	constexpr auto& operator[](size_t index) noexcept { return *std::launder((T*)&impl[index * sizeof(T)]); }
-	constexpr const auto& operator[](size_t index) const noexcept {
+	constexpr auto const& operator[](size_t index) const noexcept {
 		return *std::launder((T*)&impl[index * sizeof(T)]);
 	}
 
 	constexpr T* data() noexcept { return std::launder((T*)&impl[0]); }
-	constexpr const T* data() const noexcept { return std::launder((const T*)&impl[0]); }
+	constexpr T const* data() const noexcept { return std::launder((T const*)&impl[0]); }
 
 	constexpr T* data(size_t index) noexcept { return std::launder((T*)&impl[index * sizeof(T)]); }
-	constexpr const T* data(size_t index) const noexcept { return std::launder((const T*)&impl[index * sizeof(T)]); }
+	constexpr T const* data(size_t index) const noexcept { return std::launder((T const*)&impl[index * sizeof(T)]); }
 
   private:
 	std::array<std::aligned_storage_t<sizeof(T), alignof(T)>, N> impl;
@@ -44,10 +44,10 @@ struct aligned_storage_static_array {
 template <typename T>
 struct aligned_storage_static_array<T, 0> {
 	constexpr T* data() noexcept { return nullptr; }
-	constexpr const T* data() const noexcept { return nullptr; }
+	constexpr T const* data() const noexcept { return nullptr; }
 
 	constexpr T* data([[maybe_unused]] size_t index) noexcept { return nullptr; }
-	constexpr const T* data([[maybe_unused]] size_t index) const noexcept { return nullptr; }
+	constexpr T const* data([[maybe_unused]] size_t index) const noexcept { return nullptr; }
 };
 
 namespace _priv {
@@ -132,25 +132,25 @@ template <typename T, size_t SBO_count, typename Allocator, IsSBOAlias Alias = s
 struct dynamic_sbo_storage {
 	using value_type = std::remove_cv_t<T>;
 	using storage_t	 = sbo_storage<value_type, SBO_count, Alias>;
-	static inline constexpr size_t SBO {storage_t::SBO};
+	inline constexpr static size_t SBO {storage_t::SBO};
 	using reference				 = value_type&;
-	using const_reference		 = const value_type&;
+	using const_reference		 = value_type const&;
 	using pointer				 = value_type*;
-	using const_pointer			 = const value_type*;
+	using const_pointer			 = value_type const*;
 	using size_type				 = size_t;
 	using iterator				 = psl::contiguous_range_iterator<value_type>;
-	using const_iterator		 = psl::contiguous_range_iterator<const value_type>;
+	using const_iterator		 = psl::contiguous_range_iterator<value_type const>;
 	using reverse_iterator		 = psl::contiguous_range_iterator<value_type, -1>;
 	using const_reverse_iterator = psl::contiguous_range_iterator<const value_type, -1>;
 
 	using allocator_type = Allocator;
 
-	constexpr dynamic_sbo_storage(const allocator_type& allocator) noexcept(!config::exceptions)
+	constexpr dynamic_sbo_storage(allocator_type const& allocator) noexcept(!config::exceptions)
 		: dynamic_sbo_storage(size_type {0}, allocator) {}
 
 	constexpr dynamic_sbo_storage(
 	  size_type size				  = 0u,
-	  const allocator_type& allocator = psl::default_allocator) noexcept(!config::exceptions)
+	  allocator_type const& allocator = psl::default_allocator) noexcept(!config::exceptions)
 		: m_Size(size), m_Allocator(allocator) {
 		if constexpr(SBO == 0)
 			m_Storage.ext = nullptr;

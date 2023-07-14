@@ -9,7 +9,7 @@ namespace litmus {
 template <typename T, auto Value>
 struct value_to_string_t<psl::contiguous_range_iterator<T, Value>> {
 	using type = psl::contiguous_range_iterator<T, Value>;
-	constexpr std::string operator()(const type& value) const noexcept { return std::to_string(*value); };
+	constexpr std::string operator()(type const& value) const noexcept { return std::to_string(*value); };
 };
 }	 // namespace litmus
 

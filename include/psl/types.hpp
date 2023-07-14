@@ -98,7 +98,7 @@ struct type_value {
  */
 template <typename T, T V>
 struct wrapped_vtype {
-	static inline constexpr T value = V;
+	inline constexpr static T value = V;
 };
 
 namespace _priv {
@@ -355,9 +355,9 @@ inline namespace details {
 		constexpr strong_type_wrapper_t& operator=(strong_type_wrapper_t const&) = default;
 		constexpr strong_type_wrapper_t(strong_type_wrapper_t&&)				 = default;
 		constexpr strong_type_wrapper_t& operator=(strong_type_wrapper_t&&)		 = default;
-		constexpr auto operator*() const noexcept -> const T& { return _m_Value; }
+		constexpr auto operator*() const noexcept -> T const& { return _m_Value; }
 		constexpr auto operator*() noexcept -> T { return _m_Value; }
-		constexpr auto weak_value() const noexcept -> const T& { return _m_Value; }
+		constexpr auto weak_value() const noexcept -> T const& { return _m_Value; }
 		constexpr auto weak_value() noexcept -> T { return _m_Value; }
 
 		constexpr strong_type_wrapper_t operator+(strong_type_wrapper_t const& rhs) const noexcept

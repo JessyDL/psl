@@ -27,9 +27,9 @@ class span {
 	using size_type				 = std::size_t;
 	using difference_type		 = std::ptrdiff_t;
 	using pointer				 = T*;
-	using const_pointer			 = const T*;
+	using const_pointer			 = T const*;
 	using reference				 = T&;
-	using const_reference		 = const T&;
+	using const_reference		 = T const&;
 	using iterator				 = contiguous_range_iterator<value_type, Stride>;
 	using const_iterator		 = contiguous_range_iterator<const value_type, Stride>;
 	using reverse_iterator		 = contiguous_range_iterator<value_type, -Stride>;
@@ -39,7 +39,7 @@ class span {
 	constexpr span(T* begin) noexcept : m_Begin(begin) {}
 
 	template <size_t OtherExtent, i64 OtherStride>
-	constexpr span(const span<T, OtherExtent, OtherStride>& other) noexcept : m_Begin(other.data()) {}
+	constexpr span(span<T, OtherExtent, OtherStride> const& other) noexcept : m_Begin(other.data()) {}
 
 	constexpr reference operator[](size_type index) noexcept { return m_Begin[index * Stride]; }
 	constexpr const_reference operator[](size_type index) const noexcept { return m_Begin[index * Stride]; }
@@ -67,8 +67,8 @@ class span {
 	constexpr size_type size() const noexcept { return Extent; }
 	constexpr size_type size_bytes() const noexcept { return Extent * sizeof(T); }
 	constexpr bool empty() const noexcept { return Extent == 0; }
-	static constexpr i64 stride() noexcept { return Stride; }
-	static constexpr size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
+	constexpr static i64 stride() noexcept { return Stride; }
+	constexpr static size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
 
 	template <size_t Count>
 	constexpr span<T, Count, Stride> subspan(size_type offset) const noexcept {
@@ -97,9 +97,9 @@ class span<T, dynamic_extent, Stride> {
 	using size_type				 = std::size_t;
 	using difference_type		 = std::ptrdiff_t;
 	using pointer				 = T*;
-	using const_pointer			 = const T*;
+	using const_pointer			 = T const*;
 	using reference				 = T&;
-	using const_reference		 = const T&;
+	using const_reference		 = T const&;
 	using iterator				 = contiguous_range_iterator<value_type, Stride>;
 	using const_iterator		 = contiguous_range_iterator<const value_type, Stride>;
 	using reverse_iterator		 = contiguous_range_iterator<value_type, -Stride>;
@@ -110,7 +110,7 @@ class span<T, dynamic_extent, Stride> {
 	constexpr span(T* begin, size_type count) noexcept : m_Begin(begin), m_End(m_Begin + (count * Stride)) {};
 
 	template <size_t OtherExtent, i64 OtherStride>
-	constexpr span(const span<T, OtherExtent, OtherStride>& other) noexcept
+	constexpr span(span<T, OtherExtent, OtherStride> const& other) noexcept
 		: m_Begin(other.data()), m_End(other.data() + other.size()) {}
 
 	constexpr reference operator[](size_type index) noexcept { return m_Begin[index * Stride]; }
@@ -139,8 +139,8 @@ class span<T, dynamic_extent, Stride> {
 	constexpr size_type size() const noexcept { return (m_End - m_Begin) / Stride; }
 	constexpr size_type size_bytes() const noexcept { return size() * sizeof(T); }
 	constexpr bool empty() const noexcept { return m_Begin == m_End; }
-	static constexpr i64 stride() noexcept { return Stride; }
-	static constexpr size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
+	constexpr static i64 stride() noexcept { return Stride; }
+	constexpr static size_type abs_stride() noexcept { return (Stride > 0) ? Stride : -Stride; }
 
 	constexpr span<T, dynamic_extent, -Stride> reverse() const noexcept {
 		return span<T, dynamic_extent, -Stride> {m_End - Stride, size()};
@@ -156,9 +156,9 @@ namespace _priv {
 	struct is_span : std::false_type {};
 	template <typename T, size_t Extent, i64 Stride>
 	struct is_span<span<T, Extent, Stride>> : std::true_type {
-		static inline constexpr bool is_static	= Extent != dynamic_extent;
-		static inline constexpr bool is_forward = Stride > 0;
-		static inline constexpr bool is_reverse = Stride < 0;
+		inline constexpr static bool is_static	= Extent != dynamic_extent;
+		inline constexpr static bool is_forward = Stride > 0;
+		inline constexpr static bool is_reverse = Stride < 0;
 	};
 }	 // namespace _priv
 

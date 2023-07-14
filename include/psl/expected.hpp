@@ -66,14 +66,14 @@ class expected {
 	constexpr expected(Args&&... args) noexcept(std::is_nothrow_constructible_v<T, Args...>)
 		: m_ValueStorage(std::forward<Args>(args)...) {}
 
-	constexpr expected(const expected& other) noexcept(std::is_nothrow_copy_constructible_v<T>)
+	constexpr expected(expected const& other) noexcept(std::is_nothrow_copy_constructible_v<T>)
 		requires(std::is_copy_constructible_v<T>)
 		: m_ValueStorage(other.m_ValueStorage), m_Error(other.m_Error) {}
 	constexpr expected(expected&& other) noexcept(std::is_nothrow_move_constructible_v<T>)
 		requires(std::is_move_constructible_v<T>)
 		: m_ValueStorage(std::move(other.m_ValueStorage)), m_Error(other.m_Error) {}
 
-	constexpr expected& operator=(const expected& other) noexcept(std::is_nothrow_copy_assignable_v<T>)
+	constexpr expected& operator=(expected const& other) noexcept(std::is_nothrow_copy_assignable_v<T>)
 		requires(std::is_copy_assignable_v<T>)
 	{
 		if(this != &other) [[likely]] {
@@ -97,7 +97,7 @@ class expected {
 	constexpr expected(Error& error) noexcept
 		requires(CopyAssignable<Error>)
 		: m_Error(error) {};
-	constexpr expected(const Error& error) noexcept
+	constexpr expected(Error const& error) noexcept
 		requires(CopyAssignable<Error>)
 		: m_Error(error) {};
 	constexpr expected(Error&& error) noexcept

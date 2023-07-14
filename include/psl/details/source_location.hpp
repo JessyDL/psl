@@ -20,14 +20,14 @@ inline namespace details {
 	struct source_location final {
 	  private:
 	#if(__GNUC__ >= 9)
-		constexpr source_location(const char* file, const char* function, std::uint_least32_t line) noexcept
+		constexpr source_location(char const* file, char const* function, std::uint_least32_t line) noexcept
 			: m_Filename(file), m_Function(function), m_Line(line) {}
 	#endif
 	  public:
-		[[nodiscard]] static constexpr source_location current(
+		[[nodiscard]] constexpr static source_location current(
 	#if(__GNUC__ >= 9)
-		  const char* file		   = __builtin_FILE(),
-		  const char* function	   = __builtin_FUNCTION(),
+		  char const* file		   = __builtin_FILE(),
+		  char const* function	   = __builtin_FUNCTION(),
 		  std::uint_least32_t line = __builtin_LINE()
 	#endif
 			) noexcept {
@@ -39,19 +39,19 @@ inline namespace details {
 		};
 
 	#if(__GNUC__ >= 9)
-		constexpr const char* function_name() const noexcept { return m_Function; }
-		constexpr const char* file_name() const noexcept { return m_Filename; }
+		constexpr char const* function_name() const noexcept { return m_Function; }
+		constexpr char const* file_name() const noexcept { return m_Filename; }
 		constexpr std::uint_least32_t column() const noexcept { return 0; }
 		constexpr std::uint_least32_t line() const noexcept { return m_Line; }
 	#else
-		constexpr const char* function_name() const noexcept { return ""; }
-		constexpr const char* file_name() const noexcept { return ""; }
+		constexpr char const* function_name() const noexcept { return ""; }
+		constexpr char const* file_name() const noexcept { return ""; }
 		constexpr std::uint_least32_t column() const noexcept { return 0; }
 		constexpr std::uint_least32_t line() const noexcept { return 0; }
 	#endif
 	#if(__GNUC__ >= 9)
-		const char* m_Filename {};
-		const char* m_Function {};
+		char const* m_Filename {};
+		char const* m_Function {};
 		std::uint_least32_t m_Line {};
 	#endif
 	};

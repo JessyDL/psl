@@ -21,7 +21,7 @@ inline namespace details {
 		consteval fixed_ascii_string(char const* s) {
 			for(size_t i = 0; i != N; ++i) buf[i] = s[i];
 		}
-		auto operator<=>(const fixed_ascii_string&) const = default;
+		auto operator<=>(fixed_ascii_string const&) const = default;
 
 		constexpr char operator[](size_t index) const noexcept { return buf[index]; }
 

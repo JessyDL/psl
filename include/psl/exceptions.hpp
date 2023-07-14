@@ -9,7 +9,7 @@
 namespace psl {
 class exception : public std::exception {
   public:
-	exception(std::string_view message, const source_location& location = source_location::current()) {
+	exception(std::string_view message, source_location const& location = source_location::current()) {
 		m_What.append("at: ");
 		m_What.append(location.file_name());
 		m_What.append(":");
@@ -18,13 +18,13 @@ class exception : public std::exception {
 		m_What.append(message);
 	}
 
-	exception(const exception& other) noexcept			  = default;
+	exception(exception const& other) noexcept			  = default;
 	exception(exception&& other) noexcept				  = default;
-	exception& operator=(const exception& other) noexcept = default;
+	exception& operator=(exception const& other) noexcept = default;
 	exception& operator=(exception&& other) noexcept	  = default;
 	virtual ~exception()								  = default;
 
-	const char* what() const noexcept override { return m_What.c_str(); };
+	char const* what() const noexcept override { return m_What.c_str(); };
 
   private:
 	std::string m_What {};
@@ -33,7 +33,7 @@ class exception : public std::exception {
 template <fixed_ascii_string Message>
 class static_exception : public exception {
   public:
-	static_exception(const source_location& location = source_location::current()) : exception(Message, location) {}
+	static_exception(source_location const& location = source_location::current()) : exception(Message, location) {}
 	virtual ~static_exception() = default;
 };
 
@@ -46,11 +46,11 @@ class static_exception : public exception {
  */
 class implementation_error : exception {
   public:
-	implementation_error(const std::string& message, const source_location& location = source_location::current())
+	implementation_error(std::string const& message, source_location const& location = source_location::current())
 		: exception(message, location) {}
-	implementation_error(const implementation_error& other) noexcept			= default;
+	implementation_error(implementation_error const& other) noexcept			= default;
 	implementation_error(implementation_error&& other) noexcept					= default;
-	implementation_error& operator=(const implementation_error& other) noexcept = default;
+	implementation_error& operator=(implementation_error const& other) noexcept = default;
 	implementation_error& operator=(implementation_error&& other) noexcept		= default;
 	virtual ~implementation_error()												= default;
 };
@@ -63,11 +63,11 @@ class implementation_error : exception {
 template <size_t issue>
 class not_implemented : exception {
   public:
-	not_implemented(const source_location& location = source_location::current())
+	not_implemented(source_location const& location = source_location::current())
 		: exception("https://github.com/JessyDL/psl/issues/" + std::to_string(issue), location) {}
-	not_implemented(const not_implemented& other) noexcept = default;
+	not_implemented(not_implemented const& other) noexcept = default;
 	not_implemented(not_implemented&& other) noexcept	   = default;
-	not_implemented& operator=(const not_implemented& other) noexcept
+	not_implemented& operator=(not_implemented const& other) noexcept
 
 	  = default;
 	not_implemented& operator=(not_implemented&& other) noexcept = default;
@@ -83,7 +83,7 @@ class not_implemented : exception {
 template <typename T, fixed_ascii_string Message>
 class bad_access : exception {
   public:
-	bad_access(const source_location& location = source_location::current()) : exception(Message, location) {};
+	bad_access(source_location const& location = source_location::current()) : exception(Message, location) {};
 	virtual ~bad_access() = default;
 };
 

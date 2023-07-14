@@ -34,7 +34,7 @@ inline namespace details {
 			requires(disable_perfect_forward_illegal_type_v<optional_value_storage, Args...>)
 		constexpr optional_value_storage(Args&&... args) : value(std::forward<Args>(args)...), engaged(true) {}
 
-		constexpr optional_value_storage(const optional_value_storage& rhs) : empty_marker({}), engaged(rhs.engaged) {
+		constexpr optional_value_storage(optional_value_storage const& rhs) : empty_marker({}), engaged(rhs.engaged) {
 			if(engaged) {
 				value = rhs.value;
 			}
@@ -44,7 +44,7 @@ inline namespace details {
 				value = std::move(rhs.value);
 			}
 		}
-		constexpr optional_value_storage& operator=(const optional_value_storage& rhs) {
+		constexpr optional_value_storage& operator=(optional_value_storage const& rhs) {
 			if(this != &rhs) [[likely]] {
 				engaged = rhs.engaged;
 				if(engaged) {
@@ -83,7 +83,7 @@ inline namespace details {
 
 		explicit constexpr operator bool() const noexcept { return engaged; }
 		constexpr bool has_value() const noexcept { return engaged; }
-		constexpr const T& get() const noexcept { return value; }
+		constexpr T const& get() const noexcept { return value; }
 		constexpr T& get() noexcept { return value; }
 
 		constexpr auto take() noexcept {

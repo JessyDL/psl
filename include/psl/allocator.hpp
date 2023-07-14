@@ -16,10 +16,10 @@ class abstract_memory_resource {
   public:
 	abstract_memory_resource(const size_t alignment) noexcept : m_Alignment(alignment) {}
 	virtual ~abstract_memory_resource()									   = default;
-	abstract_memory_resource(const abstract_memory_resource& rhs) noexcept = default;
+	abstract_memory_resource(abstract_memory_resource const& rhs) noexcept = default;
 	abstract_memory_resource(abstract_memory_resource&& rhs) noexcept	   = default;
 
-	abstract_memory_resource& operator=(const abstract_memory_resource& rhs) noexcept = default;
+	abstract_memory_resource& operator=(abstract_memory_resource const& rhs) noexcept = default;
 	abstract_memory_resource& operator=(abstract_memory_resource&& rhs) noexcept	  = default;
 
 	size_t alignment() const noexcept { return m_Alignment; }
@@ -40,10 +40,10 @@ class traited_memory_resource : public traits::memory_resource_trait<Traits, tra
   public:
 	traited_memory_resource(const size_t alignment) noexcept : abstract_memory_resource(alignment) {}
 	virtual ~traited_memory_resource()									 = default;
-	traited_memory_resource(const traited_memory_resource& rhs) noexcept = default;
+	traited_memory_resource(traited_memory_resource const& rhs) noexcept = default;
 	traited_memory_resource(traited_memory_resource&& rhs) noexcept		 = default;
 
-	traited_memory_resource& operator=(const traited_memory_resource& rhs) noexcept = default;
+	traited_memory_resource& operator=(traited_memory_resource const& rhs) noexcept = default;
 	traited_memory_resource& operator=(traited_memory_resource&& rhs) noexcept		= default;
 
 	template <typename T>
@@ -75,9 +75,9 @@ class allocator final : public traits::allocator_trait<Traits, allocator<Traits.
 	allocator(traited_memory_resource_t* memoryResource) noexcept : m_MemoryResource(memoryResource) {};
 	~allocator() = default;
 
-	allocator(const allocator& other) noexcept			  = default;
+	allocator(allocator const& other) noexcept			  = default;
 	allocator(allocator&& other) noexcept				  = default;
-	allocator& operator=(const allocator& other) noexcept = default;
+	allocator& operator=(allocator const& other) noexcept = default;
 	allocator& operator=(allocator&& other) noexcept	  = default;
 
 	abstract_memory_resource_t* abstract_resource() { return (abstract_memory_resource_t*)m_MemoryResource; }
@@ -125,6 +125,6 @@ class new_resource
 	bool do_deallocate(void* ptr, size_t size, size_t alignment) override;
 };
 
-static inline psl::config::default_memory_resource_t default_memory_resource {alignof(char)};
-static inline psl::config::default_allocator_t default_allocator {&default_memory_resource};
+inline static psl::config::default_memory_resource_t default_memory_resource {alignof(char)};
+inline static psl::config::default_allocator_t default_allocator {&default_memory_resource};
 }	 // namespace psl

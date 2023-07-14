@@ -73,12 +73,12 @@ struct basic_allocation {};
  */
 template <syncronization Sync = syncronization::always_synced>
 struct host_readability_t {
-	static constexpr syncronization value {Sync};
+	constexpr static syncronization value {Sync};
 };
 
 template <syncronization Sync = syncronization::always_synced>
 struct host_writability_t {
-	static constexpr syncronization value {Sync};
+	constexpr static syncronization value {Sync};
 };
 
 template <typename T, typename Trait>
@@ -173,7 +173,7 @@ template <typename Y>
 alloc_results<void> memory_resource_trait<basic_allocation, Y>::allocate(size_t size, size_t alignment) {
 	PSL_CONTRACT_EXCEPT_IF(alignment == 0, "alignment value of 0 is not allowed, 1 is the minimum");
 	auto res = do_allocate(size, alignment);
-	PSL_CONTRACT_EXCEPT_IF(res && (std::uintptr_t)res.tail % ((const Y*)this)->alignment() != 0,
+	PSL_CONTRACT_EXCEPT_IF(res && (std::uintptr_t)res.tail % ((Y const*)this)->alignment() != 0,
 						   "implementation of abstract region does not satisfy the requirements");
 	return res;
 }
