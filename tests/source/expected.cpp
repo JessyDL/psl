@@ -109,7 +109,7 @@ auto expected_test0 =
 		T seed{0};
 		int success_val = 0;
 		int error_val   = 0;
-		auto error_fn   = [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
+		auto error_fn   = [&error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
 		psl::expected<T> total{test_fn<T>(seed, success_val, error_val, true)		// 1 : 0
 								   .then(test_fn<T>, success_val, error_val, true)  // 2 : 0
 								   .then(test_fn<T>, success_val, error_val, true)  // 3 : 0
@@ -131,7 +131,7 @@ auto expected_test0 =
 		int error_fn_runs = 0;
 		int success_val   = 0;
 		int error_val	 = 0;
-		auto error_fn = [&success_val, &error_val, &error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
+		auto error_fn = [&error_fn_runs]([[maybe_unused]] auto error) { ++error_fn_runs; };
 
 		auto total = test_fn<T>(seed, success_val, error_val, true)		  // 1 : 0
 						 .then(test_fn<T>, success_val, error_val, true)  // 2 : 0
