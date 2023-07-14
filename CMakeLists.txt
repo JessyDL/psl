@@ -57,6 +57,7 @@ list(APPEND PSL_INC
 	${INC_IMPL}
 	array
 	algorithms
+	bytes
 	chunked_array
 	enum
 	exceptions
@@ -65,6 +66,7 @@ list(APPEND PSL_INC
 	optional
 	random
 	span
+	strong_type_wrapper
 	type_concepts
 	types
 	uid

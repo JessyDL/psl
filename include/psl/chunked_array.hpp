@@ -1,6 +1,7 @@
 #pragma once
 
 #include <psl/array.hpp>
+#include <psl/bytes.hpp>
 #include <psl/types.hpp>
 
 namespace psl {
