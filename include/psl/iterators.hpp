@@ -8,7 +8,7 @@ namespace psl
 	inline namespace details
 	{
 		template <typename T, typename Y>
-		concept CmpCRangeIt = std::is_same_v<typename T::value_type, typename Y::value_type>&&
+		concept CmpCRangeIt = std::is_same_v<typename T::value_type, typename Y::value_type> &&
 			std::is_same_v<typename T::iterator_category, typename Y::iterator_category>;
 	}
 
@@ -26,15 +26,15 @@ namespace psl
 		static constexpr size_t AbsStride = (Stride > 0) ? Stride : -Stride;
 
 	  public:
-		using difference_type   = std::ptrdiff_t;
+		using difference_type	= std::ptrdiff_t;
 		using value_type		= std::remove_cv_t<T>;
 		using reference			= value_type&;
-		using const_reference   = const value_type&;
+		using const_reference	= const value_type&;
 		using pointer			= value_type*;
 		using const_pointer		= const value_type*;
 		using size_type			= size_t;
 		using iterator_category = std::random_access_iterator_tag;
-		using iterator_concept  = std::contiguous_iterator_tag;
+		using iterator_concept	= std::contiguous_iterator_tag;
 
 
 		friend class contiguous_range_iterator<value_type, Stride>;
@@ -49,11 +49,11 @@ namespace psl
 			: m_Data(other.m_Data)
 		{}
 
-		constexpr ~contiguous_range_iterator()										   = default;
-		constexpr contiguous_range_iterator(const contiguous_range_iterator&) noexcept = default;
-		constexpr contiguous_range_iterator(contiguous_range_iterator&&) noexcept	  = default;
+		constexpr ~contiguous_range_iterator()													  = default;
+		constexpr contiguous_range_iterator(const contiguous_range_iterator&) noexcept			  = default;
+		constexpr contiguous_range_iterator(contiguous_range_iterator&&) noexcept				  = default;
 		constexpr contiguous_range_iterator& operator=(const contiguous_range_iterator&) noexcept = default;
-		constexpr contiguous_range_iterator& operator=(contiguous_range_iterator&&) noexcept = default;
+		constexpr contiguous_range_iterator& operator=(contiguous_range_iterator&&) noexcept	  = default;
 
 		constexpr bool operator==(const CmpCRangeIt<contiguous_range_iterator> auto& other) const noexcept
 		{
@@ -97,7 +97,7 @@ namespace psl
 			return *m_Data;
 		}
 
-		constexpr auto operator-> () const noexcept -> std::conditional_t<std::is_const_v<T>, const_pointer, pointer>
+		constexpr auto operator->() const noexcept -> std::conditional_t<std::is_const_v<T>, const_pointer, pointer>
 		{
 			return m_Data;
 		}
@@ -161,8 +161,8 @@ namespace psl
 		{
 			return (m_Data - other.ptr()) / Stride;
 		}
-		constexpr difference_type operator-(const contiguous_range_iterator<const value_type, Stride>& other) const
-			noexcept
+		constexpr difference_type
+		operator-(const contiguous_range_iterator<const value_type, Stride>& other) const noexcept
 		{
 			return (m_Data - other.ptr()) / Stride;
 		}
@@ -193,3 +193,14 @@ namespace psl
 		pointer m_Data{nullptr};
 	};
 } // namespace psl
+
+namespace std
+{
+	template <typename T, psl::i64 Stride>
+	struct pointer_traits<psl::contiguous_range_iterator<T, Stride>>
+	{
+		using pointer		  = psl::contiguous_range_iterator<T, Stride>::pointer;
+		using element_type	  = psl::contiguous_range_iterator<T, Stride>::value_type;
+		using difference_type = psl::contiguous_range_iterator<T, Stride>::difference_type;
+	};
+} // namespace std
