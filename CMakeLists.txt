@@ -9,7 +9,7 @@ set(LOCAL_PROJECT ${PSL_PROJECT})
 project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)
 include(CMakeDependentOption)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
@@ -17,10 +17,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DRELEASE")
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-option(avx2 "support avx2" TRUE)
-option(tests "build tests" TRUE)
-option(documentation "build documentation" TRUE)
-cmake_dependent_option(coverage "show the code coverage of the tests" FALSE "tests" FALSE)
+option(PSL_AVX2 "support avx2" TRUE)
+option(PSL_TESTS "build tests" TRUE)
+option(PSL_DOCUMENTATION "build documentation" TRUE)
+cmake_dependent_option(PSL_COVERAGE "show the code coverage of the tests" FALSE "PSL_TESTS" FALSE)
 
 
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -107,25 +107,53 @@ add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 # -Wno-error=terminate is silenced globally due to constent expressions not figuring out that they are not runtime, and 
 # so warn of throws in noexcept marked functions.
 
-target_compile_options(${LOCAL_PROJECT} PUBLIC 
-	$<$<CXX_COMPILER_ID:MSVC>:/permissive- /W4>
-	$<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/WX>
-	$<$<CXX_COMPILER_ID:CLANG>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
-	$<$<CXX_COMPILER_ID:GNU>:-Wno-error=terminate -Wall -Wextra -pedantic -Wno-unknown-pragmas>
-	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage -O0>
-	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${avx2}>>:-mavx2>
+if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+	list(APPEND PSL_COMPILE_OPTIONS
+		-Wno-error=terminate
+		-Wall
+		-Wextra
+		-pedantic
+		-Wno-unknown-pragmas
+		-Wno-unqualified-std-cast-call
 	)
+	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+		if(${PSL_COVERAGE})
+			list(APPEND PSL_COMPILE_OPTIONS
+				--coverage
+				-O0
+			)
+			list(APPEND PSL_LINK_OPTIONS
+				--coverage
+			)
+		endif()
+		if(${PSL_AVX2})
+			list(APPEND PSL_COMPILE_OPTIONS
+				-mavx2
+			)
+		endif()
+	endif()
+else()
+	list(APPEND PSL_COMPILE_OPTIONS
+		/permissive-
+		/W
+	)
+	if("${CONFIG}" MATCHES "Release")
+		list(APPEND PSL_COMPILE_OPTIONS
+			/WX
+		)
+	endif()
+endif()
 
-target_link_options(${LOCAL_PROJECT} PUBLIC
-	$<$<AND:$<CXX_COMPILER_ID:GNU>,$<BOOL:${coverage}>>:--coverage>
-)
+target_compile_options(${LOCAL_PROJECT} PUBLIC ${PSL_COMPILE_OPTIONS})
 
-set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE $<BOOL:${coverage}>)
+target_link_options(${LOCAL_PROJECT} PUBLIC ${PSL_LINK_OPTIONS})
 
-if(tests)
+set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE $<BOOL:${PSL_COVERAGE}>)
+
+if(PSL_TESTS)
 	add_subdirectory(tests)
 endif()
 
-if(documentation)
+if(PSL_DOCUMENTATION)
 	add_subdirectory(documentation)
 endif()
