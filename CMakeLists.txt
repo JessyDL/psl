@@ -104,12 +104,8 @@ target_include_directories(${LOCAL_PROJECT} PUBLIC ${PSL_INCLUDE_DIRECTORIES} ${
 target_link_libraries(${LOCAL_PROJECT} fmt)
 add_dependencies(${LOCAL_PROJECT} ${LOCAL_PROJECT}_generator)
 
-# -Wno-error=terminate is silenced globally due to constent expressions not figuring out that they are not runtime, and 
-# so warn of throws in noexcept marked functions.
-
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 	list(APPEND PSL_COMPILE_OPTIONS
-		-Wno-error=terminate
 		-Wall
 		-Wextra
 		-pedantic
