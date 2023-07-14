@@ -21,11 +21,11 @@ namespace psl
 			m_What.append(message);
 		}
 
-		exception(const exception& other) noexcept = default;
-		exception(exception&& other) noexcept	  = default;
+		exception(const exception& other) noexcept			  = default;
+		exception(exception&& other) noexcept				  = default;
 		exception& operator=(const exception& other) noexcept = default;
-		exception& operator=(exception&& other) noexcept = default;
-		virtual ~exception()							 = default;
+		exception& operator=(exception&& other) noexcept	  = default;
+		virtual ~exception()								  = default;
 
 		const char* what() const noexcept override { return m_What.c_str(); };
 
@@ -54,11 +54,11 @@ namespace psl
 		implementation_error(const std::string& message, const source_location& location = source_location::current())
 			: exception(message, location)
 		{}
-		implementation_error(const implementation_error& other) noexcept = default;
-		implementation_error(implementation_error&& other) noexcept		 = default;
+		implementation_error(const implementation_error& other) noexcept			= default;
+		implementation_error(implementation_error&& other) noexcept					= default;
 		implementation_error& operator=(const implementation_error& other) noexcept = default;
-		implementation_error& operator=(implementation_error&& other) noexcept = default;
-		virtual ~implementation_error()										   = default;
+		implementation_error& operator=(implementation_error&& other) noexcept		= default;
+		virtual ~implementation_error()												= default;
 	};
 
 	/**
@@ -74,8 +74,10 @@ namespace psl
 			: exception("https://github.com/JessyDL/psl/issues/" + std::to_string(issue), location)
 		{}
 		not_implemented(const not_implemented& other) noexcept = default;
-		not_implemented(not_implemented&& other) noexcept	  = default;
-		not_implemented& operator=(const not_implemented& other) noexcept = default;
+		not_implemented(not_implemented&& other) noexcept	   = default;
+		not_implemented& operator=(const not_implemented& other) noexcept
+
+			= default;
 		not_implemented& operator=(not_implemented&& other) noexcept = default;
 		virtual ~not_implemented()									 = default;
 	};
@@ -106,15 +108,15 @@ namespace psl
 		}
 
 		template <typename Exception, typename... Ts>
-		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, void> constexpr void
-		throw_if_needed(bool condition, Ts&&... args) noexcept(false)
+		requires std::is_same_v < std::conditional_t<config::exceptions, void, int>,
+		void > constexpr void throw_if_needed(bool condition, Ts&&... args) noexcept(false)
 		{
 			throw_exception<Exception, Ts...>(condition, std::forward<Ts>(args)...);
 		}
 
 		template <typename Exception, typename... Ts>
-		requires std::is_same_v<std::conditional_t<config::exceptions, void, int>, int> constexpr void
-		throw_if_needed(bool condition, Ts&&... args) noexcept(true)
+		requires std::is_same_v < std::conditional_t<config::exceptions, void, int>,
+		int > constexpr void throw_if_needed(bool condition, Ts&&... args) noexcept(true)
 		{
 			if(std::is_constant_evaluated()) throw_exception<Exception>(condition, std::forward<Ts>(args)...);
 

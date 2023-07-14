@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <type_traits>
 #include <psl/exceptions.hpp>
 #include <psl/types.hpp>
@@ -7,6 +8,7 @@
 #include <psl/config.hpp>
 #include <psl/allocator.hpp>
 #include <psl/details/sbo_storage.hpp>
+#include <psl/iterators.hpp>
 
 #pragma region definition
 
@@ -40,28 +42,16 @@ namespace psl
 
 	namespace _priv
 	{
-		template <typename T, auto Value>
+		template <typename T, psl::bytes_t Value>
 		consteval size_t get_sbo_size()
 		{
-			if constexpr(std::is_same_v<size_t, decltype(Value)>)
-				return Value;
-			else
-				return greatest_contained_count(sizeof(T), Value.size);
+			return *Value;
 		}
 	} // namespace _priv
 
 	namespace settings
 	{
-		template <size_t Size>
-		struct in_bytes
-		{
-			static inline constexpr size_t size{Size};
-		};
-
-		inline constexpr auto default_sbo_size = in_bytes<64>{};
-
-		struct default_t
-		{};
+		inline constexpr auto default_sbo_size = psl::bytes_t{64};
 
 		template <typename Setting, typename Default>
 		struct override_or_default
@@ -80,8 +70,8 @@ namespace psl
 		 * \tparam SBOAlias Should the SBO alias its internal storage with external storage (pointer)?
 		 * \note if the arrays's extent is lower than
 		 */
-		template <typename Allocator = default_t, typename Stability = default_t, auto SBOExtent = default_sbo_size,
-				  IsSBOAlias SBOAlias = sbo_alias<false>>
+		template <typename Allocator = default_t, typename Stability = default_t,
+				  psl::bytes_t SBOExtent = default_sbo_size, IsSBOAlias SBOAlias = sbo_alias<false>>
 		struct array
 		{
 			using allocator_type = override_or_default_t<Allocator, config::default_allocator_t>;
@@ -103,7 +93,7 @@ namespace psl
 		template <typename T>
 		struct is_array_settings_t : std::false_type
 		{};
-		template <typename Allocator, typename Stability, auto SBOExtent, IsSBOAlias SBOAlias>
+		template <typename Allocator, typename Stability, ::psl::bytes_t SBOExtent, IsSBOAlias SBOAlias>
 		struct is_array_settings_t<settings::array<Allocator, Stability, SBOExtent, SBOAlias>> : std::true_type
 		{};
 	} // namespace _priv
@@ -147,19 +137,19 @@ namespace psl
 		using reverse_iterator		 = psl::contiguous_range_iterator<value_type, -1>;
 		using const_reverse_iterator = psl::contiguous_range_iterator<const value_type, -1>;
 
-		constexpr reference operator[](size_type index) noexcept { return m_Storage[index]; }
-		constexpr const_reference operator[](size_type index) const noexcept { return m_Storage[index]; }
+		constexpr auto operator[](size_type index) noexcept -> reference { return m_Storage[index]; }
+		constexpr auto operator[](size_type index) const noexcept -> const_reference { return m_Storage[index]; }
 
-		constexpr bool is_stored_inlined() const noexcept { return m_Storage.is_stored_inlined(); }
-		constexpr bool empty() const noexcept { return m_Storage.size() == 0; }
-		constexpr size_type size() const noexcept { return m_Storage.size(); }
-		constexpr size_type max_size() const noexcept { return Extent; }
-		constexpr size_type capacity() const noexcept { return m_Storage.capacity(); }
-		constexpr void reserve(size_type count) noexcept(false);
-		constexpr void shrink_to_fit();
-		constexpr void trim_excess();
+		constexpr auto is_stored_inlined() const noexcept -> bool { return m_Storage.is_stored_inlined(); }
+		constexpr auto empty() const noexcept -> bool { return m_Storage.size() == 0; }
+		constexpr auto size() const noexcept -> size_type { return m_Storage.size(); }
+		constexpr auto max_size() const noexcept -> size_type { return Extent; }
+		constexpr auto capacity() const noexcept -> size_type { return m_Storage.capacity(); }
+		constexpr auto reserve(size_type count) noexcept(false) -> void;
+		constexpr auto shrink_to_fit() -> void;
+		constexpr auto trim_excess() -> void;
 
-		constexpr void clear();
+		constexpr auto clear() -> void;
 		// constexpr iterator insert(const_iterator pos, const T& value);
 		// constexpr iterator insert(const_iterator pos, T&& value);
 		// constexpr iterator insert( const_iterator pos, size_type count,
@@ -170,50 +160,63 @@ namespace psl
 		// template< class... Args >
 		// constexpr iterator emplace( const_iterator pos, Args&&... args );
 
+		/**
+		 * @brief Erases (deletes) the given entry in the array
+		 *
+		 * @param pos Iterator marking the location of the entry
+		 * @return constexpr iterator
+		 */
 		constexpr iterator erase(const_iterator pos);
-		constexpr iterator erase(const_iterator first, const_iterator last);
-		constexpr iterator erase(keep_stability_t, const_iterator pos);
-		constexpr iterator erase(keep_stability_t, const_iterator first, const_iterator last);
-		constexpr iterator erase(allow_instability_t, const_iterator pos);
-		constexpr iterator erase(allow_instability_t, const_iterator first, const_iterator last);
-		constexpr void push_back(T&& value);
-		constexpr void push_back(const T& value);
+		/**
+		 * @brief Erases (deletes) the given entries in the array, the range is defined as [first, last)
+		 *
+		 * @param first first element to erase (inclusive)
+		 * @param last last element to erase (exclusive)
+		 * @return constexpr iterator
+		 */
+		constexpr auto erase(const_iterator first, const_iterator last) -> iterator;
+		constexpr auto erase(keep_stability_t, const_iterator pos) -> iterator;
+		constexpr auto erase(keep_stability_t, const_iterator first, const_iterator last) -> iterator;
+		constexpr auto erase(allow_instability_t, const_iterator pos) -> iterator;
+		constexpr auto erase(allow_instability_t, const_iterator first, const_iterator last) -> iterator;
+		constexpr auto push_back(T&& value) -> void;
+		constexpr auto push_back(const T& value) -> void;
 
 		template <typename... Args>
 		constexpr auto emplace_back(Args&&... args) -> reference;
 
-		constexpr void pop_back();
-		constexpr void resize(size_type count) requires std::is_constructible_v<value_type>;
-		constexpr void resize(size_type count, const value_type& value);
-		constexpr void swap(array& other) noexcept(/* see below */ false);
+		constexpr auto pop_back() -> void;
+		constexpr auto resize(size_type count) -> void requires std::is_constructible_v<value_type>;
+		constexpr auto resize(size_type count, const value_type& value) -> void;
+		constexpr auto swap(array& other) noexcept(/* see below */ false) -> void;
 
-		constexpr size_type sbo_size() const noexcept { return m_Storage.sbo_size(); }
+		constexpr auto sbo_size() const noexcept -> size_type { return m_Storage.sbo_size(); }
 
-		constexpr iterator begin() noexcept { return m_Storage.begin(); }
-		constexpr const_iterator begin() const noexcept { return m_Storage.begin(); }
-		constexpr const_iterator cbegin() const noexcept { return m_Storage.cbegin(); }
-		constexpr iterator end() noexcept { return m_Storage.end(); }
-		constexpr const_iterator end() const noexcept { return m_Storage.end(); }
-		constexpr const_iterator cend() const noexcept { return m_Storage.cend(); }
+		constexpr auto begin() noexcept -> iterator { return m_Storage.begin(); }
+		constexpr auto begin() const noexcept -> const_iterator { return m_Storage.begin(); }
+		constexpr auto cbegin() const noexcept -> const_iterator { return m_Storage.cbegin(); }
+		constexpr auto end() noexcept -> iterator { return m_Storage.end(); }
+		constexpr auto end() const noexcept -> const_iterator { return m_Storage.end(); }
+		constexpr auto cend() const noexcept -> const_iterator { return m_Storage.cend(); }
 
-		constexpr reverse_iterator rbegin() noexcept { return m_Storage.rbegin(); }
-		constexpr const_reverse_iterator rbegin() const noexcept { return m_Storage.rbegin(); }
-		constexpr const_reverse_iterator crbegin() const noexcept { return m_Storage.crbegin(); }
-		constexpr reverse_iterator rend() noexcept { return m_Storage.rend(); }
-		constexpr const_reverse_iterator rend() const noexcept { return m_Storage.rend(); }
-		constexpr const_reverse_iterator crend() const noexcept { return m_Storage.crend(); }
+		constexpr auto rbegin() noexcept -> reverse_iterator { return m_Storage.rbegin(); }
+		constexpr auto rbegin() const noexcept -> const_reverse_iterator { return m_Storage.rbegin(); }
+		constexpr auto crbegin() const noexcept -> const_reverse_iterator { return m_Storage.crbegin(); }
+		constexpr auto rend() noexcept -> reverse_iterator { return m_Storage.rend(); }
+		constexpr auto rend() const noexcept -> const_reverse_iterator { return m_Storage.rend(); }
+		constexpr auto crend() const noexcept -> const_reverse_iterator { return m_Storage.crend(); }
 
-		constexpr reference front() noexcept { return *m_Storage.data(); }
-		constexpr const_reference front() const noexcept { return *m_Storage.data(); }
-		constexpr reference back() noexcept { return *(m_Storage.data() + m_Storage.m_Size - 1); }
-		constexpr const_reference back() const noexcept { return *(m_Storage.data() + m_Storage.m_Size - 1); }
+		constexpr auto front() noexcept -> reference { return *m_Storage.data(); }
+		constexpr auto front() const noexcept -> const_reference { return *m_Storage.data(); }
+		constexpr auto back() noexcept -> reference { return *(m_Storage.data() + m_Storage.m_Size - 1); }
+		constexpr auto back() const noexcept -> const_reference { return *(m_Storage.data() + m_Storage.m_Size - 1); }
 
-		constexpr reference at(size_type index) noexcept(!config::exceptions)
+		constexpr auto at(size_type index) noexcept(!config::exceptions) -> reference
 		{
 			PSL_EXCEPT_IF(index > m_Storage.m_Size, out_of_bounds);
 			return *(m_Storage.data() + m_Storage.m_Size);
 		}
-		constexpr const_reference at(size_type index) const noexcept(!config::exceptions)
+		constexpr auto at(size_type index) const noexcept(!config::exceptions) -> const_reference
 		{
 			PSL_EXCEPT_IF(index > m_Storage.m_Size, out_of_bounds);
 			return *(m_Storage.data() + m_Storage.m_Size);
@@ -221,7 +224,7 @@ namespace psl
 
 	  private:
 		constexpr auto calculate_growth_for(size_type count) const noexcept(!config::exceptions) -> size_type;
-		constexpr void grow_if_necessary(size_type newElements = 1);
+		constexpr auto grow_if_necessary(size_type newElements = 1) -> void;
 		dynamic_sbo_storage<T, Settings::template sbo_extent<T, Extent>, allocator_type,
 							typename Settings::template sbo_alias<T, Extent>>
 			m_Storage{};
@@ -250,17 +253,17 @@ namespace psl
 		using reverse_iterator		 = psl::contiguous_range_iterator<value_type, -1>;
 		using const_reverse_iterator = psl::contiguous_range_iterator<const value_type, -1>;
 
-		constexpr reference operator[](size_type index) noexcept { return m_Storage[index]; }
-		constexpr const_reference operator[](size_type index) const noexcept { return m_Storage[index]; }
+		constexpr auto operator[](size_type index) noexcept -> reference { return m_Storage[index]; }
+		constexpr auto operator[](size_type index) const noexcept -> const_reference { return m_Storage[index]; }
 
-		constexpr bool is_stored_inlined() const noexcept { return m_Storage.is_stored_inlined(); }
-		constexpr bool empty() const noexcept { return m_Storage.size() == 0; }
-		constexpr size_type size() const noexcept { return m_Storage.size(); }
-		constexpr size_type max_size() const noexcept { return dynamic_extent; }
-		constexpr size_type capacity() const noexcept { return m_Storage.capacity(); }
-		constexpr void reserve(size_type count) noexcept(false);
-		constexpr void shrink_to_fit();
-		constexpr void trim_excess();
+		constexpr auto is_stored_inlined() const noexcept -> bool { return m_Storage.is_stored_inlined(); }
+		constexpr auto empty() const noexcept -> bool { return m_Storage.size() == 0; }
+		constexpr auto size() const noexcept -> size_type { return m_Storage.size(); }
+		constexpr auto capacity() const noexcept -> size_type { return m_Storage.capacity(); }
+		constexpr auto max_size() const noexcept -> size_type { return dynamic_extent; }
+		constexpr auto reserve(size_type count) noexcept(false) -> void;
+		constexpr auto shrink_to_fit() -> void;
+		constexpr auto trim_excess() -> void;
 
 		constexpr void clear();
 		// constexpr iterator insert(const_iterator pos, const T& value);
@@ -273,50 +276,50 @@ namespace psl
 		// template< class... Args >
 		// constexpr iterator emplace( const_iterator pos, Args&&... args );
 
-		constexpr iterator erase(const_iterator pos);
-		constexpr iterator erase(const_iterator first, const_iterator last);
-		constexpr iterator erase(keep_stability_t, const_iterator pos);
-		constexpr iterator erase(keep_stability_t, const_iterator first, const_iterator last);
-		constexpr iterator erase(allow_instability_t, const_iterator pos);
-		constexpr iterator erase(allow_instability_t, const_iterator first, const_iterator last);
-		constexpr void push_back(T&& value);
-		constexpr void push_back(const T& value);
+		constexpr auto erase(const_iterator pos) -> iterator;
+		constexpr auto erase(const_iterator first, const_iterator last) -> iterator;
+		constexpr auto erase(keep_stability_t, const_iterator pos) -> iterator;
+		constexpr auto erase(keep_stability_t, const_iterator first, const_iterator last) -> iterator;
+		constexpr auto erase(allow_instability_t, const_iterator pos) -> iterator;
+		constexpr auto erase(allow_instability_t, const_iterator first, const_iterator last) -> iterator;
+		constexpr auto push_back(T&& value) -> void;
+		constexpr auto push_back(const T& value) -> void;
 
 		template <typename... Args>
 		constexpr auto emplace_back(Args&&... args) -> reference;
 
-		constexpr void pop_back();
-		constexpr void resize(size_type count) requires std::is_constructible_v<value_type>;
-		constexpr void resize(size_type count, const value_type& value);
-		constexpr void swap(array& other) noexcept(/* see below */ false);
+		constexpr auto pop_back() -> void;
+		constexpr auto resize(size_type count) -> void requires std::is_constructible_v<value_type>;
+		constexpr auto resize(size_type count, const value_type& value) -> void;
+		constexpr auto swap(array& other) noexcept(/* see below */ false) -> void;
 
-		constexpr size_type sbo_size() const noexcept { return m_Storage.sbo_size(); }
+		constexpr auto sbo_size() const noexcept -> size_type { return m_Storage.sbo_size(); }
 
-		constexpr iterator begin() noexcept { return m_Storage.begin(); }
-		constexpr const_iterator begin() const noexcept { return m_Storage.begin(); }
-		constexpr const_iterator cbegin() const noexcept { return m_Storage.cbegin(); }
-		constexpr iterator end() noexcept { return m_Storage.end(); }
-		constexpr const_iterator end() const noexcept { return m_Storage.end(); }
-		constexpr const_iterator cend() const noexcept { return m_Storage.cend(); }
+		constexpr auto begin() noexcept -> iterator { return m_Storage.begin(); }
+		constexpr auto begin() const noexcept -> const_iterator { return m_Storage.begin(); }
+		constexpr auto cbegin() const noexcept -> const_iterator { return m_Storage.cbegin(); }
+		constexpr auto end() noexcept -> iterator { return m_Storage.end(); }
+		constexpr auto end() const noexcept -> const_iterator { return m_Storage.end(); }
+		constexpr auto cend() const noexcept -> const_iterator { return m_Storage.cend(); }
 
-		constexpr reverse_iterator rbegin() noexcept { return m_Storage.rbegin(); }
-		constexpr const_reverse_iterator rbegin() const noexcept { return m_Storage.rbegin(); }
-		constexpr const_reverse_iterator crbegin() const noexcept { return m_Storage.crbegin(); }
-		constexpr reverse_iterator rend() noexcept { return m_Storage.rend(); }
-		constexpr const_reverse_iterator rend() const noexcept { return m_Storage.rend(); }
-		constexpr const_reverse_iterator crend() const noexcept { return m_Storage.crend(); }
+		constexpr auto rbegin() noexcept -> reverse_iterator { return m_Storage.rbegin(); }
+		constexpr auto rbegin() const noexcept -> const_reverse_iterator { return m_Storage.rbegin(); }
+		constexpr auto crbegin() const noexcept -> const_reverse_iterator { return m_Storage.crbegin(); }
+		constexpr auto rend() noexcept -> reverse_iterator { return m_Storage.rend(); }
+		constexpr auto rend() const noexcept -> const_reverse_iterator { return m_Storage.rend(); }
+		constexpr auto crend() const noexcept -> const_reverse_iterator { return m_Storage.crend(); }
 
-		constexpr reference front() noexcept { return *m_Storage.data(); }
-		constexpr const_reference front() const noexcept { return *m_Storage.data(); }
-		constexpr reference back() noexcept { return *(m_Storage.data() + m_Storage.m_Size - 1); }
-		constexpr const_reference back() const noexcept { return *(m_Storage.data() + m_Storage.m_Size - 1); }
+		constexpr auto front() noexcept -> reference { return *m_Storage.data(); }
+		constexpr auto front() const noexcept -> const_reference { return *m_Storage.data(); }
+		constexpr auto back() noexcept -> reference { return *(m_Storage.data() + m_Storage.m_Size - 1); }
+		constexpr auto back() const noexcept -> const_reference { return *(m_Storage.data() + m_Storage.m_Size - 1); }
 
-		constexpr reference at(size_type index) noexcept(!config::exceptions)
+		constexpr auto at(size_type index) noexcept(!config::exceptions) -> reference
 		{
 			PSL_EXCEPT_IF(index > m_Storage.m_Size, out_of_bounds);
 			return *(m_Storage.data() + m_Storage.m_Size);
 		}
-		constexpr const_reference at(size_type index) const noexcept(!config::exceptions)
+		constexpr auto at(size_type index) const noexcept(!config::exceptions) -> const_reference
 		{
 			PSL_EXCEPT_IF(index > m_Storage.m_Size, out_of_bounds);
 			return *(m_Storage.data() + m_Storage.m_Size);
@@ -324,7 +327,7 @@ namespace psl
 
 	  private:
 		constexpr auto calculate_growth_for(size_type count) const noexcept -> size_type;
-		constexpr void grow_if_necessary(size_type newElements = 1);
+		constexpr auto grow_if_necessary(size_type newElements = 1) -> void;
 		dynamic_sbo_storage<T, Settings::template sbo_extent<T, dynamic_extent>, allocator_type,
 							typename Settings::template sbo_alias<T, dynamic_extent>>
 			m_Storage{};
@@ -377,7 +380,7 @@ namespace psl
 	{};
 
 	template <typename T>
-	concept IsStaticArray = IsArray<T>&& is_static_array<T>::value;
+	concept IsStaticArray = IsArray<T> && is_static_array<T>::value;
 
 	template <IsArray T>
 	inline constexpr auto is_static_array_v = is_static_array<T>::value;
@@ -387,7 +390,7 @@ namespace psl
 	{};
 
 	template <typename T>
-	concept IsDynamicArray = IsArray<T>&& is_dynamic_array<T>::value;
+	concept IsDynamicArray = IsArray<T> && is_dynamic_array<T>::value;
 
 	template <IsArray T>
 	inline constexpr auto is_dynamic_array_v = is_dynamic_array<T>::value;
@@ -580,7 +583,7 @@ namespace psl
 		using std::move, std::next;
 		PSL_EXCEPT_IF(pos >= cend() || pos < cbegin(), out_of_bounds);
 		size_type index{(size_type)(pos - cbegin())};
-		auto it = begin() + index;
+		iterator it = next(begin(), index);
 		if(index + 1 != m_Storage.m_Size)
 		{
 			move(next(it), end(), it);
@@ -763,6 +766,7 @@ namespace psl
 		for(auto& value : m_Storage) value.~T();
 		m_Storage.m_Size = 0;
 	}
+
 	template <typename T, IsArraySettings Settings>
 	constexpr auto psl::array<T, psl::dynamic_extent, Settings>::erase(const_iterator pos) -> iterator
 	{
