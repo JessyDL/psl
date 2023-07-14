@@ -1,9 +1,10 @@
 #pragma once
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
+
 #include <psl/details/fixed_ascii_string.hpp>
 #include <psl/exceptions.hpp>
-#include <type_traits>
 
 namespace psl {
 using i8  = std::int8_t;

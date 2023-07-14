@@ -2,7 +2,7 @@
 ### Definitions																										###
 #######################################################################################################################
 
-cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 SET(PSL_TESTS ${PSL_PROJECT}_tests)
 set(LOCAL_PROJECT ${PSL_TESTS})
 project(${LOCAL_PROJECT} VERSION 0.0.1 LANGUAGES CXX)

@@ -2,7 +2,7 @@
 ### Definitions																										###
 #######################################################################################################################
 
-cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 SET(PSL "Paradigm Standard Library")
 set(PSL_PROJECT "psl")
 set(LOCAL_PROJECT ${PSL_PROJECT})
@@ -34,9 +34,7 @@ endif()
 ### Externals 																										###
 #######################################################################################################################
 
-SET(Python_ADDITIONAL_VERSIONS 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
-find_package(PythonInterp REQUIRED)
-
+find_package(Python3 REQUIRED)
 add_subdirectory(externals/fmt)
 
 #######################################################################################################################
@@ -57,7 +55,9 @@ list(TRANSFORM PSL_GENERATED_INC APPEND .hpp)
 
 list(APPEND PSL_INC
 	${INC_IMPL}
+	array
 	algorithms
+	chunked_array
 	enum
 	exceptions
 	expected
@@ -94,7 +94,7 @@ list(APPEND PSL_INCLUDE_DIRECTORIES include)
 set_source_files_properties(${PSL_GENERATED_INC} PROPERTIES GENERATED TRUE)
 
 add_custom_command(OUTPUT ${PSL_GENERATED_INC}
-	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate.py
+	COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate.py
 	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/settings.json ${CMAKE_CURRENT_SOURCE_DIR}/tools/config.template
 	COMMENT "Generating headers for PSL")
 add_custom_target(${LOCAL_PROJECT}_generator ALL DEPENDS ${PSL_GENERATED_INC})

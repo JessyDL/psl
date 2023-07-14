@@ -2,15 +2,14 @@
 ### Definitions																										###
 #######################################################################################################################
 
-cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
 SET(DOCUMENTATION "PSL Documentation Generation")
 set(DOC_PROJECT "Documentation")
 set(LOCAL_PROJECT ${DOC_PROJECT})
 project(${LOCAL_PROJECT} VERSION 1.0.0)
 
-SET(Python_ADDITIONAL_VERSIONS 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
-find_package(PythonInterp REQUIRED)
+find_package(Python3 REQUIRED)
 
 set(mcss_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/externals/mcss")
 
@@ -23,15 +22,15 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/doxyfile ${CMAKE_CURRENT_BINARY_DIR}/do
 configure_file(${CMAKE_CURRENT_LIST_DIR}/configuration.py ${CMAKE_CURRENT_BINARY_DIR}/configuration.py)
 
 add_custom_target(${LOCAL_PROJECT}_COMPILE_CSS 
-    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css -o "m-dark.compiled.css"
-    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css m-documentation.css -o "m-dark+documentation.compiled.css"
-    COMMAND ${PYTHON_EXECUTABLE} "postprocess.py" m-dark.css m-theme-dark.css m-documentation.css --no-import -o "m-dark.documentation.compiled.css"
+    COMMAND ${Python3_EXECUTABLE} "postprocess.py" m-dark.css -o "m-dark.compiled.css"
+    COMMAND ${Python3_EXECUTABLE} "postprocess.py" m-dark.css m-documentation.css -o "m-dark+documentation.compiled.css"
+    COMMAND ${Python3_EXECUTABLE} "postprocess.py" m-dark.css m-theme-dark.css m-documentation.css --no-import -o "m-dark.documentation.compiled.css"
     WORKING_DIRECTORY "${mcss_SOURCE_DIR}/css")
 
 add_custom_target(
     ${LOCAL_PROJECT}
     COMMAND cmake -E make_directory "${DOXYGEN_OUTPUT_DIRECTORY}"
-    COMMAND ${PYTHON_EXECUTABLE} "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
+    COMMAND ${Python3_EXECUTABLE} "${mcss_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/configuration.py"
     COMMAND echo "Generated documentation to: ${DOXYGEN_OUTPUT_DIRECTORY}"
     DEPENDS ${PSL_GENERATED_INC} ${LOCAL_PROJECT}_COMPILE_CSS 
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
