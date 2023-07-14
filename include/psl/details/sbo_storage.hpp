@@ -101,10 +101,10 @@ namespace psl
 			inline constexpr static size_t SBO = N;
 			constexpr size_t size() const noexcept { return ((N * sizeof(T)) - sizeof(T*)) / sizeof(T); }
 
-			constexpr sbo_storage() noexcept : ext(local.data()) {}
+			constexpr sbo_storage() noexcept { ext = local.data(); }
 
 			T* ext{nullptr};
-			aligned_storage_static_array<T, N> local;
+			aligned_storage_static_array<T, N> local{};
 		};
 
 		template <typename T>
@@ -333,10 +333,10 @@ namespace psl
 			return m_Storage.ext;
 		else
 		{
-			if(is_stored_inlined())
-				[[unlikely]] return m_Storage.local.data();
-			else
-				[[likely]] return m_Storage.ext;
+			if(is_stored_inlined()) [[unlikely]]
+				return m_Storage.local.data();
+			else [[likely]]
+				return m_Storage.ext;
 		}
 	}
 
@@ -348,10 +348,10 @@ namespace psl
 			return m_Storage.ext;
 		else
 		{
-			if(is_stored_inlined())
-				[[unlikely]] return m_Storage.local.data();
-			else
-				[[likely]] return m_Storage.ext;
+			if(is_stored_inlined()) [[unlikely]]
+				return m_Storage.local.data();
+			else [[likely]]
+				return m_Storage.ext;
 		}
 	}
 
@@ -362,10 +362,10 @@ namespace psl
 			return m_Storage.ext;
 		else
 		{
-			if(is_stored_inlined())
-				[[unlikely]] return m_Storage.local.data();
-			else
-				[[likely]] return m_Storage.ext;
+			if(is_stored_inlined()) [[unlikely]]
+				return m_Storage.local.data();
+			else [[likely]]
+				return m_Storage.ext;
 		}
 	}
 } // namespace psl
