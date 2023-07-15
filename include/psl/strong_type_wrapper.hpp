@@ -39,7 +39,11 @@ inline namespace details {
 														   })>;
 }	 // namespace details
 
-
+/**
+ * @brief Traits object for `psl::strong_type_wrapper_t`, use this as a blueprint for custom operator behaviours.
+ *
+ * @tparam T
+ */
 template <typename T>
 struct traits_strong_type_wrapper_t {
 	constexpr static bool supports_addition					 = SupportsAddition<T, T>;
@@ -65,7 +69,16 @@ inline namespace details {
 
 template <typename T>
 concept IsStrongTypeWrapper = is_strong_wrapper_t<std::remove_cvref_t<T>>::value;
-
+/**
+ * @brief Allows you to wrap another type as a "strong" type. Useful for generating safe interfaces for code.
+ * @details Strong types are types that don't easily decay/convert into other types. This is most useful to
+ * guarantee the programmer has less chance of unintentionally doing operations that are deemed "less" safe
+ * implicitly.
+ * @tparam T The type to wrap.
+ * @tparam Traits The traits object (see `psl::traits_strong_type_wrapper_t` for more details) that can
+ * override what operations can be done.
+ * @tparam Tag Special tag to guarantee unique instances, ignore this.
+ */
 template <typename T, typename Traits, typename Tag>
 class strong_type_wrapper_t {
   public:
