@@ -13,6 +13,10 @@
 namespace psl {
 struct generate_t {};
 
+/**
+ * @brief Represents a UUID (v4)
+ *
+ */
 class uuidv4 final {
   public:
 	constexpr uuidv4() noexcept								  = default;
